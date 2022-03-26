@@ -10,7 +10,7 @@ from install.dependencies import (install_backend, install_frontend,
 from install.initialization import create_config_file, manage_command
 from install.services import create_service
 from install.source import download_rekono_source
-from linux import apt_install, apt_update
+from linux import apt_install, apt_update, reload_systemctl
 
 
 @click.command('install', help='Install Rekono in the system')
@@ -46,8 +46,6 @@ def install():
         manage_command('frontend')                                              # Configure Rekono frontend
         click.echo()
         click.echo('Creating systemd services for Rekono')
-        for service in ['backend', 'frontend', 'telegram']:
-            create_service(service)
         django_directory = os.path.join(REKONO_HOME_DIRECTORY, 'rekono')
         vue_directory = os.path.join(django_directory, 'frontend')
         exec_manage = f'{sys.executable} {os.path.join(django_directory, "manage.py")}'
@@ -71,6 +69,7 @@ def install():
             )
         ]:
             create_service(name, description, wd, command)
+        reload_systemctl()
         click.echo()
         click.echo(click.style('Installation completed!', fg='green'))
     else:
