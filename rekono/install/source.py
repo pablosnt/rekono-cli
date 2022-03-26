@@ -1,5 +1,7 @@
+from asyncio import subprocess
 import os
 import shutil
+import subprocess
 import sys
 import tempfile
 
@@ -20,7 +22,8 @@ def download_rekono_source() -> None:
     else:
         temp = tempfile.mkdtemp()                                               # Create temporal directory
         Repo.clone_from(REKONO_GIT_REPOSITORY, temp)                            # Clone Rekono in the temporal directory
-        os.mkdir(REKONO_HOME_DIRECTORY)                                         # Create Rekono directory
+        subprocess.run(['sudo', 'mkdir', REKONO_HOME_DIRECTORY])                # Create Rekono directory
+        subprocess.run(['sudo', 'chmod', '-R', '777', REKONO_HOME_DIRECTORY])   # Change Rekono directory permissions
         # Save rekono subdirectory
         shutil.move(os.path.join(temp, 'rekono'), os.path.join(REKONO_HOME_DIRECTORY, 'rekono'))
         shutil.move(os.path.join(temp, 'requirements.txt'), REKONO_HOME_DIRECTORY)      # Save requirements.txt

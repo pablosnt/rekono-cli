@@ -18,6 +18,11 @@ def check_installation(executable: str) -> bool:
     return shutil.which(executable) is not None
 
 
+def apt_update() -> None:
+    '''Update APT sources.'''
+    subprocess.run(['sudo', 'apt', 'update'], capture_output=True)
+
+
 def apt_install(packages: List[str], required: bool = True) -> None:
     '''Install APT packages.
 
@@ -30,6 +35,7 @@ def apt_install(packages: List[str], required: bool = True) -> None:
     command.append('-y')
     exec = subprocess.run(command, capture_output=True)
     if exec.returncode != 0 and required:                                       # Required packages
+        click.echo(exec.stderr)
         click.echo(click.style(f'Error during {" ".join(packages)} installation', fg='red'), err=True)
         sys.exit(1)
 

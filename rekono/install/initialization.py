@@ -77,6 +77,5 @@ def manage_command(command: str) -> None:
     '''
     subprocess.run(
         [sys.executable, 'manage.py', command],
-        capture_output=True,
         cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono')
     )
