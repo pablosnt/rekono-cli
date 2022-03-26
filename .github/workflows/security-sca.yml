@@ -1,0 +1,38 @@
+name: SCA
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+      - develop
+  push:
+    paths:
+      - 'requirements.txt'
+
+jobs:
+  snyk:
+    name: Snyk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+
+      - name: Install Python dependencies
+        run: python3 -m pip install -r requirements.txt
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk@latest
+
+      - name: Snyk test
+        env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk test --sarif-file-output=snyk.sarif
+      
+      # - name: Upload Snyk report to GitHub Code Scanning
+      #  uses: github/codeql-action/upload-sarif@v1
+      #  with:
+      #    sarif_file: snyk.sarif
