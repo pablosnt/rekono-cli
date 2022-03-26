@@ -39,6 +39,11 @@ def apt_install(packages: List[str], required: bool = True) -> None:
         sys.exit(1)
 
 
+def reload_systemctl() -> None:
+    '''Reload systemctl daemon.'''
+    subprocess.run(['sudo', 'systemctl', 'daemon-reload'], capture_output=True)
+
+
 def start_service(service: str) -> None:
     '''Start service execution.
 

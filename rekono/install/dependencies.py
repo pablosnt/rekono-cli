@@ -56,9 +56,10 @@ def install_vue() -> None:
 
 def install_backend() -> None:
     '''Install backend dependencies.'''
-    subprocess.run(
-        [sys.executable, '-m', 'pip', 'install', '-q', '-r', os.path.join(REKONO_HOME_DIRECTORY, 'requirements.txt')]
-    )
+    subprocess.run([
+        'sudo', sys.executable, '-m', 'pip', 'install', '-q', '-r',
+        os.path.join(REKONO_HOME_DIRECTORY, 'requirements.txt')
+    ])
 
 
 def install_frontend() -> None:

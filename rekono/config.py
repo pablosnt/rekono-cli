@@ -11,3 +11,6 @@ REKONO_GIT_REPOSITORY = 'https://github.com/pablosnt/rekono.git'                
 DB_DATABASE = 'rekono'
 DB_USER = 'rekono'
 RQ_USER = 'rekono'
+
+# System configuration
+SYSTEMD_SERVICES = '/etc/systemd/system'
