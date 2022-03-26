@@ -75,7 +75,4 @@ def manage_command(command: str) -> None:
     Args:
         command (str): Command to run
     '''
-    subprocess.run(
-        [sys.executable, 'manage.py', command],
-        cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono')
-    )
+    subprocess.run([sys.executable, 'manage.py', command], cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono'))

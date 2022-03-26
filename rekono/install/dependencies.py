@@ -23,7 +23,8 @@ def install_postgresql() -> str:
     )
     postgresql_query(f'CREATE USER {DB_USER} WITH ENCRYPTED PASSWORD \'{password}\';')    # Create Rekono user
     postgresql_query(f'CREATE DATABASE {DB_DATABASE};')                         # Create Rekono database
-    postgresql_query(f'GRANT ALL PRIVILEGES ON DATABASE {DB_DATABASE} TO {DB_USER};')    # Grant permissions for the Rekono user
+    # Grant permissions for the Rekono user
+    postgresql_query(f'GRANT ALL PRIVILEGES ON DATABASE {DB_DATABASE} TO {DB_USER};')
     return password
 
 
