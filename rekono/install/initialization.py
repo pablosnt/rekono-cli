@@ -4,8 +4,7 @@ import sys
 from getpass import getpass
 
 import yaml
-from config import (DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY,
-                    REKONO_SOURCE_DIRECTORY)
+from config import DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY
 
 
 def create_config_file(db_password: str) -> None:
@@ -76,4 +75,8 @@ def manage_command(command: str) -> None:
     Args:
         command (str): Command to run
     '''
-    subprocess.run([sys.executable, 'manage.py', command], capture_output=True, cwd=REKONO_SOURCE_DIRECTORY)
+    subprocess.run(
+        [sys.executable, 'manage.py', command],
+        capture_output=True,
+        cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono')
+    )

@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 import click
-from config import DB_DATABASE, DB_USER, REKONO_SOURCE_DIRECTORY
+from config import DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY
 from linux import apt_install, check_installation, start_service
 from pip import main as pip
 
@@ -56,7 +56,7 @@ def install_vue() -> None:
 
 def install_backend() -> None:
     '''Install backend dependencies.'''
-    pip(['install', '-r', os.path.join(REKONO_SOURCE_DIRECTORY, 'requirements.txt')])
+    pip(['install', '-r', os.path.join(REKONO_HOME_DIRECTORY, 'requirements.txt')])
 
 
 def install_frontend() -> None:
@@ -64,7 +64,7 @@ def install_frontend() -> None:
     exec = subprocess.run(
         ['npm', 'install'],
         capture_output=True,
-        cwd=os.path.join(REKONO_SOURCE_DIRECTORY, 'frontend')
+        cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono', 'frontend')
     )
     if exec.returncode != 0:                                                    # Error during installation
         click.echo(click.style('Error during frontend installation', fg='red'), err=True)
