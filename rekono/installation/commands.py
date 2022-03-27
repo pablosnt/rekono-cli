@@ -77,6 +77,7 @@ def update():
         sys.exit(1)
     click.echo('Downloading Rekono source code')
     download_source_code()                                                      # Download Rekono source code
+    click.echo()
     click.echo('Updating Rekono dependencies')
     click.echo('[+] Rekono backend dependencies')
     install_backend()                                                           # Update backend dependencies
