@@ -1,15 +1,22 @@
 import sys
 
 import click
+from installation.check import check_rekono_installation
 from services.manager import rekono_services_command
 from services.services import EXECUTIONS
+from utils.linux.check import check_system
 from utils.linux.systemctl import count_running_services
 
 
 @click.group('services', help='Manage Rekono systemctl services')
 def services():
     '''Manage Rekono systemctl services.'''
-    pass
+    check_system()                                                              # Check if it is a Linux system
+    if not check_rekono_installation():                                         # Check if Rekono is installed
+        click.echo(
+            click.style('Rekono is not installed on the system. Please, run the command install', fg='red'), err=True
+        )
+        sys.exit(1)
 
 
 @services.command('start', help='Start Rekono services')

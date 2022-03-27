@@ -44,7 +44,14 @@ def create_rekono_services() -> None:
 
 
 def rekono_services_command(command: str, executors: int) -> None:
-    for service in [BACKEND, FRONTEND, TELEGRAM, TASKS, FINDINGS, EMAILS]:
-        systemctl_command(command, f'rekono-{service}')
+    '''Execute systemctl command to all Rekono services.
+
+    Args:
+        command (str): Systemctl command
+        executors (int): Number of instances afected for executions worker service
+    '''
+    services = [BACKEND, FRONTEND, TELEGRAM, TASKS, FINDINGS, EMAILS]
     for number in range(executors):
-        systemctl_command(command, f'rekono-{EXECUTIONS}{number + 1}')
+        services.append(f'{EXECUTIONS}{number + 1}')
+    for service in services:
+        systemctl_command(command, f'rekono-{service}')
