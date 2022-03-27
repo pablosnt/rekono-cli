@@ -79,7 +79,6 @@ def install(all_tools: bool):
         click.echo('Installing all supported tools')
         install_tools()
         configure_tools()
-        click.echo()
         click.echo('Installing all supported resources')
         install_resources()
     click.echo()

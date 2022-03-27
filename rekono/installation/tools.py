@@ -27,6 +27,8 @@ def install_tools() -> None:
         ('https://github.com/internetwache/GitTools.git', GITTOOLS_DIR),
     ]:
         if not os.path.isdir(directory):
+            subprocess.run(['sudo', 'mkdir', directory])                        # Create tool directory
+            subprocess.run(['sudo', 'chmod', '-R', '777', directory])           # Change tool directory permissions
             Repo.clone_from(git_repository, directory)
     log4j_scanner_req = os.path.join(LOG4J_SCANNER_DIR, 'log4-scanner', 'requirements.txt')
     if os.path.isfile(log4j_scanner_req):
@@ -48,4 +50,4 @@ def install_resources() -> None:
     apt_install(['wordlists', 'seclists', 'dirb'])
     rockyou = '/usr/share/wordlists/rockyou.txt'
     if os.path.isfile(f'{rockyou}.gz') and not os.path.isfile(rockyou):
-        subprocess.run(['gzip', '-d', f'{rockyou}.gz'], capture_output=True)    # Decompress rockyou wordlist
+        subprocess.run(['gzip', '-d', f'{rockyou}.gz'])                         # Decompress rockyou wordlist
