@@ -1,0 +1,7 @@
+BACKEND = 'backend'
+FRONTEND = 'frontend'
+TELEGRAM = 'telegram'
+TASKS = 'tasks-worker'
+EXECUTIONS = 'executions-worker@'
+FINDINGS = 'findings-worker'
+EMAILS = 'emails-worker'

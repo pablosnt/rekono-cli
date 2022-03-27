@@ -9,7 +9,7 @@ from config import REKONO_GIT_REPOSITORY, REKONO_HOME_DIRECTORY
 from git import Repo
 
 
-def download_rekono_source() -> None:
+def download_source_code() -> None:
     '''Download Rekono source code from GitHub.'''
     if os.path.isdir(REKONO_HOME_DIRECTORY):                                    # Rekono directory already exists
         click.echo(click.style(

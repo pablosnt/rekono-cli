@@ -1,5 +1,6 @@
 import click
-from install.command import install
+from install.commands import install
+from services.commands import services
 
 
 @click.group()
@@ -10,6 +11,7 @@ def rekono():
 
 # Add Rekono commands
 rekono.add_command(install)
+rekono.add_command(services)
 
 
 if __name__ == '__main__':

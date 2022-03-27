@@ -1,16 +1,14 @@
-import os
 import platform
-import shutil
 import sys
 
 import click
-from config import REKONO_HOME_DIRECTORY
 from install.dependencies import (install_backend, install_frontend,
                                   install_postgresql, install_rq, install_vue)
 from install.initialization import create_config_file, manage_command
-from install.services import create_service
-from install.source import download_rekono_source
-from linux import apt_install, apt_update, reload_systemctl
+from services.manager import create_rekono_services
+from utils.linux.apt import apt_install, apt_update
+from utils.linux.systemctl import reload_systemctl
+from utils.source_code.rekono import download_source_code
 
 
 @click.command('install', help='Install Rekono in the system')
@@ -19,7 +17,7 @@ def install():
     if platform.system().lower() == 'linux':
         # Local installation is only available for Linux
         click.echo('Downloading Rekono source code')
-        download_rekono_source()                                                # Download Rekono source code
+        download_source_code()                                                  # Download Rekono source code
         click.echo()
         click.echo('Installing Rekono dependencies')
         apt_update()                                                            # Update APT sources
@@ -39,6 +37,7 @@ def install():
         click.echo('Configuring Rekono')
         click.echo("Don't worry if you can't configure some items, press ENTER")
         create_config_file(db_password)                                         # Create Rekono configuration
+        click.echo()
         manage_command('migrate')                                               # Migrate Rekono database
         click.echo()
         click.echo('Creation first Rekono user')
@@ -46,24 +45,7 @@ def install():
         manage_command('frontend')                                              # Configure Rekono frontend
         click.echo()
         click.echo('Creating systemd services for Rekono')
-        django = os.path.join(REKONO_HOME_DIRECTORY, 'rekono')
-        vue = os.path.join(django, 'frontend')
-        manage_py = f'{sys.executable} {os.path.join(django, "manage.py")}'
-        for name, description, wd, command in [
-            ('backend', 'Rekono backend', django, f'{manage_py} runserver'),
-            ('frontend', 'Rekono frontend', vue, f'{shutil.which("npm")} run serve'),
-            ('telegram', 'Rekono Telegram bot', django, f'{manage_py} telegram_bot'),
-            ('tasks-worker', 'Rekono tasks worker', django, f'{manage_py} rqworker tasks-queue'),
-            ('findings-worker', 'Rekono findings worker', django, f'{manage_py} rqworker findings-queue'),
-            ('emails-worker', 'Rekono emails worker', django, f'{manage_py} rqworker emails-queue'),
-            (
-                'executions-worker@',
-                'Rekono executions worker number %i',
-                django,
-                f'{manage_py} rqworker ----with-scheduler executions-queue'
-            )
-        ]:
-            create_service(name, description, wd, command)
+        create_rekono_services()
         reload_systemctl()
         click.echo()
         click.echo(click.style('Installation completed!', fg='green'))

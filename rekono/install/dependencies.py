@@ -6,7 +6,9 @@ import sys
 
 import click
 from config import DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY
-from linux import apt_install, check_installation, start_service
+from utils.linux.apt import apt_install
+from utils.linux.systemctl import systemctl_command
+from utils.linux.utils import check_installation
 
 
 def install_postgresql() -> str:
@@ -17,7 +19,7 @@ def install_postgresql() -> str:
     '''
     if not check_installation('psql'):                                          # Not installed yet
         apt_install(['postgresql'])                                             # Install PostgreSQL
-    start_service('postgresql')                                                 # Start PostgreSQL
+    systemctl_command('start', 'postgresql')                                    # Start PostgreSQL
     password = ''.join(                                                         # Generate random password
         random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(20)
     )
