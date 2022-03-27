@@ -1,6 +1,5 @@
 import os
 import subprocess
-import tempfile
 
 from config import SYSTEMD_SERVICES
 
@@ -19,10 +18,11 @@ def create_service(name: str, description: str, working_directory: str, command:
     '''
     with open(os.path.join(templates, 'rekono.service'), 'r') as service:
         template = service.read()                                               # Read service template
-    with tempfile.NamedTemporaryFile() as temp:
+    temppath = os.path.join(templates, f'rekono-{name}.service')
+    with open(temppath, 'w') as temp:
         temp.write(template.format(                                             # Add service data
             description=description,
             working_directory=working_directory,
             command=command
-        ).encode())
-        subprocess.run(['sudo', 'cp', temp.name, os.path.join(SYSTEMD_SERVICES, f'rekono-{name}.service')])
+        ))
+    subprocess.run(['sudo', 'mv', temppath, SYSTEMD_SERVICES])

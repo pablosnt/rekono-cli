@@ -46,26 +46,21 @@ def install():
         manage_command('frontend')                                              # Configure Rekono frontend
         click.echo()
         click.echo('Creating systemd services for Rekono')
-        django_directory = os.path.join(REKONO_HOME_DIRECTORY, 'rekono')
-        vue_directory = os.path.join(django_directory, 'frontend')
-        exec_manage = f'{sys.executable} {os.path.join(django_directory, "manage.py")}'
+        django = os.path.join(REKONO_HOME_DIRECTORY, 'rekono')
+        vue = os.path.join(django, 'frontend')
+        manage_py = f'{sys.executable} {os.path.join(django, "manage.py")}'
         for name, description, wd, command in [
-            ('backend', 'Rekono backend', django_directory, f'{exec_manage} runserver'),
-            ('frontend', 'Rekono frontend', vue_directory, f'{shutil.which("npm")} run serve'),
-            ('telegram', 'Rekono Telegram bot', django_directory, f'{exec_manage} telegram_bot'),
-            ('tasks-worker', 'Rekono tasks worker', django_directory, f'{exec_manage} rqworker tasks-queue'),
-            (
-                'findings-worker',
-                'Rekono findings worker',
-                django_directory,
-                f'{exec_manage} rqworker findings-queue'
-            ),
-            ('emails-worker', 'Rekono emails worker', django_directory, f'{exec_manage} rqworker emails-queue'),
+            ('backend', 'Rekono backend', django, f'{manage_py} runserver'),
+            ('frontend', 'Rekono frontend', vue, f'{shutil.which("npm")} run serve'),
+            ('telegram', 'Rekono Telegram bot', django, f'{manage_py} telegram_bot'),
+            ('tasks-worker', 'Rekono tasks worker', django, f'{manage_py} rqworker tasks-queue'),
+            ('findings-worker', 'Rekono findings worker', django, f'{manage_py} rqworker findings-queue'),
+            ('emails-worker', 'Rekono emails worker', django, f'{manage_py} rqworker emails-queue'),
             (
                 'executions-worker@',
                 'Rekono executions worker number %i',
-                django_directory,
-                f'{exec_manage} rqworker ----with-scheduler executions-queue'
+                django,
+                f'{manage_py} rqworker ----with-scheduler executions-queue'
             )
         ]:
             create_service(name, description, wd, command)
