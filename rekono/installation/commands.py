@@ -23,6 +23,7 @@ from rekono.utils.linux.apt import apt_install, apt_update
 from rekono.utils.linux.check import check_system
 from rekono.utils.linux.systemctl import (count_running_services,
                                           reload_systemctl)
+from rekono.utils.linux.users import create_rekono_user, remove_rekono_user
 from rekono.utils.source_code.rekono import download_source_code
 
 
@@ -83,6 +84,7 @@ def install(all_tools: bool):
         install_resources()
     click.echo()
     click.echo('Creating systemd services for Rekono')
+    create_rekono_user()
     create_rekono_services()                                                    # Create Rekono services
     reload_systemctl()                                                          # Reload Systemctl daemon
     click.echo()
@@ -124,6 +126,7 @@ def uninstall():
     if check_rekono_installation():
         executors = count_running_services(f'rekono-{EXECUTIONS}')
         rekono_services_command('stop', executors)
+    remove_rekono_user()
     remove_rekono_services()
     reload_systemctl()
     click.echo('Removing Rekono database')

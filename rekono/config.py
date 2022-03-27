@@ -16,4 +16,5 @@ LOG4J_SCANNER_DIR = '/opt/log4j-scanner'
 GITTOOLS_DIR = '/opt/GitTools'
 
 # System configuration
+REKONO_USER = 'rekono'
 SYSTEMD_SERVICES = '/etc/systemd/system'

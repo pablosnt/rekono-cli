@@ -3,7 +3,7 @@ import shutil
 import subprocess
 import sys
 
-from rekono.config import REKONO_HOME_DIRECTORY, SYSTEMD_SERVICES
+from rekono.config import REKONO_HOME_DIRECTORY, REKONO_USER, SYSTEMD_SERVICES
 from rekono.environment import RKN_EMAIL_HOST, RKN_EMAIL_PORT
 from rekono.installation.configuration import check_configuration
 from rekono.services.services import (BACKEND, EMAILS, EXECUTIONS, FINDINGS,
@@ -39,6 +39,7 @@ def create_rekono_services() -> None:
         with open(temppath, 'w') as temp:
             temp.write(template.format(                                         # Add service data
                 description=description,
+                user=REKONO_USER,
                 working_directory=working_directory,
                 command=command
             ))
