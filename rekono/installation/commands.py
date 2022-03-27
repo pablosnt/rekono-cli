@@ -102,7 +102,7 @@ def uninstall():
     check_system()                                                              # Check if it is a Linux system
     click.echo('Removing Rekono home directory')
     if os.path.isdir(REKONO_HOME_DIRECTORY):
-        subprocess.run(['rm', '-R', REKONO_HOME_DIRECTORY, '-f'], capture_output=True)
+        subprocess.run(['sudo', 'rm', '-R', REKONO_HOME_DIRECTORY, '-f'], capture_output=True)
     click.echo('Removing Rekono services')
     if check_rekono_installation():
         executors = count_running_services(f'rekono-{EXECUTIONS}')
