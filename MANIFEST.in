@@ -1,2 +1,2 @@
 include README.md
-include rekono/utils/templates/rekono.service
+include rekono/services/templates/rekono.service

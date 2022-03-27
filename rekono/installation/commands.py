@@ -6,13 +6,13 @@ import click
 
 from rekono.config import REKONO_HOME_DIRECTORY
 from rekono.installation.check import check_rekono_installation
+from rekono.installation.configuration import create_config_file
 from rekono.installation.dependencies import (drop_rekono_database,
                                               install_backend,
                                               install_frontend,
                                               install_postgresql, install_rq,
                                               install_vue)
-from rekono.installation.initialization import (create_config_file,
-                                                manage_command)
+from rekono.installation.management import manage_command
 from rekono.services.manager import (create_rekono_services,
                                      rekono_services_command,
                                      remove_rekono_services)

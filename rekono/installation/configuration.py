@@ -1,7 +1,6 @@
 import os
-import subprocess
-import sys
 from getpass import getpass
+from typing import List
 
 import yaml
 
@@ -74,13 +73,23 @@ def create_config_file(db_password: str) -> None:
         }
     }
     with open(os.path.join(REKONO_HOME_DIRECTORY, 'config.yaml'), 'w') as config_file:
-        yaml.dump(config, config_file)
+        yaml.safe_dump(config, config_file)
 
 
-def manage_command(command: str) -> None:
-    '''Execute Django command.
+def check_configuration(env: str, config_path: List[str]) -> bool:
+    '''Check if a Rekono configuration items is configured or not.
 
     Args:
-        command (str): Command to run
+        env (str): Environment variable to check
+        config_path (List[str]): Path to the item in the configuration file
+
+    Returns:
+        bool: Indicate if the item is configured or not
     '''
-    subprocess.run([sys.executable, 'manage.py', command], cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono'))
+    with open(os.path.join(REKONO_HOME_DIRECTORY, 'config.yaml'), 'r') as config_file:
+        config = yaml.safe_load(config_file)                                    # Get configuration from file
+    for key in config_path:                                                     # Browse the configuration path
+        config = config.get(key)
+        if not config:
+            break
+    return bool(os.getenv(env, config))                                         # Check if item is configured or not
