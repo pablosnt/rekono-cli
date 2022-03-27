@@ -30,6 +30,13 @@ def install_postgresql() -> str:
     return password
 
 
+def drop_rekono_database() -> None:
+    '''Drop Rekono database and user from PostgreSQL.'''
+    systemctl_command('start', 'postgresql')                                    # Start PostgreSQL
+    postgresql_query(f'DROP DATABASE {DB_DATABASE};')                           # Drop Rekono database
+    postgresql_query(f'DROP USER {DB_USER};')                                   # Drop Rekono user
+
+
 def postgresql_query(query: str) -> None:
     '''Run SQL query against PostgreSQL.
 

@@ -1,5 +1,5 @@
 import click
-from installation.commands import install, update
+from installation.commands import install, uninstall, update
 from services.commands import services
 
 
@@ -12,6 +12,7 @@ def rekono():
 # Add Rekono commands
 rekono.add_command(install)
 rekono.add_command(update)
+rekono.add_command(uninstall)
 rekono.add_command(services)
 
 

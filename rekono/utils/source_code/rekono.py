@@ -16,5 +16,5 @@ def download_source_code() -> None:
         subprocess.run(['sudo', 'chmod', '-R', '777', REKONO_HOME_DIRECTORY])   # Change Rekono directory permissions
     # Save rekono subdirectory
     shutil.move(os.path.join(temp, 'rekono'), os.path.join(REKONO_HOME_DIRECTORY, 'rekono'))
-    shutil.move(os.path.join(temp, 'requirements.txt'), REKONO_HOME_DIRECTORY)      # Save requirements.txt
-    shutil.rmtree(temp)                                                         # Remove temporal directory
+    shutil.move(os.path.join(temp, 'requirements.txt'), REKONO_HOME_DIRECTORY)  # Save requirements.txt
+    shutil.rmtree(temp, ignore_errors=True)                                     # Remove temporal directory

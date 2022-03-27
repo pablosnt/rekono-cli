@@ -1,17 +1,20 @@
 import os
+import shutil
 import sys
 
 import click
 from config import REKONO_HOME_DIRECTORY
 from installation.check import check_rekono_installation
-from installation.dependencies import (install_backend, install_frontend,
-                                       install_postgresql, install_rq,
-                                       install_vue)
+from installation.dependencies import (drop_rekono_database, install_backend,
+                                       install_frontend, install_postgresql,
+                                       install_rq, install_vue)
 from installation.initialization import create_config_file, manage_command
-from services.manager import create_rekono_services
+from services.manager import (create_rekono_services, rekono_services_command,
+                              remove_rekono_services)
+from services.services import EXECUTIONS
 from utils.linux.apt import apt_install, apt_update
 from utils.linux.check import check_system
-from utils.linux.systemctl import reload_systemctl
+from utils.linux.systemctl import count_running_services, reload_systemctl
 from utils.source_code.rekono import download_source_code
 
 
@@ -19,7 +22,7 @@ from utils.source_code.rekono import download_source_code
 def install():
     '''Install Rekono on the system.'''
     check_system()                                                              # Check if it is a Linux system
-    if check_rekono_installation():
+    if check_rekono_installation():                                             # Check if Rekono is already installed
         click.echo(click.style('Rekono is already installed on the system', fg='green'))
         sys.exit(0)
     if os.path.isdir(REKONO_HOME_DIRECTORY):                                    # Rekono directory already exists
@@ -67,7 +70,7 @@ def install():
 def update():
     '''Update Rekono installation with the latest version.'''
     check_system()                                                              # Check if it is a Linux system
-    if not check_rekono_installation():
+    if not check_rekono_installation():                                         # Check if Rekono is installed
         click.echo(
             click.style('Rekono is not installed on the system. Please, run the command install', fg='red'), err=True
         )
@@ -84,3 +87,22 @@ def update():
     manage_command('migrate')                                                   # Migrate Rekono database
     click.echo()
     click.echo(click.style('Rekono has been updated!', fg='green'))
+
+
+@click.command('uninstall', help='Uninstall Rekono from the system')
+def uninstall():
+    '''Uninstall Rekono from the system.'''
+    check_system()                                                              # Check if it is a Linux system
+    click.echo('Removing Rekono home directory')
+    if os.path.isdir(REKONO_HOME_DIRECTORY):
+        shutil.rmtree(REKONO_HOME_DIRECTORY, ignore_errors=True)
+    click.echo('Removing Rekono services')
+    if check_rekono_installation():
+        executors = count_running_services(f'rekono-{EXECUTIONS}')
+        rekono_services_command('stop', executors)
+    remove_rekono_services()
+    reload_systemctl()
+    click.echo('Removing Rekono database')
+    drop_rekono_database()
+    click.echo()
+    click.echo(click.style('Rekono has been uninstalled. Bye!', fg='green'))

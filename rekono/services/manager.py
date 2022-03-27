@@ -13,7 +13,7 @@ templates = os.path.join(current_directory, '..', 'utils', 'templates')
 
 
 def create_rekono_services() -> None:
-    '''Create systemd service.'''
+    '''Create all Rekono systemctl services.'''
     with open(os.path.join(templates, 'rekono.service'), 'r') as service:
         template = service.read()                                               # Read service template
     django = os.path.join(REKONO_HOME_DIRECTORY, 'rekono')
@@ -41,6 +41,15 @@ def create_rekono_services() -> None:
                 command=command
             ))
         subprocess.run(['sudo', 'mv', temppath, SYSTEMD_SERVICES])
+
+
+def remove_rekono_services() -> None:
+    '''Remove all Rekono systemctl services.'''
+    for service in [BACKEND, FRONTEND, TELEGRAM, TASKS, EXECUTIONS, FINDINGS, EMAILS]:
+        if os.path.isfile(os.path.join(SYSTEMD_SERVICES, f'rekono-{service}.service')):
+            subprocess.run(
+                ['sudo', 'rm', os.path.join(SYSTEMD_SERVICES, f'rekono-{service}.service')], capture_output=True
+            )
 
 
 def rekono_services_command(command: str, executors: int) -> None:
