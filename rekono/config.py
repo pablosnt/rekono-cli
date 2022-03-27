@@ -11,6 +11,9 @@ REKONO_GIT_REPOSITORY = 'https://github.com/pablosnt/rekono.git'                
 DB_DATABASE = 'rekono'
 DB_USER = 'rekono'
 RQ_USER = 'rekono'
+CMSEEK_DIR = '/usr/share/cmseek'
+LOG4J_SCANNER_DIR = '/opt/log4j-scanner'
+GITTOOLS_DIR = '/opt/GitTools'
 
 # System configuration
 SYSTEMD_SERVICES = '/etc/systemd/system'

@@ -13,6 +13,8 @@ from rekono.installation.dependencies import (drop_rekono_database,
                                               install_postgresql, install_rq,
                                               install_vue)
 from rekono.installation.management import manage_command
+from rekono.installation.tools import (configure_tools, install_resources,
+                                       install_tools)
 from rekono.services.manager import (create_rekono_services,
                                      rekono_services_command,
                                      remove_rekono_services)
@@ -25,8 +27,16 @@ from rekono.utils.source_code.rekono import download_source_code
 
 
 @click.command('install', help='Install Rekono on the system')
-def install():
-    '''Install Rekono on the system.'''
+@click.option(
+    '-t', '--all-tools', 'all_tools', is_flag=True,
+    help='Install all tools and resources supported by Rekono'
+)
+def install(all_tools: bool):
+    '''Install Rekono on the system.
+
+    Args:
+        all_tools (bool): Indicate if all tools supported by Rekono should be installed or not
+    '''
     check_system()                                                              # Check if it is a Linux system
     if check_rekono_installation():                                             # Check if Rekono is already installed
         click.echo(click.style('Rekono is already installed on the system', fg='green'))
@@ -64,10 +74,18 @@ def install():
     click.echo('Creation first Rekono user')
     manage_command('createsuperuser')                                           # Create Rekono superuser
     manage_command('frontend')                                                  # Configure Rekono frontend
+    if all_tools:
+        click.echo()
+        click.echo('Installing all supported tools')
+        install_tools()
+        configure_tools()
+        click.echo()
+        click.echo('Installing all supported resources')
+        install_resources()
     click.echo()
     click.echo('Creating systemd services for Rekono')
-    create_rekono_services()
-    reload_systemctl()
+    create_rekono_services()                                                    # Create Rekono services
+    reload_systemctl()                                                          # Reload Systemctl daemon
     click.echo()
     click.echo(click.style('Installation completed!', fg='green'))
 
