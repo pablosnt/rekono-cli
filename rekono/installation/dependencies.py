@@ -60,15 +60,18 @@ def install_vue() -> None:
         exec = subprocess.run(['npm', 'install', '-g', '@vue/cli'], capture_output=True)    # Install Vue
         if exec.returncode != 0:                                                # Error during installation
             click.echo(click.style('Error during Vue installation', fg='red'), err=True)
-            sys.exit(1)
+            sys.exit(10)
 
 
 def install_backend() -> None:
     '''Install backend dependencies.'''
-    subprocess.run([
+    exec = subprocess.run([
         'sudo', sys.executable, '-m', 'pip', 'install', '-q', '-r',
         os.path.join(REKONO_HOME_DIRECTORY, 'requirements.txt')
     ])
+    if exec.returncode != 0:                                                    # Error during installation
+        click.echo(click.style('Error during backend installation', fg='red'), err=True)
+        sys.exit(10)
 
 
 def install_frontend() -> None:
@@ -80,4 +83,4 @@ def install_frontend() -> None:
     )
     if exec.returncode != 0:                                                    # Error during installation
         click.echo(click.style('Error during frontend installation', fg='red'), err=True)
-        sys.exit(1)
+        sys.exit(10)

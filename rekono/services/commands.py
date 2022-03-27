@@ -33,7 +33,7 @@ def start(executors: int):
     '''
     if executors < 0:
         click.echo(click.style('Number of workers should be greater than zero', fg='red'), err=True)
-        sys.exit(1)
+        sys.exit(100)
     elif executors == 0:
         click.echo(
             click.style('Number of workers is zero so executions are disabled', fg='orange')
