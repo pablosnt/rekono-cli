@@ -67,7 +67,7 @@ def install_vue() -> None:
 def install_backend() -> None:
     '''Install backend dependencies.'''
     exec = subprocess.run([
-        'sudo', sys.executable, '-m', 'pip', 'install', '-q', '-r',
+        sys.executable, '-m', 'pip', 'install', '-q', '-r',
         os.path.join(REKONO_HOME_DIRECTORY, 'requirements.txt')
     ])
     if exec.returncode != 0:                                                    # Error during installation
@@ -78,7 +78,7 @@ def install_backend() -> None:
 def install_frontend() -> None:
     '''Install frontend dependencies.'''
     exec = subprocess.run(
-        ['npm', 'install'],
+        ['npm', 'install', '.'],
         capture_output=True,
         cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono', 'frontend')
     )

@@ -50,4 +50,5 @@ def install_resources() -> None:
     apt_install(['wordlists', 'seclists', 'dirb'])
     rockyou = '/usr/share/wordlists/rockyou.txt'
     if os.path.isfile(f'{rockyou}.gz') and not os.path.isfile(rockyou):
-        subprocess.run(['gzip', '-d', f'{rockyou}.gz'])                         # Decompress rockyou wordlist
+        # Decompress rockyou wordlist
+        subprocess.run(['sudo', 'gzip', '-d', f'{rockyou}.gz'], capture_output=True)
