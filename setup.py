@@ -22,6 +22,7 @@ setup(
     author='Pablo Santiago López',
     url='https://github.com/pablosnt/rekono-cli',
     keywords=['automation', 'pentesting', 'security', 'cli', 'rekono'],
+    include_package_data=True,
     install_requires=install_requires,
     python_requires='>=3.7',
     entry_points='''
