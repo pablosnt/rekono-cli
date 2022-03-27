@@ -9,6 +9,10 @@ def create_rekono_user() -> None:
         ['sudo', 'useradd', '-r', REKONO_USER, '--shell=/usr/sbin/nologin', f'--home={REKONO_HOME_DIRECTORY}'],
         capture_output=True
     )
+    subprocess.run(
+        ['sudo', 'chown', '-R', f'{REKONO_USER}:{REKONO_USER}', REKONO_HOME_DIRECTORY],
+        capture_output=True
+    )
 
 
 def remove_rekono_user() -> None:
