@@ -3,8 +3,9 @@ import shutil
 import subprocess
 import tempfile
 
-from config import REKONO_GIT_REPOSITORY, REKONO_HOME_DIRECTORY
 from git import Repo
+
+from rekono.config import REKONO_GIT_REPOSITORY, REKONO_HOME_DIRECTORY
 
 
 def download_source_code() -> None:

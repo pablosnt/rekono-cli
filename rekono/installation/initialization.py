@@ -4,7 +4,8 @@ import sys
 from getpass import getpass
 
 import yaml
-from config import DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY
+
+from rekono.config import DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY
 
 
 def create_config_file(db_password: str) -> None:

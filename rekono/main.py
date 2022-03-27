@@ -1,6 +1,7 @@
 import click
-from installation.commands import install, uninstall, update
-from services.commands import services
+
+from rekono.installation.commands import install, uninstall, update
+from rekono.services.commands import services
 
 
 @click.group()

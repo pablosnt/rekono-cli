@@ -5,10 +5,11 @@ import subprocess
 import sys
 
 import click
-from config import DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY
-from utils.linux.apt import apt_install
-from utils.linux.systemctl import systemctl_command
-from utils.linux.utils import check_installation
+
+from rekono.config import DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY
+from rekono.utils.linux.apt import apt_install
+from rekono.utils.linux.systemctl import systemctl_command
+from rekono.utils.linux.utils import check_installation
 
 
 def install_postgresql() -> str:

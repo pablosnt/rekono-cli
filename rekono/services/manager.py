@@ -3,10 +3,10 @@ import shutil
 import subprocess
 import sys
 
-from config import REKONO_HOME_DIRECTORY, SYSTEMD_SERVICES
-from services.services import (BACKEND, EMAILS, EXECUTIONS, FINDINGS, FRONTEND,
-                               TASKS, TELEGRAM)
-from utils.linux.systemctl import systemctl_command
+from rekono.config import REKONO_HOME_DIRECTORY, SYSTEMD_SERVICES
+from rekono.services.services import (BACKEND, EMAILS, EXECUTIONS, FINDINGS,
+                                      FRONTEND, TASKS, TELEGRAM)
+from rekono.utils.linux.systemctl import systemctl_command
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
 templates = os.path.join(current_directory, '..', 'utils', 'templates')

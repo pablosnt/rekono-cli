@@ -1,6 +1,6 @@
 import os
 
-from environment import REKONO_HOME
+from rekono.environment import REKONO_HOME
 
 '''Rekono CLI configuration.'''
 

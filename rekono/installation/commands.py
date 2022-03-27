@@ -3,19 +3,25 @@ import subprocess
 import sys
 
 import click
-from config import REKONO_HOME_DIRECTORY
-from installation.check import check_rekono_installation
-from installation.dependencies import (drop_rekono_database, install_backend,
-                                       install_frontend, install_postgresql,
-                                       install_rq, install_vue)
-from installation.initialization import create_config_file, manage_command
-from services.manager import (create_rekono_services, rekono_services_command,
-                              remove_rekono_services)
-from services.services import EXECUTIONS
-from utils.linux.apt import apt_install, apt_update
-from utils.linux.check import check_system
-from utils.linux.systemctl import count_running_services, reload_systemctl
-from utils.source_code.rekono import download_source_code
+
+from rekono.config import REKONO_HOME_DIRECTORY
+from rekono.installation.check import check_rekono_installation
+from rekono.installation.dependencies import (drop_rekono_database,
+                                              install_backend,
+                                              install_frontend,
+                                              install_postgresql, install_rq,
+                                              install_vue)
+from rekono.installation.initialization import (create_config_file,
+                                                manage_command)
+from rekono.services.manager import (create_rekono_services,
+                                     rekono_services_command,
+                                     remove_rekono_services)
+from rekono.services.services import EXECUTIONS
+from rekono.utils.linux.apt import apt_install, apt_update
+from rekono.utils.linux.check import check_system
+from rekono.utils.linux.systemctl import (count_running_services,
+                                          reload_systemctl)
+from rekono.utils.source_code.rekono import download_source_code
 
 
 @click.command('install', help='Install Rekono on the system')

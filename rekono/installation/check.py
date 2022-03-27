@@ -1,8 +1,8 @@
 import os
 
-from config import REKONO_HOME_DIRECTORY, SYSTEMD_SERVICES
-from services.services import (BACKEND, EMAILS, EXECUTIONS, FINDINGS, FRONTEND,
-                               TASKS, TELEGRAM)
+from rekono.config import REKONO_HOME_DIRECTORY, SYSTEMD_SERVICES
+from rekono.services.services import (BACKEND, EMAILS, EXECUTIONS, FINDINGS,
+                                      FRONTEND, TASKS, TELEGRAM)
 
 
 def check_rekono_installation() -> bool:
