@@ -25,13 +25,8 @@ def create_rekono_services() -> None:
         (BACKEND, 'Rekono backend', django, f'{manage_py} runserver'),
         (FRONTEND, 'Rekono frontend', vue, f'{shutil.which("npm")} run serve'),
         (TELEGRAM, 'Rekono Telegram bot', django, f'{manage_py} telegram_bot'),
-        (TASKS, 'Rekono tasks worker', django, f'{manage_py} rqworker tasks-queue'),
-        (
-            EXECUTIONS,
-            'Rekono executions worker number %i',
-            django,
-            f'{manage_py} rqworker --with-scheduler executions-queue'
-        ),
+        (TASKS, 'Rekono tasks worker', django, f'{manage_py} rqworker --with-scheduler tasks-queue'),
+        (EXECUTIONS, 'Rekono executions worker number %i', django, f'{manage_py} rqworker executions-queue'),
         (FINDINGS, 'Rekono findings worker', django, f'{manage_py} rqworker findings-queue'),
         (EMAILS, 'Rekono emails worker', django, f'{manage_py} rqworker emails-queue')
     ]:

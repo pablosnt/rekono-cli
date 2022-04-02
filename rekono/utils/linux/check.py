@@ -11,6 +11,7 @@ def check_system() -> None:
             click.style('Rekono installation and services management only work in Linux systems', fg='red'), err=True
         )
         click.echo(
-            'For this system, you can follow this steps to deploy Rekono in Docker: https://github.com/pablosnt/rekono'
+            'For this system, you can follow this steps to deploy '
+            'Rekono in Docker: https://github.com/pablosnt/rekono#docker'
         )
         sys.exit(1)
