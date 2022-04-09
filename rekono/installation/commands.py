@@ -99,7 +99,7 @@ def install(ctx: click.Context, all_tools: bool):
             execution_workers = int(answer)
         except ValueError:
             execution_workers = 3
-        ctx.invoke(start, executor=execution_workers)                           # Start Rekono services
+        ctx.invoke(start, executors=execution_workers)                          # Start Rekono services
 
 
 @click.command('update', help='Update Rekono installation with the latest version')
