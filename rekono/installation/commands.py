@@ -15,11 +15,9 @@ from rekono.installation.dependencies import (drop_rekono_database,
 from rekono.installation.management import manage_command
 from rekono.installation.tools import (configure_tools, install_resources,
                                        install_tools)
-from rekono.services.commands import restart, start
+from rekono.services.commands import restart, start, stop
 from rekono.services.manager import (create_rekono_services,
-                                     rekono_services_command,
                                      remove_rekono_services)
-from rekono.services.services import EXECUTIONS
 from rekono.utils.linux.apt import apt_install, apt_update
 from rekono.utils.linux.check import check_system
 from rekono.utils.linux.systemctl import (count_running_services,
@@ -137,16 +135,21 @@ def update(ctx: click.Context):
 
 
 @click.command('uninstall', help='Uninstall Rekono from the system')
-def uninstall():
-    '''Uninstall Rekono from the system.'''
+@click.pass_context
+def uninstall(ctx: click.Context):
+    '''Uninstall Rekono from the system.
+
+    Args:
+        ctx (click.Context): Click context to be able to call other Click commands
+    '''
     check_system()                                                              # Check if it is a Linux system
     click.echo('Removing Rekono home directory')
     if os.path.isdir(REKONO_HOME_DIRECTORY):
         subprocess.run(['sudo', 'rm', '-R', REKONO_HOME_DIRECTORY, '-f'], capture_output=True)
-    click.echo('Removing Rekono services')
     if check_rekono_installation():
-        executors = count_running_services(f'rekono-{EXECUTIONS}')
-        rekono_services_command('stop', executors)
+        click.echo('Stopping Rekono services')
+        ctx.invoke(stop)                                                        # Stop Rekono services
+    click.echo('Removing Rekono services')
     remove_rekono_user()
     remove_rekono_services()
     reload_systemctl()
