@@ -143,17 +143,17 @@ def uninstall(ctx: click.Context):
         ctx (click.Context): Click context to be able to call other Click commands
     '''
     check_system()                                                              # Check if it is a Linux system
-    click.echo('Removing Rekono home directory')
-    if os.path.isdir(REKONO_HOME_DIRECTORY):
-        subprocess.run(['sudo', 'rm', '-R', REKONO_HOME_DIRECTORY, '-f'], capture_output=True)
     if check_rekono_installation():
         click.echo('Stopping Rekono services')
         ctx.invoke(stop)                                                        # Stop Rekono services
     click.echo('Removing Rekono services')
-    remove_rekono_user()
-    remove_rekono_services()
-    reload_systemctl()
+    remove_rekono_user()                                                        # Remove Rekono user
+    remove_rekono_services()                                                    # Remove Rekono systemctl services
+    reload_systemctl()                                                          # Reload systemctl daemon
+    click.echo('Removing Rekono home directory')
+    if os.path.isdir(REKONO_HOME_DIRECTORY):
+        subprocess.run(['sudo', 'rm', '-R', REKONO_HOME_DIRECTORY, '-f'], capture_output=True)
     click.echo('Removing Rekono database')
-    drop_rekono_database()
+    drop_rekono_database()                                                      # Remove Rekono database
     click.echo()
     click.echo(click.style('Rekono has been uninstalled. Bye!', fg='green'))
