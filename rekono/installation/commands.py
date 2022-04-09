@@ -92,6 +92,7 @@ def install(ctx: click.Context, all_tools: bool):
     reload_systemctl()                                                          # Reload Systemctl daemon
     click.echo()
     click.echo(click.style('Installation completed!', fg='green'))
+    click.echo()
     answer = input('Do you want to start Rekono services? [Y/N]: ')
     if answer.lower() in ['y', 'yes']:
         answer = input('How many execution workers do you need? [3]: ')
