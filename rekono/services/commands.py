@@ -6,7 +6,8 @@ from rekono.installation.check import check_rekono_installation
 from rekono.services.manager import rekono_services_command
 from rekono.services.services import EXECUTIONS
 from rekono.utils.linux.check import check_system
-from rekono.utils.linux.systemctl import count_running_services
+from rekono.utils.linux.systemctl import (count_running_services,
+                                          systemctl_command)
 
 
 @click.group('services', help='Manage Rekono systemctl services')
@@ -39,6 +40,8 @@ def start(executors: int):
         click.echo(
             click.style('Number of workers is zero so executions are disabled', fg='orange')
         )
+    systemctl_command('start', 'postgresql')                                    # Start PostgreSQL
+    systemctl_command('start', 'redis-server')                                    # Start Redis
     rekono_services_command('start', executors)
 
 

@@ -12,7 +12,7 @@
 
 # <p align="center"><img src="assets/logo-black.png" width="500"/></p>
 
-Command Line Interface to manage the [Rekono](https://github.com/pablosnt/rekono) environment.
+This is a Command Line Interface to manage the [Rekono](https://github.com/pablosnt/rekono) environment.
 
 
 ## Usage
