@@ -79,13 +79,13 @@ def install(all_tools: bool):
     if all_tools:
         click.echo()
         click.echo('Installing all supported tools')
-        install_tools()
-        configure_tools()
+        install_tools()                                                         # Install all supported tools
+        configure_tools()                                                       # Configure supported tools
         click.echo('Installing all supported resources')
-        install_resources()
+        install_resources()                                                     # Install resources by default
     click.echo()
     click.echo('Creating systemd services for Rekono')
-    create_rekono_user()
+    create_rekono_user()                                                        # Create Rekono system user
     create_rekono_services()                                                    # Create Rekono services
     reload_systemctl()                                                          # Reload Systemctl daemon
     click.echo()
