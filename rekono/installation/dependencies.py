@@ -6,7 +6,8 @@ import sys
 
 import click
 
-from rekono.config import DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY
+from rekono.config import (DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY,
+                           REKONO_USER)
 from rekono.utils.linux.apt import apt_install
 from rekono.utils.linux.systemctl import systemctl_command
 from rekono.utils.linux.utils import check_installation
@@ -78,7 +79,7 @@ def install_backend() -> None:
 def install_frontend() -> None:
     '''Install frontend dependencies.'''
     exec = subprocess.run(
-        ['npm', 'install', '.'],
+        ['sudo', '-u', REKONO_USER, 'npm', 'install', '.'],
         capture_output=True,
         cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono', 'frontend')
     )
