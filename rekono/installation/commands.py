@@ -15,6 +15,7 @@ from rekono.installation.dependencies import (drop_rekono_database,
 from rekono.installation.management import manage_command
 from rekono.installation.tools import (configure_tools, install_resources,
                                        install_tools)
+from rekono.services.commands import start
 from rekono.services.manager import (create_rekono_services,
                                      rekono_services_command,
                                      remove_rekono_services)
@@ -89,6 +90,14 @@ def install(all_tools: bool):
     reload_systemctl()                                                          # Reload Systemctl daemon
     click.echo()
     click.echo(click.style('Installation completed!', fg='green'))
+    answer = input('Do you want to start Rekono services? [Y/N]: ')
+    if answer.lower() in ['y', 'yes']:
+        answer = input('How many execution workers do you need? [3]: ')
+        try:
+            execution_workers = int(answer)
+        except ValueError:
+            execution_workers = 3
+        start(executors=execution_workers)                                      # Start Rekono services
 
 
 @click.command('update', help='Update Rekono installation with the latest version')
