@@ -51,6 +51,7 @@ def install(ctx: click.Context, all_tools: bool):
             'should be downloaded, using the environment variable "REKONO_HOME"', fg='red'
         ), err=True)
         sys.exit(1)
+    create_rekono_user()                                                        # Create Rekono system user
     click.echo('Downloading Rekono source code')
     download_source_code()                                                      # Download Rekono source code
     click.echo()
@@ -87,7 +88,6 @@ def install(ctx: click.Context, all_tools: bool):
         install_resources()                                                     # Install resources by default
     click.echo()
     click.echo('Creating systemd services for Rekono')
-    create_rekono_user()                                                        # Create Rekono system user
     create_rekono_services()                                                    # Create Rekono services
     reload_systemctl()                                                          # Reload Systemctl daemon
     click.echo()

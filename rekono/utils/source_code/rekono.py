@@ -5,7 +5,8 @@ import tempfile
 
 from git import Repo
 
-from rekono.config import REKONO_GIT_REPOSITORY, REKONO_HOME_DIRECTORY
+from rekono.config import (REKONO_GIT_REPOSITORY, REKONO_HOME_DIRECTORY,
+                           REKONO_USER)
 
 
 def download_source_code() -> None:
@@ -24,3 +25,5 @@ def download_source_code() -> None:
         os.remove(requirements)                                                 # Remove requirements.txt
     shutil.move(os.path.join(temp, 'requirements.txt'), REKONO_HOME_DIRECTORY)  # Save requirements.txt
     shutil.rmtree(temp, ignore_errors=True)                                     # Remove temporal directory
+    # Change owner of the Rekono home directory
+    subprocess.run(['sudo', 'chown', '-R', f'{REKONO_USER}:{REKONO_USER}', REKONO_HOME_DIRECTORY])
