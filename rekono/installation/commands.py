@@ -15,7 +15,7 @@ from rekono.installation.dependencies import (drop_rekono_database,
 from rekono.installation.management import manage_command
 from rekono.installation.tools import (configure_tools, install_resources,
                                        install_tools)
-from rekono.services.commands import start
+from rekono.services.commands import restart, start
 from rekono.services.manager import (create_rekono_services,
                                      rekono_services_command,
                                      remove_rekono_services)
@@ -104,8 +104,13 @@ def install(ctx: click.Context, all_tools: bool):
 
 
 @click.command('update', help='Update Rekono installation with the latest version')
-def update():
-    '''Update Rekono installation with the latest version.'''
+@click.pass_context
+def update(ctx: click.Context):
+    '''Update Rekono installation with the latest version.
+
+    Args:
+        ctx (click.Context): Click context to be able to call other Click commands
+    '''
     check_system()                                                              # Check if it is a Linux system
     if not check_rekono_installation():                                         # Check if Rekono is installed
         click.echo(
@@ -124,6 +129,10 @@ def update():
     click.echo('Updating database')
     manage_command('migrate')                                                   # Migrate Rekono database
     click.echo()
+    if count_running_services('rekono-') > 0:
+        click.echo('Restarting services')
+        ctx.invoke(restart)                                                     # Restart Rekono services
+        click.echo()
     click.echo(click.style('Rekono has been updated!', fg='green'))
 
 
