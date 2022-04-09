@@ -41,7 +41,7 @@ def start(executors: int):
             click.style('Number of workers is zero so executions are disabled', fg='orange')
         )
     systemctl_command('start', 'postgresql')                                    # Start PostgreSQL
-    systemctl_command('start', 'redis-server')                                    # Start Redis
+    systemctl_command('start', 'redis-server')                                  # Start Redis
     rekono_services_command('start', executors)
 
 

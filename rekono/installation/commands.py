@@ -33,10 +33,12 @@ from rekono.utils.source_code.rekono import download_source_code
     '-a', '--all-tools', 'all_tools', is_flag=True,
     help='Install all tools and resources supported by Rekono'
 )
-def install(all_tools: bool):
+@click.pass_context
+def install(ctx: click.Context, all_tools: bool):
     '''Install Rekono on the system.
 
     Args:
+        ctx (click.Context): Click context to be able to call other Click commands
         all_tools (bool): Indicate if all tools supported by Rekono should be installed or not
     '''
     check_system()                                                              # Check if it is a Linux system
@@ -97,7 +99,7 @@ def install(all_tools: bool):
             execution_workers = int(answer)
         except ValueError:
             execution_workers = 3
-        start(executors=execution_workers)                                      # Start Rekono services
+        ctx.invoke(start, executor=execution_workers)                           # Start Rekono services
 
 
 @click.command('update', help='Update Rekono installation with the latest version')
