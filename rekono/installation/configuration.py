@@ -39,19 +39,19 @@ def create_config_file(db_password: str) -> None:
             'port': 6379
         },
         'email': {
-            'host': input('SMTP host [127.0.0.1]: '),
-            'port': input('SMTP port [587]: '),
+            'host': input('SMTP host: '),
+            'port': input('SMTP port: '),
             'user': input('SMTP user: '),
             'password': getpass('SMTP password: '),
             'tls': True
         },
         'telegram': {
             'bot': 'Rekono',
-            'token': getpass("Telegram token: "),
+            'token': getpass('Telegram token: '),
         },
         'defect-dojo': {
-            'url': input('Defect-Dojo URL [http://127.0.0.1:8080]: ') or 'http://127.0.0.1:8080',
-            'api-key': getpass("Defect-Dojo API key: "),
+            'url': input('Defect-Dojo URL: '),
+            'api-key': getpass('Defect-Dojo API key: '),
             'verify': True,
             'tags': ['rekono'],
             'product-type': 'Rekono Project',
