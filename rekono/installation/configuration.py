@@ -54,9 +54,6 @@ def create_config_file(db_password: str) -> None:
             'api-key': getpass("Defect-Dojo API key: "),
             'verify': True,
             'tags': ['rekono'],
-            'product': {
-                'auto-creation': True
-            },
             'product-type': 'Rekono Project',
             'test-type': 'Rekono Findings Import',
             'test': 'Rekono Test'
