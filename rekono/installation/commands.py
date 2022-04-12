@@ -123,6 +123,7 @@ def update(ctx: click.Context):
     install_backend()                                                           # Update backend dependencies
     click.echo('[+] Rekono frontend dependencies')
     install_frontend()                                                          # Update frontend dependencies
+    manage_command('frontend')                                                  # Configure Rekono frontend
     click.echo()
     click.echo('Updating database')
     manage_command('migrate')                                                   # Migrate Rekono database
