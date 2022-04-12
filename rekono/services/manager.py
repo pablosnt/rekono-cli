@@ -4,8 +4,6 @@ import subprocess
 import sys
 
 from rekono.config import REKONO_HOME_DIRECTORY, REKONO_USER, SYSTEMD_SERVICES
-from rekono.environment import RKN_EMAIL_HOST, RKN_EMAIL_PORT
-from rekono.installation.configuration import check_configuration
 from rekono.services.services import (BACKEND, EMAILS, EXECUTIONS, FINDINGS,
                                       FRONTEND, TASKS, TELEGRAM)
 from rekono.utils.linux.systemctl import systemctl_command
@@ -57,12 +55,7 @@ def rekono_services_command(command: str, executors: int) -> None:
         command (str): Systemctl command
         executors (int): Number of instances afected for executions worker service
     '''
-    services = [BACKEND, FRONTEND, TELEGRAM, TASKS, FINDINGS]
-    if (                                                                        # Check if SMTP server is configured
-        check_configuration(RKN_EMAIL_HOST, ['email', 'host']) and
-        check_configuration(RKN_EMAIL_PORT, ['email', 'port'])
-    ):
-        services.append(EMAILS)
+    services = [BACKEND, FRONTEND, TELEGRAM, TASKS, FINDINGS, EMAILS]
     for number in range(executors):
         services.append(f'{EXECUTIONS}{number + 1}')                            # Add executions worker instances
     for service in services:
