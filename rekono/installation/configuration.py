@@ -50,7 +50,7 @@ def create_config_file(db_password: str) -> None:
             'token': getpass('Telegram token: '),
         },
         'defect-dojo': {
-            'url': input('Defect-Dojo URL [Format <protocol>://<host>/]: '),
+            'url': input('Defect-Dojo URL [Format <protocol>://<host>]: '),
             'api-key': getpass('Defect-Dojo API key: '),
             'verify': True,
             'tags': ['rekono'],
