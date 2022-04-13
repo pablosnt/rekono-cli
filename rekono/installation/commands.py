@@ -21,7 +21,7 @@ from rekono.services.manager import (create_rekono_services,
 from rekono.utils.linux.apt import apt_install, apt_update
 from rekono.utils.linux.check import check_system
 from rekono.utils.linux.systemctl import (count_running_services,
-                                          reload_systemctl)
+                                          reload_systemctl, systemctl_command)
 from rekono.utils.linux.users import create_rekono_user, remove_rekono_user
 from rekono.utils.source_code.rekono import download_source_code
 
@@ -126,6 +126,7 @@ def update(ctx: click.Context):
     manage_command('frontend')                                                  # Configure Rekono frontend
     click.echo()
     click.echo('Updating database')
+    systemctl_command('start', 'postgresql')                                    # Start PostgreSQL
     manage_command('migrate')                                                   # Migrate Rekono database
     click.echo()
     if count_running_services('rekono-') > 0:
