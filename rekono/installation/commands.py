@@ -23,7 +23,7 @@ from rekono.utils.linux.check import check_system
 from rekono.utils.linux.systemctl import (count_running_services,
                                           reload_systemctl, systemctl_command)
 from rekono.utils.linux.users import create_rekono_user, remove_rekono_user
-from rekono.utils.source_code.rekono import download_source_code
+from rekono.utils.source_code import download_source_code
 
 
 @click.command('install', help='Install Rekono on the system')
