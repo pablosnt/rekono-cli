@@ -19,6 +19,10 @@ This is a Command Line Interface to manage the [Rekono](https://github.com/pablo
 
 |Command|Description|
 |-------|-----------|
+|`api delete <endpoint>`|HTTP DELETE request to Rekono API|
+|`api get <endpoint> --parameter <key>=<value>`|HTTP GET request to Rekono API|
+|`api post <endpoint> --data <data>`|HTTP POST request to Rekono API|
+|`api put <endpoint> --data <data>`|HTTP PUT request to Rekono API|
 |`install`|Install Rekono in the system|
 |`install --all-tools`|Install Rekono and all supported tools|
 |`update`|Update Rekono to the last version|
@@ -60,7 +64,11 @@ pip3 install rekono-cli
 
 ## Configuration
 
-By default Rekono will be installed in `/opt/rekono`. You can change this directory using the environment variable `REKONO_HOME`.
+You can use the following environment variables to configure the Rekono CLI:
+
+- `REKONO_HOME`: Directory for Rekono installation. By default, Rekono will be installed in `/opt/rekono`
+- `REKONO_URL`: Rekono URL in format <schema>://<host> to be used in API requests
+- `REKONO_TOKEN`: API token for Rekono API authentication
 
 Check the [Rekono configuration](https://github.com/pablosnt/rekono) for more information.
 
