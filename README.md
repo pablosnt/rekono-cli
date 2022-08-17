@@ -31,9 +31,7 @@ This is a Command Line Interface to manage the [Rekono](https://github.com/pablo
 |`services stop`|Stop all Rekono services|
 |`services restart`|Restart all Rekono services|
 
-> :warning: Only tested in Kali Linux.  
-
-> :warning: Only use that to manage Rekono environment for local and personal usage. Otherwise [Docker](https://github.com/pablosnt/rekono#docker) is advised.  
+> :warning: Commands to manage Rekono environments should be used for local and personal usage. Otherwise [Docker](https://github.com/pablosnt/rekono#docker) is advised. Note that they are tested only in Kali Linux.
 
 
 ## Installation
