@@ -31,7 +31,7 @@ This is a Command Line Interface to manage the [Rekono](https://github.com/pablo
 |`services stop`|Stop all Rekono services|
 |`services restart`|Restart all Rekono services|
 
-> :warning: Commands to manage Rekono environments should be used for local and personal usage. Otherwise [Docker](https://github.com/pablosnt/rekono#docker) is advised. Note that they are tested only in Kali Linux.
+> :warning: Commands to manage Rekono installation are only advised for local and personal usage in Linux environements. Otherwise [Docker](https://github.com/pablosnt/rekono#docker) is advised.
 
 
 ## Installation
@@ -74,3 +74,8 @@ Check the [Rekono configuration](https://github.com/pablosnt/rekono) for more in
 ## License
 
 Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](./LICENSE.md)
+
+
+## Support
+
+If you need any help, you can create a new support [Issue](https://github.com/pablosnt/rekono-cli/issues/new?template=support.md) or mail rekono.project@gmail.com
