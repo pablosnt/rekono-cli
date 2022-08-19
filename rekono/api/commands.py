@@ -15,11 +15,16 @@ def get_url_and_token() -> Tuple[str, Optional[str]]:
     Returns:
         Tuple[str, str]: Rekono URL and API token.
     '''
-    api_url = API_URL if API_URL else input('API URL: ')                        # Ask user for API URL if needed
+    api_url = API_URL
     api_token = API_TOKEN
+    if not api_token:
+        api_url = input('API URL: ')                                            # Ask user for API URL if needed
+        if api_token:
+            click.echo()
     if not api_token:
         username = input('Username: ')                                          # Ask user for Rekono username
         password = getpass('Password: ')                                        # Ask user for Rekono password
+        click.echo()
         response = request(                                                     # Get API token using Rekono credentials
             'post', api_url, '/api/api-token/',
             data='{' + f'"username": "{username}", "password": "{password}"' + '}'
@@ -39,7 +44,7 @@ def display_api_response(response: requests.Response) -> None:
         text = json.dumps(response.json(), indent=4)                            # Parse response body as JSON
     except:
         text = response.text if response.text else 'No response content'        # Plain response body
-    click.echo(f'\n{text}\n')
+    click.echo(text)
 
 
 @click.group('api', help='Make requests to Rekono API REST')

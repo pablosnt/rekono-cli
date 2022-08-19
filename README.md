@@ -12,7 +12,11 @@
 
 # <p align="center"><img src="assets/logo-black.png" width="500"/></p>
 
-This is a Command Line Interface to manage the [Rekono](https://github.com/pablosnt/rekono) environment.
+This is a Command Line Interface to manage the [Rekono](https://github.com/pablosnt/rekono) platform:
+
+- Make HTTP requests to the Rekono API REST
+- Installation of Rekono in personal Linux environments
+- Management of the Rekono services in personal Linux environments
 
 
 ## Usage
@@ -78,4 +82,4 @@ Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](./LICENSE.md
 
 ## Support
 
-If you need any help, you can create a new support [Issue](https://github.com/pablosnt/rekono-cli/issues/new?template=support.md) or mail rekono.project@gmail.com
+If you need help you can create a new support [Issue](https://github.com/pablosnt/rekono-cli/issues/new?template=support.md) or mail rekono.project@gmail.com
