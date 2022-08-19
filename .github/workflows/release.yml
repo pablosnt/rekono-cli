@@ -1,0 +1,29 @@
+name: Release
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  publish-release:
+    name: Publish Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+
+      - name: Build Python package
+        run: |
+          python3 -m pip install twine
+          python3 -m pip install -r requirements.txt
+          python3 setup.py sdist
+      
+      - name: Upload package to PyPi
+        run: twine upload dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
