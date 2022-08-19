@@ -1,6 +1,6 @@
 import json
 from getpass import getpass
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 import click
 from rekono.api.requests import request
@@ -9,7 +9,7 @@ from rekono.config import API_TOKEN, API_URL
 import requests
 
 
-def get_url_and_token() -> Tuple[str, str]:
+def get_url_and_token() -> Tuple[str, Optional[str]]:
     '''Get URL and API token to make Rekono API requests.
 
     Returns:
