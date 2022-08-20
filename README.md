@@ -72,7 +72,7 @@ You can use the following environment variables to configure the Rekono CLI:
 - `REKONO_URL`: Rekono URL in format <schema>://<host> to be used in API requests
 - `REKONO_TOKEN`: API token for Rekono API authentication
 
-Check the [Rekono configuration](https://github.com/pablosnt/rekono) for more information.
+Check the [Rekono configuration](https://github.com/pablosnt/rekono/wiki/5.-Configuration) for more information.
 
 
 ## License
