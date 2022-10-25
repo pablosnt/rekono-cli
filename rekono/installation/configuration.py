@@ -3,7 +3,6 @@ from getpass import getpass
 from typing import List
 
 import yaml
-
 from rekono.config import (CMSEEK_DIR, DB_DATABASE, DB_USER, GITTOOLS_DIR,
                            LOG4J_SCANNER_DIR, REKONO_HOME_DIRECTORY)
 
@@ -24,8 +23,6 @@ def create_config_file(db_password: str) -> None:
                 'localhost',
                 '::1'
             ],
-            'otp-expiration-hours': 24,
-            'upload-files-max-mb': 500
         },
         'database': {
             'name': DB_DATABASE,
@@ -44,19 +41,6 @@ def create_config_file(db_password: str) -> None:
             'user': input('SMTP user: '),
             'password': getpass('SMTP password: '),
             'tls': True
-        },
-        'telegram': {
-            'bot': 'Rekono',
-            'token': getpass('Telegram token: '),
-        },
-        'defect-dojo': {
-            'url': input('Defect-Dojo URL [Format <protocol>://<host>]: '),
-            'api-key': getpass('Defect-Dojo API key: '),
-            'verify': True,
-            'tags': ['rekono'],
-            'product-type': 'Rekono Project',
-            'test-type': 'Rekono Findings Import',
-            'test': 'Rekono Test'
         },
         'tools': {
             'cmseek': {
