@@ -15,7 +15,7 @@ def create_config_file(db_password: str) -> None:
     '''
     config = {                                                                  # Prepare configuration file
         'frontend': {
-            'url': 'http://127.0.0.1:8080'
+            'url': 'http://127.0.0.1:3000'
         },
         'security': {
             'allowed-hosts': [
