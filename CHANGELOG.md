@@ -14,14 +14,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
-- Error during installation via PIP due to the lack of the NODE_OPTIONS environment variable (https://github.com/pablosnt/rekono-cli/pull/8)
+- Error during installation via PIP due to the lack of the `NODE_OPTIONS` environment variable (https://github.com/pablosnt/rekono-cli/pull/8)
 
 
 ## [1.0.1] - 2022-09-03
 
 ### Fixed
 
-- Error during installation via PIP because requirements.txt is not found (https://github.com/pablosnt/rekono-cli/pull/6)
+- Error during installation via PIP because `requirements.txt` is not found (https://github.com/pablosnt/rekono-cli/pull/6)
 
 
 ## [1.0.0] - 2022-08-19
