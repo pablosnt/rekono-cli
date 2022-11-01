@@ -1,7 +1,4 @@
 <p align="center">
-  <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/security-sca.yml" alt="SCA">
-    <img src="https://github.com/pablosnt/rekono-cli/actions/workflows/security-sca.yml/badge.svg"/>
-  </a>
   <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/security-secrets.yml" alt="Secrets scanning">
     <img src="https://github.com/pablosnt/rekono-cli/actions/workflows/security-secrets.yml/badge.svg"/>
   </a>
@@ -73,7 +70,7 @@ You can use the following environment variables to configure the Rekono CLI:
 - `REKONO_URL`: Rekono URL in format <schema>://<host> to be used in API requests
 - `REKONO_TOKEN`: API token for Rekono API authentication
 
-Check the [Rekono configuration](https://github.com/pablosnt/rekono/wiki/5.-Configuration) for more information.
+Check the [Rekono configuration](https://github.com/pablosnt/rekono/wiki/Configuration) for more information.
 
 
 ## License
@@ -83,4 +80,4 @@ Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](./LICENSE.md
 
 ## Support
 
-If you need help you can create a new support [Issue](https://github.com/pablosnt/rekono-cli/issues/new?template=support.md) or mail rekono.project@gmail.com
+If you need help you can create a new support [Issue](https://github.com/pablosnt/rekono-cli/issues/new?assignees=&labels=help+wanted%2C+question&template=support.md) or mail rekono.project@gmail.com
