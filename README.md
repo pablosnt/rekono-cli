@@ -37,6 +37,7 @@ This is a Command Line Interface to manage the [Rekono](https://github.com/pablo
 
 > :warning: Commands to manage Rekono installation are only advised for local and personal usage in Linux environements. Otherwise [Docker](https://github.com/pablosnt/rekono#docker) is advised.
 
+You can reach Rekono in http://127.0.0.1:3000/
 
 ## Installation
 
