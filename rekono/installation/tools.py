@@ -4,7 +4,6 @@ import subprocess
 import sys
 
 from git import Repo
-
 from rekono.config import GITTOOLS_DIR, LOG4J_SCANNER_DIR
 from rekono.utils.linux.apt import apt_install
 
@@ -15,7 +14,7 @@ def install_tools() -> None:
         [
             'nmap', 'dirsearch', 'theharvester', 'nikto', 'sslscan', 'sslyze',
             'cmseek', 'zaproxy', 'exploitdb', 'metasploit-framework',
-            'emailharvester', 'joomscan', 'gitleaks', 'smbmap'
+            'emailharvester', 'joomscan', 'gitleaks', 'smbmap', 'nuclei'
         ],
         required=False
     )
