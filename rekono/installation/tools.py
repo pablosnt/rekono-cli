@@ -4,8 +4,7 @@ import subprocess
 import sys
 
 from git import Repo
-from rekono.config import (GITTOOLS_DIR, LOG4J_SCANNER_DIR,
-                           SPRING4SHELL_SCAN_DIR)
+from rekono.config import GITTOOLS_DIR, LOG4J_SCAN_DIR, SPRING4SHELL_SCAN_DIR
 from rekono.utils.linux.apt import apt_install
 
 
@@ -23,7 +22,7 @@ def install_tools() -> None:
         'sudo', sys.executable, '-m', 'pip', 'install', '-q', 'emailfinder', 'ssh-audit'
     ])
     for git_repository, directory in [
-        ('https://github.com/cisagov/log4j-scanner.git', LOG4J_SCANNER_DIR),
+        ('https://github.com/fullhunt/log4j-scan', LOG4J_SCAN_DIR),
         ('https://github.com/fullhunt/spring4shell-scan.git', SPRING4SHELL_SCAN_DIR),
         ('https://github.com/internetwache/GitTools.git', GITTOOLS_DIR),
     ]:
@@ -32,7 +31,7 @@ def install_tools() -> None:
             subprocess.run(['sudo', 'chmod', '-R', '777', directory])           # Change tool directory permissions
             Repo.clone_from(git_repository, directory)
     for requirements in [
-        os.path.join(LOG4J_SCANNER_DIR, 'log4-scanner', 'requirements.txt'),
+        os.path.join(LOG4J_SCAN_DIR, 'requirements.txt'),
         os.path.join(SPRING4SHELL_SCAN_DIR, 'requirements.txt'),
     ]:
         if os.path.isfile(requirements):
