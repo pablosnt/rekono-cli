@@ -15,7 +15,7 @@ DB_DATABASE = 'rekono'
 DB_USER = 'rekono'
 RQ_USER = 'rekono'
 CMSEEK_DIR = '/usr/share/cmseek'
-LOG4J_SCANNER_DIR = '/opt/log4j-scanner'
+LOG4J_SCAN_DIR = '/opt/log4j-scan'
 SPRING4SHELL_SCAN_DIR = '/opt/spring4shell-scan'
 GITTOOLS_DIR = '/opt/GitTools'
 
