@@ -20,7 +20,7 @@ def apt_install(packages: List[str], required: bool = True) -> None:
     command = ['sudo', 'apt', 'install']
     command.extend(packages)
     command.append('-y')
-    exec = subprocess.run(command, capture_output=True)
-    if exec.returncode != 0 and required:                                       # Required packages
+    process = subprocess.run(command, capture_output=True)
+    if process.returncode != 0 and required:                                    # Required packages
         click.echo(click.style(f'Error during {" ".join(packages)} installation', fg='red'), err=True)
         sys.exit(10)

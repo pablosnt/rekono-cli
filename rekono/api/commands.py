@@ -40,9 +40,9 @@ def display_api_response(response: requests.Response) -> None:
     Args:
         response (requests.Response): HTTP response
     '''
-    try:
+    if response.json():
         text = json.dumps(response.json(), indent=4)                            # Parse response body as JSON
-    except:
+    else:
         text = response.text if response.text else 'No response content'        # Plain response body
     click.echo(text)
 
