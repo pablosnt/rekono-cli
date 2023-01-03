@@ -50,7 +50,4 @@ def configure_tools() -> None:
 
 def install_resources() -> None:
     '''Install all resources used by Rekono.'''
-    apt_install(['wordlists', 'seclists', 'dirb'])
-    rockyou = '/usr/share/wordlists/rockyou.txt'
-    if os.path.isfile(f'{rockyou}.gz') and not os.path.isfile(rockyou):
-        subprocess.run(['sudo', 'gzip', '-d', f'{rockyou}.gz'], capture_output=True)    # Decompress rockyou wordlist
+    apt_install(['seclists', 'dirb'])
