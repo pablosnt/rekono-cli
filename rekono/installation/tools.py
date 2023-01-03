@@ -14,7 +14,8 @@ def install_tools() -> None:
         [
             'nmap', 'dirsearch', 'theharvester', 'nikto', 'sslscan', 'sslyze',
             'cmseek', 'zaproxy', 'exploitdb', 'metasploit-framework',
-            'emailharvester', 'joomscan', 'gitleaks', 'smbmap', 'nuclei'
+            'emailharvester', 'joomscan', 'gitleaks', 'smbmap', 'nuclei',
+            'gobuster'
         ],
         required=False
     )
