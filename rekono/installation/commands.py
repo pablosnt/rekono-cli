@@ -61,7 +61,7 @@ def install(ctx: click.Context, all_tools: bool):
     click.echo('[+] Vue')
     install_vue()                                                               # Install Vue
     click.echo('[+] Other packages')
-    apt_install(['libpq-dev', 'python3-dev'])                                   # Install other dependencies
+    apt_install(['libpq-dev', 'python3-dev', 'libmagic1'])                      # Install other dependencies
     click.echo('[+] Rekono backend dependencies')
     install_backend()                                                           # Install backend dependencies
     click.echo('[+] Rekono frontend dependencies')
