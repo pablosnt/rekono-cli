@@ -70,7 +70,7 @@ pip3 install rekono-cli
 You can use the following environment variables to configure the Rekono CLI:
 
 - `REKONO_HOME`: Directory for Rekono installation. By default, Rekono will be installed in `/opt/rekono`
-- `REKONO_URL`: Rekono URL in format <schema>://<host> to be used in API requests
+- `REKONO_URL`: Rekono URL in format `<schema>://<host>` to be used in API requests
 - `REKONO_TOKEN`: API token for Rekono API authentication
 
 Check the [Rekono configuration](https://github.com/pablosnt/rekono/wiki/Configuration) for more information.
