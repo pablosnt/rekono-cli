@@ -55,6 +55,7 @@ pip3 install rekono-cli
 2. Install the dependencies:
 
     ```
+    sudo apt-get install libmagic1
     pip3 install -r requirements.txt
     ```
 
