@@ -8,6 +8,9 @@
   <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/code-style.yml" alt="Code style">
     <img src="https://github.com/pablosnt/rekono-cli/actions/workflows/code-style.yml/badge.svg"/>
   </a>
+  <a href="https://discord.gg/Zyduu5C7M3">
+    <img src="https://img.shields.io/badge/Discord-Join-black?style=social&logo=discord"/>
+  </a>
 </p>
 
 # <p align="center"><img src="assets/logo-black.png" width="500"/></p>
@@ -76,11 +79,20 @@ You can use the following environment variables to configure the Rekono CLI:
 Check the [Rekono configuration](https://github.com/pablosnt/rekono/wiki/Configuration) for more information.
 
 
+## Support
+
+<p align="center">
+  <a href="https://github.com/pablosnt/rekono-cli/issues/new?labels=help+wanted%2C+question&template=support.md" alt="GitHub Issue">
+    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="64"/>
+  </a>
+  <a href="https://discord.gg/Zyduu5C7M3" alt="Discord">
+    <img src="https://theme.zdassets.com/theme_assets/678183/cc59daa07820943e943c2fc283b9079d7003ff76.svg" width="256"/>
+  </a>
+</p>
+
+If you need more specific help, you can also mail rekono.project@gmail.com.
+
+
 ## License
 
 Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](./LICENSE.md)
-
-
-## Support
-
-If you need help you can create a new support [Issue](https://github.com/pablosnt/rekono-cli/issues/new?assignees=&labels=help+wanted%2C+question&template=support.md) or mail rekono.project@gmail.com
