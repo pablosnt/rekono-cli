@@ -3,7 +3,6 @@ import subprocess
 import sys
 
 import click
-
 from rekono.config import REKONO_HOME_DIRECTORY
 from rekono.installation.check import check_rekono_installation
 from rekono.installation.configuration import create_config_file
@@ -62,7 +61,7 @@ def install(ctx: click.Context, all_tools: bool):
     click.echo('[+] Vue')
     install_vue()                                                               # Install Vue
     click.echo('[+] Other packages')
-    apt_install(['libpq-dev', 'python3-dev'])                                   # Install other dependencies
+    apt_install(['libpq-dev', 'python3-dev', 'libmagic1'])                      # Install other dependencies
     click.echo('[+] Rekono backend dependencies')
     install_backend()                                                           # Install backend dependencies
     click.echo('[+] Rekono frontend dependencies')
@@ -76,7 +75,6 @@ def install(ctx: click.Context, all_tools: bool):
     click.echo()
     click.echo('Creation first Rekono user')
     manage_command('createsuperuser')                                           # Create Rekono superuser
-    manage_command('frontend')                                                  # Configure Rekono frontend
     if all_tools:
         click.echo()
         click.echo('Installing all supported tools')

@@ -4,7 +4,8 @@ from typing import List
 
 import yaml
 from rekono.config import (CMSEEK_DIR, DB_DATABASE, DB_USER, GITTOOLS_DIR,
-                           LOG4J_SCANNER_DIR, REKONO_HOME_DIRECTORY)
+                           LOG4J_SCAN_DIR, REKONO_HOME_DIRECTORY,
+                           SPRING4SHELL_SCAN_DIR)
 
 
 def create_config_file(db_password: str) -> None:
@@ -46,8 +47,11 @@ def create_config_file(db_password: str) -> None:
             'cmseek': {
                 'directory': CMSEEK_DIR
             },
-            'log4j-scanner': {
-                'directory': LOG4J_SCANNER_DIR
+            'log4j-scan': {
+                'directory': LOG4J_SCAN_DIR
+            },
+            'spring4shell-scan': {
+                'directory': SPRING4SHELL_SCAN_DIR
             },
             'gittools': {
                 'directory': GITTOOLS_DIR

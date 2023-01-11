@@ -5,7 +5,6 @@ import subprocess
 import sys
 
 import click
-
 from rekono.config import (DB_DATABASE, DB_USER, REKONO_HOME_DIRECTORY,
                            REKONO_USER)
 from rekono.utils.linux.apt import apt_install
@@ -59,30 +58,30 @@ def install_vue() -> None:
     if not check_installation('npm'):                                           # NPM not installed yet
         apt_install(['nodejs', 'npm'])                                          # Install Node
     if not check_installation('vue'):                                           # Vue not installed yet
-        exec = subprocess.run(['npm', 'install', '-g', '@vue/cli'], capture_output=True)    # Install Vue
-        if exec.returncode != 0:                                                # Error during installation
+        process = subprocess.run(['npm', 'install', '-g', '@vue/cli'], capture_output=True)     # Install Vue
+        if process.returncode != 0:                                                # Error during installation
             click.echo(click.style('Error during Vue installation', fg='red'), err=True)
             sys.exit(10)
 
 
 def install_backend() -> None:
     '''Install backend dependencies.'''
-    exec = subprocess.run([
+    process = subprocess.run([
         sys.executable, '-m', 'pip', 'install', '-q', '-r',
         os.path.join(REKONO_HOME_DIRECTORY, 'requirements.txt')
     ])
-    if exec.returncode != 0:                                                    # Error during installation
+    if process.returncode != 0:                                                 # Error during installation
         click.echo(click.style('Error during backend installation', fg='red'), err=True)
         sys.exit(10)
 
 
 def install_frontend() -> None:
     '''Install frontend dependencies.'''
-    exec = subprocess.run(
+    process = subprocess.run(
         ['sudo', '-u', REKONO_USER, 'npm', 'install', '.'],
         capture_output=True,
         cwd=os.path.join(REKONO_HOME_DIRECTORY, 'rekono', 'frontend')
     )
-    if exec.returncode != 0:                                                    # Error during installation
+    if process.returncode != 0:                                                 # Error during installation
         click.echo(click.style('Error during frontend installation', fg='red'), err=True)
         sys.exit(10)

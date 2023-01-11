@@ -1,11 +1,13 @@
 import click
 
+from rekono import VERSION
 from rekono.api.commands import api
 from rekono.installation.commands import install, uninstall, update
 from rekono.services.commands import services
 
 
 @click.group()
+@click.version_option(version=VERSION, message='%(version)s')
 def rekono():
     '''Rekono CLI.'''
     pass

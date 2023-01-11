@@ -25,9 +25,12 @@ def count_running_services(service: str) -> int:
     Returns:
         int: Number of running executions
     '''
-    exec = subprocess.run(['sudo', 'systemctl', 'list-units', '--type=service', '--state=running'], capture_output=True)
+    process = subprocess.run(
+        ['sudo', 'systemctl', 'list-units', '--type=service', '--state=running'],
+        capture_output=True
+    )
     count = 0
-    if exec.returncode == 0 and exec.stdout:
-        services = [line.strip() for line in exec.stdout.decode().split('\n') if line.strip().startswith(service)]
+    if process.returncode == 0 and process.stdout:
+        services = [line.strip() for line in process.stdout.decode().split('\n') if line.strip().startswith(service)]
         count = len(services)
     return count

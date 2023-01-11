@@ -3,6 +3,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2023-01-11
+
+### Added
+
+- Add `Nuclei` installation (https://github.com/pablosnt/rekono-cli/pull/19)
+- Add `Spring4Shell Scan` installation (https://github.com/pablosnt/rekono-cli/pull/20)
+- Add `Log4j Scan` installation (https://github.com/pablosnt/rekono-cli/pull/21)
+- Add `Gobuster` installation (https://github.com/pablosnt/rekono-cli/pull/24)
+- Add `--version` option to check current Rekono CLI version (https://github.com/pablosnt/rekono-cli/pull/31)
+
+### Changed
+
+- Remove installation of `wordlists` package (https://github.com/pablosnt/rekono-cli/pull/23)
+- Upgrade `requests` to version `2.28.1` (https://github.com/pablosnt/rekono-cli/pull/27)
+
+
 ## [1.0.3] - 2022-11-01
 
 ### Changed
