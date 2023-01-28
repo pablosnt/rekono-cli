@@ -13,13 +13,9 @@
   </a>
 </p>
 
-# <p align="center"><img src="assets/logo-black.png" width="500"/></p>
+# <p align="center"><img src="https://raw.githubusercontent.com/pablosnt/rekono/main/rekono/frontend/public/static/logo-black.png" width="500"/></p>
 
-This is a Command Line Interface to manage the [Rekono](https://github.com/pablosnt/rekono) platform:
-
-- Make HTTP requests to the Rekono API REST
-- Installation of Rekono in personal Linux environments
-- Management of the Rekono services in personal Linux environments
+Command Line Interface to make requests to the [Rekono](https://github.com/pablosnt/rekono) API REST.
 
 
 ## Usage
@@ -30,17 +26,7 @@ This is a Command Line Interface to manage the [Rekono](https://github.com/pablo
 |`api get <endpoint> --parameter <key>=<value>`|HTTP GET request to Rekono API|
 |`api post <endpoint> --data <data>`|HTTP POST request to Rekono API|
 |`api put <endpoint> --data <data>`|HTTP PUT request to Rekono API|
-|`install`|Install Rekono in the system|
-|`install --all-tools`|Install Rekono and all supported tools|
-|`update`|Update Rekono to the last version|
-|`uninstall`|Uninstall Rekono from your system|
-|`services start --execution-workers <N>`|Start all Rekono services with N executions workers (3 by default)|
-|`services stop`|Stop all Rekono services|
-|`services restart`|Restart all Rekono services|
 
-> :warning: Commands to manage Rekono installation are only advised for local and personal usage in Linux environements. Otherwise [Docker](https://github.com/pablosnt/rekono#docker) is advised.
-
-You can reach Rekono in http://127.0.0.1:3000/
 
 ## Installation
 
