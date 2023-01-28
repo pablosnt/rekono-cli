@@ -13,9 +13,13 @@ jobs:
           fetch-depth: 0
       
       - name: Flake8 check
-        uses: py-actions/flake8@v2
+        uses: julianwachholz/flake8-action@v2
         with:
+          checkName: "flake8"
           path: ./src
+          config: ./src/.flake8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   mypy:
     runs-on: ubuntu-latest
