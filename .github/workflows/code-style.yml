@@ -6,9 +6,6 @@ on:
 jobs:
   flake8:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -16,9 +13,9 @@ jobs:
           fetch-depth: 0
       
       - name: Flake8 check
-        uses: valentijnscholten/flake8-your-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: py-actions/flake8@v2
+        with:
+          path: ./src
 
   mypy:
     runs-on: ubuntu-latest
@@ -27,7 +24,7 @@ jobs:
         working-directory: ./src
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - uses: actions/setup-python@v4
         with:
