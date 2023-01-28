@@ -1,9 +1,7 @@
-import json
 import sys
 from typing import Any, Dict, List
 
 import click
-
 import requests
 
 
