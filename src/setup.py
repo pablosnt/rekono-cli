@@ -14,9 +14,9 @@ with open(os.path.join(current_directory, 'requirements.txt'), 'r') as requireme
 
 setup(
     name='rekono-cli',
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     version=VERSION,
-    description='CLI to manage Rekono',
+    description='CLI to make requests to Rekono API',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Pablo Santiago López',
