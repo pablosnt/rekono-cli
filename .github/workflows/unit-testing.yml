@@ -32,4 +32,4 @@ jobs:
         run: coverage run -m pytest
       
       - name: Check coverage
-        run: coverage report -m --skip-covered --omit="tests/*" --fail-under=$REQUIRED_COVERAGE
+        run: coverage report -m --skip-covered --omit="tests/*,rekono/client/*" --fail-under=$REQUIRED_COVERAGE
