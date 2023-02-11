@@ -1,1 +1,1 @@
-'''Definition of CLI commands.'''
+'''Rekono CLI commands.'''

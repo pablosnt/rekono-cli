@@ -1,4 +1,4 @@
-'''Command to perform Rekono API requests.'''
+'''Command to perform standard Rekono API requests.'''
 
 import click
 

@@ -39,6 +39,11 @@ class ApiTest(RekonoCommandTest):
             ['post', '-b', json.dumps(RekonoMock.data), '-h', 'key1=value1', '-h', 'key2=value2', '-n', 'entities'],
             output=self._json_body(RekonoMock.data)
         )
+        self._test(
+            ['post', '-b', 'invalid JSON value', 'entities'],
+            output='Invalid JSON format for body value',
+            exit_code=1
+        )
 
     @patch('rekono.framework.commands.Rekono', RekonoMock)
     def test_put(self) -> None:

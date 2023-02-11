@@ -1,1 +1,1 @@
-'''Rekono API module.'''
+'''Rekono API client.'''

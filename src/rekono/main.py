@@ -1,3 +1,5 @@
+'''Main Rekono CLI exectuable.'''
+
 import click
 
 from rekono import VERSION
