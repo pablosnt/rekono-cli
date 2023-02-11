@@ -47,7 +47,7 @@ class RekonoApiCommand(click.MultiCommand):
         Returns:
             Optional[click.Command]: Click command.
         '''
-        return getattr(self, cmd_name) if hasattr(self, cmd_name) else None  
+        return getattr(self, cmd_name) if hasattr(self, cmd_name) else None
 
     @staticmethod
     def _get_url(url: str) -> str:
@@ -68,7 +68,7 @@ class RekonoApiCommand(click.MultiCommand):
 
     @staticmethod
     def _parse_key_value_params(items: List[str]) -> Dict[str, str]:
-        '''Parse key=value options. 
+        '''Parse key=value options.
 
         Args:
             items (List[str]): List of key=value values.
@@ -115,7 +115,7 @@ class RekonoApiCommand(click.MultiCommand):
         return urlparse(endpoint).path
 
     @staticmethod
-    def _rekono_factory(url:  str, no_verify: bool = False, headers: List[str] = None) -> Rekono:
+    def _rekono_factory(url: str, no_verify: bool = False, headers: List[str] = None) -> Rekono:
         '''Create Rekono client entity.
 
         Args:
@@ -178,7 +178,12 @@ class RekonoApiCommand(click.MultiCommand):
         return content
 
     @staticmethod
-    def _display_responses(responses: List[Response], show_headers: bool, just_show_status_code: bool, quiet: bool) -> None:
+    def _display_responses(
+        responses: List[Response],
+        show_headers: bool,
+        just_show_status_code: bool,
+        quiet: bool
+    ) -> None:
         '''Display Rekono API responses via standard output.
 
         Args:
@@ -257,15 +262,15 @@ class RekonoApiCommand(click.MultiCommand):
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
         '''
-        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)      # Create Rekono client
-        response_or_responses = client.get(                                     # Make GET request to Rekono API
+        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)
+        response_or_responses = client.get(
             RekonoApiCommand._get_endpoint(endpoint),
             parameters=RekonoApiCommand._parse_key_value_params(parameters),
             all_pages=all_pages
         )
         responses = response_or_responses if isinstance(response_or_responses, list) else [response_or_responses]
-        RekonoApiCommand._display_responses(responses, show_headers, just_show_status_code, quiet)  # Display responses
-        RekonoApiCommand._save_output(responses, json_output)                   # Write content in JSON file
+        RekonoApiCommand._display_responses(responses, show_headers, just_show_status_code, quiet)
+        RekonoApiCommand._save_output(responses, json_output)
 
     @click.command(help='POST request to Rekono API')
     @endpoint_argument
@@ -301,11 +306,10 @@ class RekonoApiCommand(click.MultiCommand):
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
         '''
-        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)      # Create Rekono client
-        # Make POST request to Rekono API
+        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)
         response = client.post(RekonoApiCommand._get_endpoint(endpoint), RekonoApiCommand._get_body(body))
-        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet) # Display responses
-        RekonoApiCommand._save_output([response], json_output)                  # Write content in JSON file
+        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
+        RekonoApiCommand._save_output([response], json_output)
 
     @click.command(help='PUT request to Rekono API')
     @endpoint_argument
@@ -341,11 +345,10 @@ class RekonoApiCommand(click.MultiCommand):
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
         '''
-        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)      # Create Rekono client
-        # Make PUT request to Rekono API
+        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)
         response = client.put(RekonoApiCommand._get_endpoint(endpoint), RekonoApiCommand._get_body(body))
-        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet) # Display responses
-        RekonoApiCommand._save_output([response], json_output)                  # Write content in JSON file
+        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
+        RekonoApiCommand._save_output([response], json_output)
 
     @click.command(help='DELETE request to Rekono API')
     @endpoint_argument
@@ -375,6 +378,6 @@ class RekonoApiCommand(click.MultiCommand):
             just_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
         '''
-        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)      # Create Rekono client
-        response = client.delete(RekonoApiCommand._get_endpoint(endpoint))      # Make DELETE request to Rekono API
-        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet) # Display responses
+        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)
+        response = client.delete(RekonoApiCommand._get_endpoint(endpoint))
+        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
