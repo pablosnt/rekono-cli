@@ -14,12 +14,12 @@ from tests.mock import RekonoMock
 class RekonoCommandTest(TestCase):
     '''Framework for unit testing of Rekono CLI.'''
 
-    command = None                                                              # CLI command to test
+    command: Optional[click.BaseCommand] = None                                 # CLI command to test
 
     def _test(
         self,
         arguments: List[str],
-        output: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None,
+        output: Optional[str] = None,
         exit_code: int = 0,
         json_file: Optional[str] = None,
         invalid_url: bool = False
@@ -28,11 +28,13 @@ class RekonoCommandTest(TestCase):
 
         Args:
             arguments (List[str]): Command arguments
-            output (Optional[Union[Dict[str, Any], List[Dict[str, Any]]]], optional): Expected output. Defaults to None.
+            output (Optional[str], optional): Expected output. Defaults to None.
             exit_code (int, optional): Expected HTTP status code. Defaults to 0.
             json_file (Optional[str], optional): JSON file where the output is saved. Defaults to None.
             invalid_url (bool, optional): Test command with invalid URL option. Defaults to False.
         '''
+        if not self.command:                                                    # Check CLI command
+            return
         credential = 'test'
         runner = CliRunner()                                                    # Create CLI runner for testing
         input_value = f'{credential}\n{credential}\n'                           # Input value with basic credentials

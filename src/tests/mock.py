@@ -41,7 +41,7 @@ class RekonoMock:
         response = Response()
         response.request = Request(method=method, url=self.url + '/api/entities/').prepare()    # Set related request
         response.status_code = status_code
-        response.headers = self.headers
+        response.headers = self.headers                                         # type: ignore
         response._content = json.dumps(content, ensure_ascii=True, indent=4).encode() if content else None  # Set body
         return response
 
