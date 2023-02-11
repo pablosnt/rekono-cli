@@ -2,9 +2,10 @@
 
 import json
 import os
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, Union
 from unittest import TestCase
 
+import click
 from click.testing import CliRunner
 
 from tests.mock import RekonoMock
@@ -18,18 +19,18 @@ class RekonoCommandTest(TestCase):
     def _test(
         self,
         arguments: List[str],
-        output: Union[Dict[str, Any], List[Dict[str, Any]]] = None,
+        output: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None,
         exit_code: int = 0,
-        json_file: str = None,
+        json_file: Optional[str] = None,
         invalid_url: bool = False
     ) -> None:
         '''Test Rekono CLI command.
 
         Args:
             arguments (List[str]): Command arguments
-            output (Union[Dict[str, Any], List[Dict[str, Any]]], optional): Expected command output. Defaults to None.
+            output (Optional[Union[Dict[str, Any], List[Dict[str, Any]]]], optional): Expected output. Defaults to None.
             exit_code (int, optional): Expected HTTP status code. Defaults to 0.
-            json_file (str, optional): JSON file where the output is saved. Defaults to None.
+            json_file (Optional[str], optional): JSON file where the output is saved. Defaults to None.
             invalid_url (bool, optional): Test command with invalid URL option. Defaults to False.
         '''
         credential = 'test'
@@ -38,7 +39,8 @@ class RekonoCommandTest(TestCase):
         prefix = f'Username: {credential}\nPassword: \n'                        # Prefix for expected output
         if invalid_url:                                                         # Invalid URL is enabled
             input_value += f'{RekonoMock.url}\n'                                # Add URL as input value
-            prefix += f'URL is invalid\nURL: {RekonoMock.url}\n'                # Add invalid URL message to output
+            # Add invalid URL message to output
+            prefix += f'{click.style("URL is invalid", fg="red")}\nURL: {RekonoMock.url}\n'
         result = runner.invoke(self.command, arguments, input=input_value)      # Invoke CLI command
         terminal_output = prefix + (f'{output}\n' if output else '')            # Expected CLI command
         self.assertEqual(exit_code, result.exit_code)

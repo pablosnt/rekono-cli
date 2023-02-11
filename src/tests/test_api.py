@@ -3,6 +3,8 @@
 import json
 from unittest.mock import patch
 
+import click
+
 from rekono.commands.api import api
 from tests.framework import RekonoCommandTest
 from tests.mock import RekonoMock
@@ -53,7 +55,7 @@ class ApiTest(RekonoCommandTest):
         )
         self._test(                                                             # Test command with invalid body option
             ['post', '-b', 'invalid JSON value', 'entities'],
-            output='Invalid JSON format for body value',
+            output=click.style('Invalid JSON format for body value', fg='red'),
             exit_code=1
         )
 

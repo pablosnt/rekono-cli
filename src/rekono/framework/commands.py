@@ -196,10 +196,7 @@ class RekonoApiCommand(click.MultiCommand):
         if just_show_status_code or show_headers:                               # Headers or status should be displayed
             for response in responses:                                          # For each response
                 if just_show_status_code:                                       # Just display status code
-                    click.echo(
-                        click.style(response.status_code, fg='red' if response.status_code >= 400 else 'green'),
-                        color=True
-                    )
+                    click.echo(response.status_code)
                 elif show_headers:                                              # Show response headers
                     click.echo()
                     # Display HTTP request and response summary

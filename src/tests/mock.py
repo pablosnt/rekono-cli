@@ -1,7 +1,7 @@
 '''Rekono API client mock.'''
 
 import json
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, Union
 
 from requests.models import Request, Response
 
@@ -26,14 +26,14 @@ class RekonoMock:
         self,
         method: str,
         status_code: int,
-        content: Union[Dict[str, Any], List[Dict[str, Any]]] = None
+        content: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]] = None
     ) -> Response:
         '''Create moked responses for Rekono API.
 
         Args:
             method (str): HTTP method used in the HTTP request.
             status_code (int): Response status code.
-            content (Union[Dict[str, Any], List[Dict[str, Any]]], optional): Response content. Defaults to None.
+            content (Optional[Union[Dict[str, Any], List[Dict[str, Any]]]], optional): Response content. Defaults to None.  # noqa: E501
 
         Returns:
             Response: HTTP response.
