@@ -1,5 +1,6 @@
 '''Rekono API.'''
 
+import json
 from typing import Any, Callable, Dict, List, Optional, Union
 
 import requests
@@ -16,9 +17,9 @@ class Rekono:
     def __init__(
         self,
         url: str,
-        token: str = None,
-        username: str = None,
-        password: str = None,
+        token: Optional[str] = None,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
         headers: Dict[str, str] = {},
         verify: bool = False
     ) -> None:
@@ -26,9 +27,9 @@ class Rekono:
 
         Args:
             url (str): Base Rekono URL.
-            token (str, optional): Authentication API token (required if no credentials provided). Defaults to None.
-            username (str, optional): Username for authentication (required if no token provided). Defaults to None.
-            password (str, optional): Password for authentication (required if no token provided). Defaults to None.
+            token (Optional[str], optional): API token (required if no credentials provided). Defaults to None.
+            username (Optional[str], optional): Username (required if no token provided). Defaults to None.
+            password (Optional[str], optional): Password (required if no token provided). Defaults to None.
             headers (Dict[str, str], optional): Extra HTTP request headers. Defaults to {}.
             verify (bool, optional): Indicates if TLS verification should be performed or not. Defaults to False.
 
@@ -46,7 +47,7 @@ class Rekono:
             self.token = token
         elif username and password:
             # Make basic authentication to get the API token
-            response = self.post('/api/api-token/', {'username': username, 'password': password})
+            response = self.post('/api/api-token/', json.dumps({'username': username, 'password': password}))
             if response.status_code == 200:
                 self.token = response.json().get('token')
             else:                                                               # Invalid credentials
@@ -78,7 +79,7 @@ class Rekono:
         method: Callable,
         endpoint: str,
         parameters: Optional[Dict[str, Any]] = None,
-        body: Optional[Dict[str, Any]] = None
+        body: Optional[str] = None
     ) -> Response:
         '''Perform HTTP request to Rekono API.
 
@@ -86,7 +87,7 @@ class Rekono:
             method (Callable): HTTP method to use.
             endpoint (str): Endpoint to call.
             parameters (Optional[Dict[str, Any]], optional): Query parameters to send. Defaults to None.
-            body (Optional[Dict[str, Any]], optional): Body to send. Defaults to None.
+            body (Optional[str], optional): Body to send. Defaults to None.
 
         Returns:
             Response: HTTP response.
@@ -100,7 +101,7 @@ class Rekono:
     def get(
         self,
         endpoint: str,
-        parameters: Optional[Dict[str, Any]] = {},
+        parameters: Dict[str, Any] = {},
         all_pages: bool = False
     ) -> Union[List[Response], Response]:
         '''GET request to Rekono API.
@@ -131,24 +132,24 @@ class Rekono:
                 break
         return responses
 
-    def post(self, endpoint: str, body: Optional[Dict[str, Any]] = None) -> Response:
+    def post(self, endpoint: str, body: Optional[str] = None) -> Response:
         '''POST request to Rekono API.
 
         Args:
             endpoint (str): Endpoint to call.
-            body (Optional[Dict[str, Any]], optional): Body to send. Defaults to None.
+            body (Optional[str], optional): Body to send. Defaults to None.
 
         Returns:
             Response: HTTP response.
         '''
         return self._request(self.session.post, endpoint, body=body)            # Perform POST request
 
-    def put(self, endpoint: str, body: Optional[Dict[str, Any]] = None) -> Response:
+    def put(self, endpoint: str, body: Optional[str] = None) -> Response:
         '''PUT request to Rekono API.
 
         Args:
             endpoint (str): Endpoint to call.
-            body (Optional[Dict[str, Any]], optional): Body to send. Defaults to None.
+            body (Optional[str], optional): Body to send. Defaults to None.
 
         Returns:
             Response: HTTP response.

@@ -61,7 +61,7 @@ class RekonoApiCommand(click.MultiCommand):
         '''
         parser = urlparse(url)                                                  # Parse provided URL
         if not parser.netloc:                                                   # Invalid URL
-            click.echo('URL is invalid', err=True, color='red')
+            click.echo(click.style('URL is invalid', fg='red'), err=True, color=True)
             url = click.prompt('URL', type=str)                                 # Ask user for base URL
             return RekonoApiCommand._get_url(url)                               # Retry URL validation
         return f'{parser.scheme or "https"}://{parser.netloc}'
@@ -84,21 +84,20 @@ class RekonoApiCommand(click.MultiCommand):
         return data
 
     @staticmethod
-    def _get_body(body: str) -> str:
+    def _get_body(body: Optional[str]) -> Optional[str]:
         '''Validate body value to be sent via HTTP.
 
         Args:
-            body (str): Body value.
+            body (Optional[str]): Body value.
 
         Returns:
-            str: Validated body value.
+            Optional[str]: Validated body value.
         '''
         if body:
             try:
                 json.loads(body)                                                # Try to parse body value
             except json.decoder.JSONDecodeError:                                # Invalid body value
-                # TOTEST
-                click.echo('Invalid JSON format for body value', err=True, color='red')
+                click.echo(click.style('Invalid JSON format for body value', fg='red'), err=True, color=True)
                 sys.exit(1)
         return body
 
@@ -115,13 +114,13 @@ class RekonoApiCommand(click.MultiCommand):
         return urlparse(endpoint).path
 
     @staticmethod
-    def _rekono_factory(url: str, no_verify: bool = False, headers: List[str] = None) -> Rekono:
+    def _rekono_factory(url: str, no_verify: bool = False, headers: List[str] = []) -> Rekono:
         '''Create Rekono client entity.
 
         Args:
             url (str): Base Rekono URL.
             no_verify (bool, optional): Disable TLS validation. Defaults to False.
-            headers (List[str], optional): Extra HTTP request headers. Defaults to None.
+            headers (List[str], optional): Extra HTTP request headers. Defaults to [].
 
         Returns:
             Rekono: Rekono API client.
@@ -137,7 +136,7 @@ class RekonoApiCommand(click.MultiCommand):
         username = click.prompt('Username', type=str)                           # Ask for username
         password = click.prompt('Password', type=str, hide_input=True)          # Ask for password
         if not username or not password:                                        # Invalid credentials
-            click.echo('Username and password are required', err=True, color='red')
+            click.echo(click.style('Username and password are required', fg='red'), err=True, color=True)
             return RekonoApiCommand._rekono_factory(url, not no_verify, headers)    # Retry Rekono client creation
         try:
             return Rekono(                                                      # Create Rekono API client
@@ -148,7 +147,7 @@ class RekonoApiCommand(click.MultiCommand):
                 verify=not no_verify
             )
         except AuthenticationError as ex:                                       # Invalid basic credentials
-            click.echo(ex.message, err=True, color='red')
+            click.echo(click.style(ex.message, fg='red'), err=True, color=True)
             sys.exit(1)
 
     @staticmethod
@@ -197,7 +196,10 @@ class RekonoApiCommand(click.MultiCommand):
         if just_show_status_code or show_headers:                               # Headers or status should be displayed
             for response in responses:                                          # For each response
                 if just_show_status_code:                                       # Just display status code
-                    click.echo(response.status_code, color='red' if response.status_code >= 400 else 'green')
+                    click.echo(
+                        click.style(response.status_code, fg='red' if response.status_code >= 400 else 'green'),
+                        color=True
+                    )
                 elif show_headers:                                              # Show response headers
                     click.echo()
                     # Display HTTP request and response summary
@@ -236,6 +238,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
+    @staticmethod
     def get(
         endpoint: str,
         url: str,
@@ -282,6 +285,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
+    @staticmethod
     def post(
         endpoint: str,
         url: str,
@@ -321,6 +325,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
+    @staticmethod
     def put(
         endpoint: str,
         url: str,
@@ -358,6 +363,7 @@ class RekonoApiCommand(click.MultiCommand):
     @show_headers_option
     @status_code_option
     @quiet_option
+    @staticmethod
     def delete(
         endpoint: str,
         url: str,
