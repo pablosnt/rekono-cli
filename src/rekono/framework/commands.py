@@ -238,8 +238,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
-    @staticmethod
-    def get(
+    def get(                                                                    # type: ignore[misc]
         endpoint: str,
         url: str,
         headers: List[str],
@@ -285,8 +284,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
-    @staticmethod
-    def post(
+    def post(                                                                   # type: ignore[misc]
         endpoint: str,
         url: str,
         headers: List[str],
@@ -325,8 +323,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
-    @staticmethod
-    def put(
+    def put(                                                                    # type: ignore[misc]
         endpoint: str,
         url: str,
         headers: List[str],
@@ -363,8 +360,7 @@ class RekonoApiCommand(click.MultiCommand):
     @show_headers_option
     @status_code_option
     @quiet_option
-    @staticmethod
-    def delete(
+    def delete(                                                                 # type: ignore[misc]
         endpoint: str,
         url: str,
         headers: List[str],
