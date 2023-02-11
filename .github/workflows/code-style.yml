@@ -6,9 +6,6 @@ on:
 jobs:
   flake8:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -19,8 +16,8 @@ jobs:
         uses: julianwachholz/flake8-action@v2
         with:
           checkName: "flake8"
-          # path: ./src
-          # config: ./src/.flake8
+          path: ./src
+          config: ./src/.flake8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

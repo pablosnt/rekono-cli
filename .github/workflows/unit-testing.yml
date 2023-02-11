@@ -8,7 +8,7 @@ on:
       - 'src/requirements.txt'
 
 env:
-  REQUIRED_COVERAGE: 90
+  REQUIRED_COVERAGE: 95
 
 jobs:
   unit-testing:
