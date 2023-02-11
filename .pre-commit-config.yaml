@@ -17,4 +17,4 @@ repos:
       rev: 4.0.1
       hooks:
           - id: flake8
-            args: ["--config", "src/.flake8", "src/"]
+            args: ["--config", "src/.flake8", "src/rekono/", "src/tests/"]
