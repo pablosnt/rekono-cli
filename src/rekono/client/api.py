@@ -1,6 +1,5 @@
 '''Rekono API.'''
 
-import json
 from typing import Any, Callable, Dict, List, Optional, Union
 
 import requests
@@ -8,7 +7,7 @@ from requests.adapters import HTTPAdapter, Retry
 from requests.exceptions import RetryError, Timeout
 from requests.models import Response
 
-from rekono.client.exceptions import AuthenticationError
+from rekono.client.exceptions import AuthenticationError, AuthorizationError
 
 
 class Rekono:
@@ -18,8 +17,6 @@ class Rekono:
         self,
         url: str,
         token: Optional[str] = None,
-        username: Optional[str] = None,
-        password: Optional[str] = None,
         headers: Dict[str, str] = {},
         verify: bool = False
     ) -> None:
@@ -27,9 +24,7 @@ class Rekono:
 
         Args:
             url (str): Base Rekono URL.
-            token (Optional[str], optional): API token (required if no credentials provided). Defaults to None.
-            username (Optional[str], optional): Username (required if no token provided). Defaults to None.
-            password (Optional[str], optional): Password (required if no token provided). Defaults to None.
+            token (Optional[str], optional): API token for Rekono authentication. Defaults to None.
             headers (Dict[str, str], optional): Extra HTTP request headers. Defaults to {}.
             verify (bool, optional): Indicates if TLS verification should be performed or not. Defaults to False.
 
@@ -39,23 +34,15 @@ class Rekono:
         self.url = url
         self.verify = verify
         self.headers = headers
-        self.session = requests.Session()
-        # Configure retries of HTTP requests
-        retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[429, 500, 502, 503, 504])
-        self.session.mount(self.url, HTTPAdapter(max_retries=retries))
-        if token:
-            self.token = token
-        elif username and password:
-            # Make basic authentication to get the API token
-            response = self.post('/api/api-token/', json.dumps({'username': username, 'password': password}))
-            if response.status_code == 200:
-                self.token = response.json().get('token')
-            else:                                                               # Invalid credentials
-                raise AuthenticationError('Unauthorized: Invalid username or password', response)
+        self.token = token
         self.headers.update({                                                   # Configure HTTP request headers
             'Authorization': f'Token {self.token}',
             'Content-Type': 'application/json'
         })
+        self.session = requests.Session()
+        # Configure retries of HTTP requests
+        retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[429, 500, 502, 503, 504])
+        self.session.mount(self.url, HTTPAdapter(max_retries=retries))
 
     def _get_endpoint(self, endpoint: str) -> str:
         '''Get valid Rekono endpoint from the provided value.
@@ -89,14 +76,23 @@ class Rekono:
             parameters (Optional[Dict[str, Any]], optional): Query parameters to send. Defaults to None.
             body (Optional[str], optional): Body to send. Defaults to None.
 
+        Raises:
+            AuthenticationError: Unauthenticated, API token is invalid
+            AuthorizationError: Unauthorizated, user doesn't have required permissions.
+
         Returns:
             Response: HTTP response.
         '''
         url = self.url + self._get_endpoint(endpoint)                           # Prepare URL to call
         try:
-            return method(url, params=parameters, data=body, headers=self.headers, verify=self.verify)  # Attempt one
+            response = method(url, params=parameters, data=body, headers=self.headers, verify=self.verify)  # Attempt 1
         except (ConnectionError, RetryError, Timeout):                          # Unexpected error during HTTP request
-            return method(url, params=parameters, data=body, headers=self.headers, verify=self.verify)  # Attempt two
+            response = method(url, params=parameters, data=body, headers=self.headers, verify=self.verify)  # Attempt 2
+        if response.status_code == 401:
+            raise AuthenticationError(response)
+        elif response.status_code == 403:
+            raise AuthorizationError(response)
+        return response
 
     def get(
         self,
@@ -110,6 +106,10 @@ class Rekono:
             endpoint (str): Endpoint to call.
             parameters (Optional[Dict[str, Any]], optional): Query parameters to send. Defaults to {}.
             all_pages (bool, optional): Iteration over all API pages is required. Defaults to False.
+
+        Raises:
+            AuthenticationError: Unauthenticated, API token is invalid
+            AuthorizationError: Unauthorizated, user doesn't have required permissions.
 
         Returns:
             Union[List[Response], Response]: HTTP responses if all pages is enabled or one HTTP response if not.
@@ -139,6 +139,10 @@ class Rekono:
             endpoint (str): Endpoint to call.
             body (Optional[str], optional): Body to send. Defaults to None.
 
+        Raises:
+            AuthenticationError: Unauthenticated, API token is invalid
+            AuthorizationError: Unauthorizated, user doesn't have required permissions.
+
         Returns:
             Response: HTTP response.
         '''
@@ -151,6 +155,10 @@ class Rekono:
             endpoint (str): Endpoint to call.
             body (Optional[str], optional): Body to send. Defaults to None.
 
+        Raises:
+            AuthenticationError: Unauthenticated, API token is invalid
+            AuthorizationError: Unauthorizated, user doesn't have required permissions.
+
         Returns:
             Response: HTTP response.
         '''
@@ -161,6 +169,10 @@ class Rekono:
 
         Args:
             endpoint (str): Endpoint to call.
+
+        Raises:
+            AuthenticationError: Unauthenticated, API token is invalid
+            AuthorizationError: Unauthorizated, user doesn't have required permissions.
 
         Returns:
             Response: HTTP response.

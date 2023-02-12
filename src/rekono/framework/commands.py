@@ -11,7 +11,6 @@ import requests
 from requests.models import Response
 
 from rekono.client.api import Rekono
-from rekono.client.exceptions import AuthenticationError
 from rekono.framework.arguments import endpoint_argument
 from rekono.framework.options import (all_pages_option, body_option,
                                       headers_option, json_option,
@@ -125,30 +124,15 @@ class RekonoApiCommand(click.MultiCommand):
         Returns:
             Rekono: Rekono API client.
         '''
-        api_token = os.getenv(RekonoApiCommand.api_token_env)                   # Get API token from environment
-        if api_token:                                                           # API token provided
-            return Rekono(                                                      # Create Rekono API client
-                RekonoApiCommand._get_url(url),                                 # Get valid Rekono URL
-                token=api_token,
-                headers=RekonoApiCommand._parse_key_value_params(headers),      # Get HTTP headers
-                verify=not no_verify
-            )
-        username = click.prompt('Username', type=str)                           # Ask for username
-        password = click.prompt('Password', type=str, hide_input=True)          # Ask for password
-        if not username or not password:                                        # Invalid credentials
-            click.echo(click.style('Username and password are required', fg='red'), err=True, color=True)
-            return RekonoApiCommand._rekono_factory(url, not no_verify, headers)    # Retry Rekono client creation
-        try:
-            return Rekono(                                                      # Create Rekono API client
-                RekonoApiCommand._get_url(url),                                 # Get valid Rekono URL
-                username=username,
-                password=password,
-                headers=RekonoApiCommand._parse_key_value_params(headers),      # Get HTTP headers
-                verify=not no_verify
-            )
-        except AuthenticationError as ex:                                       # Invalid basic credentials
-            click.echo(click.style(ex.message, fg='red'), err=True, color=True)
-            sys.exit(1)
+        token = os.getenv(RekonoApiCommand.api_token_env)                       # Get API token from environment
+        if not token:                                                           # API token is not provided
+            token = click.prompt('API token', type=str, hide_input=True)        # Ask for API token
+        return Rekono(                                                          # Create Rekono API client
+            RekonoApiCommand._get_url(url),                                     # Get valid Rekono URL
+            token=token,
+            headers=RekonoApiCommand._parse_key_value_params(headers),          # Get HTTP headers
+            verify=not no_verify
+        )
 
     @staticmethod
     def _get_data_from_responses(responses: List[Response]) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
