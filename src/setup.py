@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 from rekono import VERSION
 
 current_directory = os.path.dirname(os.path.realpath(__file__))
-with open(os.path.join(current_directory, 'README.md'), 'r') as readme:
+with open(os.path.join(current_directory, '..', 'README.md'), 'r') as readme:
     long_description = readme.read()
 
 with open(os.path.join(current_directory, 'requirements.txt'), 'r') as requirements:
@@ -14,9 +14,9 @@ with open(os.path.join(current_directory, 'requirements.txt'), 'r') as requireme
 
 setup(
     name='rekono-cli',
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     version=VERSION,
-    description='CLI to manage Rekono',
+    description='CLI to make requests to Rekono API',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Pablo Santiago López',

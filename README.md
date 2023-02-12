@@ -44,25 +44,19 @@ pip3 install rekono-cli
 2. Install the dependencies:
 
     ```
-    pip3 install -r requirements.txt
+    pip3 install -r src/requirements.txt
     ```
 
 3. Execute the CLI:
 
     ```
-    python3 rekono/main.py --help
+    python3 src/rekono/main.py --help
     ```
 
 
 ## Configuration
 
-You can use the following environment variables to configure the Rekono CLI:
-
-- `REKONO_HOME`: Directory for Rekono installation. By default, Rekono will be installed in `/opt/rekono`
-- `REKONO_URL`: Rekono URL in format `<schema>://<host>` to be used in API requests
-- `REKONO_TOKEN`: API token for Rekono API authentication
-
-Check the [Rekono configuration](https://github.com/pablosnt/rekono/wiki/Configuration) for more information.
+You can use the `REKONO_TOKEN` environment variable to configure the API token for Rekono authentication.
 
 
 ## Support
@@ -83,4 +77,4 @@ If you need more specific help, you can also mail rekono.project@gmail.com.
 
 ## License
 
-Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](./LICENSE.md)
+Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](../LICENSE.md)

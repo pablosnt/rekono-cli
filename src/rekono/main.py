@@ -1,17 +1,18 @@
+'''Main Rekono CLI exectuable.'''
+
 import click
 
 from rekono import VERSION
-from rekono.api.commands import api
+from rekono.commands.api import api
 
 
 @click.group()
 @click.version_option(version=VERSION, message='%(version)s')
 def rekono():
     '''Rekono CLI.'''
-    pass
 
 
-# Add Rekono commands
+# Add CLI commands
 rekono.add_command(api)
 
 
