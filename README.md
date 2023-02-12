@@ -56,9 +56,7 @@ pip3 install rekono-cli
 
 ## Configuration
 
-You can use the following environment variables to configure the Rekono CLI:
-
-- `REKONO_TOKEN`: API token for Rekono API authentication
+You can use the `REKONO_TOKEN` environment variable to configure the API token for Rekono authentication.
 
 
 ## Support
@@ -79,4 +77,4 @@ If you need more specific help, you can also mail rekono.project@gmail.com.
 
 ## License
 
-Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](./LICENSE.md)
+Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](../LICENSE.md)
