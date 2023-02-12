@@ -4,6 +4,7 @@ import json
 from typing import Any, Dict, List, Optional, Union
 
 from requests.models import Request, Response
+from requests.structures import CaseInsensitiveDict
 
 
 class RekonoMock:
@@ -41,7 +42,7 @@ class RekonoMock:
         response = Response()
         response.request = Request(method=method, url=self.url + '/api/entities/').prepare()    # Set related request
         response.status_code = status_code
-        response.headers = self.headers                                         # type: ignore
+        response.headers = CaseInsensitiveDict(self.headers)
         response._content = json.dumps(content, ensure_ascii=True, indent=4).encode() if content else None  # Set body
         return response
 

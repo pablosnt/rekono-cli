@@ -224,6 +224,7 @@ class RekonoApiCommand(click.MultiCommand):
         with open(filepath, 'w', encoding='utf-8') as file:                     # Open JSON file
             json.dump(data, file, ensure_ascii=True, indent=4)                  # Write content in JSON file
 
+    @staticmethod
     @click.command(help='GET request to Rekono API')
     @endpoint_argument
     @url_option
@@ -235,7 +236,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
-    def get(                                                                    # type: ignore[misc]
+    def get(
         endpoint: str,
         url: str,
         headers: List[str],
@@ -271,6 +272,7 @@ class RekonoApiCommand(click.MultiCommand):
         RekonoApiCommand._display_responses(responses, show_headers, just_show_status_code, quiet)
         RekonoApiCommand._save_output(responses, json_output)
 
+    @staticmethod
     @click.command(help='POST request to Rekono API')
     @endpoint_argument
     @url_option
@@ -281,7 +283,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
-    def post(                                                                   # type: ignore[misc]
+    def post(
         endpoint: str,
         url: str,
         headers: List[str],
@@ -310,6 +312,7 @@ class RekonoApiCommand(click.MultiCommand):
         RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
         RekonoApiCommand._save_output([response], json_output)
 
+    @staticmethod
     @click.command(help='PUT request to Rekono API')
     @endpoint_argument
     @url_option
@@ -320,7 +323,7 @@ class RekonoApiCommand(click.MultiCommand):
     @status_code_option
     @quiet_option
     @json_option
-    def put(                                                                    # type: ignore[misc]
+    def put(
         endpoint: str,
         url: str,
         headers: List[str],
@@ -349,6 +352,7 @@ class RekonoApiCommand(click.MultiCommand):
         RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
         RekonoApiCommand._save_output([response], json_output)
 
+    @staticmethod
     @click.command(help='DELETE request to Rekono API')
     @endpoint_argument
     @url_option
@@ -357,7 +361,7 @@ class RekonoApiCommand(click.MultiCommand):
     @show_headers_option
     @status_code_option
     @quiet_option
-    def delete(                                                                 # type: ignore[misc]
+    def delete(
         endpoint: str,
         url: str,
         headers: List[str],
