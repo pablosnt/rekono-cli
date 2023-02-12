@@ -35,10 +35,9 @@ class RekonoCommandTest(TestCase):
         '''
         if not self.command:                                                    # Check CLI command
             return
-        credential = 'test'
         runner = CliRunner()                                                    # Create CLI runner for testing
-        input_value = f'{credential}\n{credential}\n'                           # Input value with basic credentials
-        prefix = f'Username: {credential}\nPassword: \n'                        # Prefix for expected output
+        input_value = 'test\n'                                                  # Input value with API token
+        prefix = 'API token: \n'                                                # Prefix for expected output
         if invalid_url:                                                         # Invalid URL is enabled
             input_value += f'{RekonoMock.url}\n'                                # Add URL as input value
             # Add invalid URL message to output

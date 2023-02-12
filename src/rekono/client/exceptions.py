@@ -1,10 +1,14 @@
 '''Rekono exceptions.'''
 
+from typing import IO, Optional
+
+import click
+from click.exceptions import ClickException
 from requests.models import Response
 
 
-class AuthenticationError(Exception):
-    '''Authentication error during authentication attempt.'''
+class RekonoException(ClickException):
+    '''Base exception for Rekono client'''
 
     def __init__(self, message: str, response: Response) -> None:
         '''Exception constructor.
@@ -16,3 +20,37 @@ class AuthenticationError(Exception):
         self.response = response
         self.message = message
         super().__init__(message)
+
+    def show(self, file: Optional[IO] = None) -> None:
+        '''Show exception message using click.
+
+        Args:
+            file (Optional[IO], optional): Defaults to None.
+        '''
+        click.echo(click.style(self.message, fg='red'), err=True, color=True)
+
+
+class AuthenticationError(RekonoException):
+    '''Authentication error during Rekono API request.'''
+
+    def __init__(self, response: Response) -> None:
+        '''Exception constructor.
+
+        Args:
+            response (Response): Http response that causes the error.
+        '''
+        self.message = 'Unauthorized: Invalid Rekono API token'
+        super().__init__(self.message, response)
+
+
+class AuthorizationError(RekonoException):
+    '''Authorization error during Rekono API request.'''
+
+    def __init__(self, response: Response) -> None:
+        '''Exception constructor.
+
+        Args:
+            response (Response): Http response that causes the error.
+        '''
+        self.message = 'Unauthorized: User doesn\'t have required permissions to perform this action'
+        super().__init__(self.message, response)

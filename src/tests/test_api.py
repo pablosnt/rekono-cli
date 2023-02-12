@@ -22,11 +22,8 @@ class ApiTest(RekonoCommandTest):
             ['get', '-u', RekonoMock.url, '-p', 'key1=value1', '-p', 'key2=value2', '-n', 'entities/1'],
             output=self._json_body(RekonoMock.data)
         )
-        self._test(                                                             # Test command with invalid URL option
-            ['get', '-u', 'invalidurl', 'entities/1'],
-            output=self._json_body(RekonoMock.data),
-            invalid_url=True
-        )
+        # Test command with invalid URL option
+        self._test(['get', '-u', 'invalidurl', 'entities/1'], output=self._json_body(RekonoMock.data), invalid_url=True)
 
     @patch('rekono.framework.commands.Rekono.get', RekonoMock.get_multiple_entities)
     @patch('rekono.framework.commands.Rekono', RekonoMock)
