@@ -1,5 +1,7 @@
 '''Definition of CLI options.'''
 
+from typing import Callable, List
+
 import click
 
 url_option = click.option(                                                      # URL option
@@ -16,6 +18,12 @@ headers_option = click.option(                                                  
     help='HTTP header to send in format "<key>=value"'
 )
 
+no_verify_option = click.option(                                                # Option to disable TLS verification
+    '--no-verify', 'no_verify',
+    is_flag=True, default=False,
+    help='Disable TLS verification'
+)
+
 parameters_option = click.option(                                               # Request parameter option
     '-p', '--parameter', 'parameters',
     multiple=True, type=str,
@@ -25,14 +33,8 @@ parameters_option = click.option(                                               
 
 body_option = click.option(                                                     # Request body option
     '-b', '--body', 'body',
-    multiple=False, type=str, required=False,
-    help='HTTP body to send in JSON format'
-)
-
-no_verify_option = click.option(                                                # Option to disable TLS verification
-    '-n', '--no-verify', 'no_verify',
-    is_flag=True, default=False,
-    help='Disable TLS verification'
+    type=str, required=False,
+    help='HTTP body to send in JSON'
 )
 
 all_pages_option = click.option(                                                # Option to iterate over all API pages
@@ -42,19 +44,19 @@ all_pages_option = click.option(                                                
 )
 
 show_headers_option = click.option(                                             # Option to show response headers
-    '-S', '--show-headers', 'show_headers',
+    '-s', '--show-headers', 'show_headers',
     is_flag=True, default=False,
     help='Show response headers'
 )
 
-status_code_option = click.option(                                              # Option to only show response status
-    '-s', '--status-code', 'just_show_status_code',
+show_status_code_option = click.option(                                         # Option to only show response status
+    '--status-code', 'just_show_status_code',
     is_flag=True, default=False,
     help='Just show response status code'
 )
 
 quiet_option = click.option(                                                    # Option to don't show anything
-    '-q', '--quiet', 'quiet',
+    '--quiet', 'quiet',
     is_flag=True, default=False,
     help='Don\'t show anything from response'
 )
@@ -63,4 +65,11 @@ json_option = click.option(                                                     
     '-j', '--json', 'json_output',
     type=str, required=False,
     help='Save response data in JSON file'
+)
+
+tags_option = click.option(
+    '-t', '--tag', 'tags',
+    multiple=True, type=str,
+    required=False, default=[],
+    help='Related tags'
 )

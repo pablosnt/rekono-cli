@@ -1,9 +1,7 @@
-'''Definition of base features for CLI commands.'''
-
 import json
 import os
 import sys
-from typing import Any, Dict, List, Optional, Union
+from typing import Callable, Dict, List, Optional, Union
 from urllib.parse import urlparse
 
 import click
@@ -11,19 +9,32 @@ import requests
 from requests.models import Response
 
 from rekono.client.api import Rekono
-from rekono.framework.arguments import endpoint_argument
-from rekono.framework.options import (all_pages_option, body_option,
-                                      headers_option, json_option,
-                                      no_verify_option, parameters_option,
+from rekono.framework.options import (headers_option, no_verify_option,
                                       quiet_option, show_headers_option,
-                                      status_code_option, url_option)
+                                      show_status_code_option, url_option)
 
 
-class RekonoApiCommand(click.MultiCommand):
-    '''Base Rekono CLI command.'''
+class BaseCommand(click.MultiCommand):
+    '''Base Rekono CLI command for API requests.'''
 
     api_token_env = 'REKONO_TOKEN'                                              # Environment variable to set API token
-    commands = ['get', 'post', 'put', 'delete']                                 # List of CLI commands supported
+    commands = ['get', 'post', 'put', 'delete']                                 # Supported CLI commands
+    commands_mapping = {                                                        # Mapping between commands and methods
+        'get': 'get',
+        'post': 'post',
+        'put': 'put',
+        'delete': 'delete'
+    }
+    default_mapping = 'extra_post_entity'
+    help_messages = {
+        'get': 'GET request to Rekono API',
+        'post': 'POST request to Rekono API',
+        'put': 'PUT request to Rekono API',
+        'delete': 'DELETE request to Rekono API'
+    }
+    api_options = [url_option, headers_option, no_verify_option]
+    display_options = [show_headers_option, show_status_code_option, quiet_option]
+    entity_options: List[Callable] = []
 
     def list_commands(self, ctx: click.Context) -> List[str]:
         '''Return list of CLI commands.
@@ -34,7 +45,7 @@ class RekonoApiCommand(click.MultiCommand):
         Returns:
             List[str]: List of CLI commands.
         '''
-        return self.commands
+        return [command for command in self.commands if command in self.commands_mapping]
 
     def get_command(self, ctx: click.Context, cmd_name: str) -> Optional[click.Command]:
         '''Get CLI command by name.
@@ -46,10 +57,24 @@ class RekonoApiCommand(click.MultiCommand):
         Returns:
             Optional[click.Command]: Click command.
         '''
-        return getattr(self, cmd_name) if hasattr(self, cmd_name) else None
+        related_command_method = self.commands_mapping.get(cmd_name, self.default_mapping)
+        if cmd_name in self.commands and related_command_method and hasattr(self, related_command_method):
+            command: click.Command = getattr(self, related_command_method)
+            command.help = self.help_messages.get(cmd_name)
+            if related_command_method in ['post_entity', 'put_entity']:
+                self._apply_command_options(command, self.entity_options)
+            self._apply_command_options(command, self.api_options)
+            self._apply_command_options(command, self.display_options)
+            return command
+        return None
 
-    @staticmethod
-    def _get_url(url: str) -> str:
+    def _apply_command_options(self, command: Callable, options: List[Callable]) -> Callable:
+        for option in options:
+            command = option(command)
+        return command
+
+    @classmethod
+    def _get_url(cls, url: str) -> str:
         '''Get valid Rekono base URL from the user provided value.
 
         Args:
@@ -62,7 +87,7 @@ class RekonoApiCommand(click.MultiCommand):
         if not parser.netloc:                                                   # Invalid URL
             click.echo(click.style('URL is invalid', fg='red'), err=True, color=True)
             url = click.prompt('URL', type=str)                                 # Ask user for base URL
-            return RekonoApiCommand._get_url(url)                               # Retry URL validation
+            return cls._get_url(url)                                            # Retry URL validation
         return f'{parser.scheme or "https"}://{parser.netloc}'
 
     @staticmethod
@@ -112,8 +137,8 @@ class RekonoApiCommand(click.MultiCommand):
         '''
         return urlparse(endpoint).path
 
-    @staticmethod
-    def _rekono_factory(url: str, no_verify: bool = False, headers: List[str] = []) -> Rekono:
+    @classmethod
+    def _rekono_factory(cls, url: str, no_verify: bool = False, headers: List[str] = []) -> Rekono:
         '''Create Rekono client entity.
 
         Args:
@@ -124,13 +149,13 @@ class RekonoApiCommand(click.MultiCommand):
         Returns:
             Rekono: Rekono API client.
         '''
-        token = os.getenv(RekonoApiCommand.api_token_env)                       # Get API token from environment
+        token = os.getenv(cls.api_token_env)                                    # Get API token from environment
         if not token:                                                           # API token is not provided
             token = click.prompt('API token', type=str, hide_input=True)        # Ask for API token
         return Rekono(                                                          # Create Rekono API client
-            RekonoApiCommand._get_url(url),                                     # Get valid Rekono URL
+            cls._get_url(url),                                                  # Get valid Rekono URL
             token=token,
-            headers=RekonoApiCommand._parse_key_value_params(headers),          # Get HTTP headers
+            headers=cls._parse_key_value_params(headers),                       # Get HTTP headers
             verify=not no_verify
         )
 
@@ -160,8 +185,9 @@ class RekonoApiCommand(click.MultiCommand):
                 content.append(body)                                            # Save content
         return content
 
-    @staticmethod
+    @classmethod
     def _display_responses(
+        cls,
         responses: List[Response],
         show_headers: bool,
         just_show_status_code: bool,
@@ -188,14 +214,14 @@ class RekonoApiCommand(click.MultiCommand):
                     for header, value in response.headers.items():
                         click.echo(f'{header}: {value}')                        # Display HTTP response headers
                     click.echo()
-                    data = RekonoApiCommand._get_data_from_responses([response])    # Get content from response
+                    data = cls._get_data_from_responses([response])             # Get content from response
                     click.echo(json.dumps(data, ensure_ascii=True, indent=4))   # Display content via standard output
         else:                                                                   # Standard display options
-            data = RekonoApiCommand._get_data_from_responses(responses)         # Get content from responses
+            data = cls._get_data_from_responses(responses)                      # Get content from responses
             click.echo(json.dumps(data, ensure_ascii=True, indent=4))           # Display content via standard output
 
-    @staticmethod
-    def _save_output(responses: List[Response], filepath: Optional[str]) -> None:
+    @classmethod
+    def _save_output(cls, responses: List[Response], filepath: Optional[str]) -> None:
         '''Save responses content in JSON file.
 
         Args:
@@ -204,167 +230,6 @@ class RekonoApiCommand(click.MultiCommand):
         '''
         if not filepath:                                                        # JSON filepath is provided
             return
-        data = RekonoApiCommand._get_data_from_responses(responses)             # Get data from responses
+        data = cls._get_data_from_responses(responses)                          # Get data from responses
         with open(filepath, 'w', encoding='utf-8') as file:                     # Open JSON file
             json.dump(data, file, ensure_ascii=True, indent=4)                  # Write content in JSON file
-
-    @staticmethod
-    @click.command(help='GET request to Rekono API')
-    @endpoint_argument
-    @url_option
-    @headers_option
-    @parameters_option
-    @no_verify_option
-    @all_pages_option
-    @show_headers_option
-    @status_code_option
-    @quiet_option
-    @json_option
-    def get(
-        endpoint: str,
-        url: str,
-        headers: List[str],
-        parameters: List[str],
-        no_verify: bool,
-        all_pages: bool,
-        show_headers: bool,
-        just_show_status_code: bool,
-        quiet: bool,
-        json_output: str
-    ):
-        '''GET request to Rekono API.
-
-        Args:
-            endpoint (str): Endpoint to call.
-            url (str): Rekono base URL.
-            headers (List[str]): HTTP headers to send in key=value format.
-            parameters (List[str]): HTTP query parameters to send in key=value format.
-            no_verify (bool): Disable TLS validation.
-            all_pages (bool): Enable iteration over all API pages.
-            show_headers (bool): Display HTTP response headers.
-            just_show_status_code (bool): Just display HTTP response status code.
-            quiet (bool): Don't display anything from response.
-            json_output (str): Filepath to the JSON file where content should be saved.
-        '''
-        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)
-        response_or_responses = client.get(
-            RekonoApiCommand._get_endpoint(endpoint),
-            parameters=RekonoApiCommand._parse_key_value_params(parameters),
-            all_pages=all_pages
-        )
-        responses = response_or_responses if isinstance(response_or_responses, list) else [response_or_responses]
-        RekonoApiCommand._display_responses(responses, show_headers, just_show_status_code, quiet)
-        RekonoApiCommand._save_output(responses, json_output)
-
-    @staticmethod
-    @click.command(help='POST request to Rekono API')
-    @endpoint_argument
-    @url_option
-    @headers_option
-    @body_option
-    @no_verify_option
-    @show_headers_option
-    @status_code_option
-    @quiet_option
-    @json_option
-    def post(
-        endpoint: str,
-        url: str,
-        headers: List[str],
-        body: str,
-        no_verify: bool,
-        show_headers: bool,
-        just_show_status_code: bool,
-        quiet: bool,
-        json_output: str
-    ):
-        '''POST request to Rekono API.
-
-        Args:
-            endpoint (str): Endpoint to call.
-            url (str): Rekono base URL.
-            headers (List[str]): HTTP headers to send in key=value format.
-            body (str): HTTP body to send in JSON format.
-            no_verify (bool): Disable TLS validation.
-            show_headers (bool): Display HTTP response headers.
-            just_show_status_code (bool): Just display HTTP response status code.
-            quiet (bool): Don't display anything from response.
-            json_output (str): Filepath to the JSON file where content should be saved.
-        '''
-        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)
-        response = client.post(RekonoApiCommand._get_endpoint(endpoint), RekonoApiCommand._get_body(body))
-        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
-        RekonoApiCommand._save_output([response], json_output)
-
-    @staticmethod
-    @click.command(help='PUT request to Rekono API')
-    @endpoint_argument
-    @url_option
-    @headers_option
-    @body_option
-    @no_verify_option
-    @show_headers_option
-    @status_code_option
-    @quiet_option
-    @json_option
-    def put(
-        endpoint: str,
-        url: str,
-        headers: List[str],
-        body: str,
-        no_verify: bool,
-        show_headers: bool,
-        just_show_status_code: bool,
-        quiet: bool,
-        json_output: str
-    ):
-        '''PUT request to Rekono API.
-
-        Args:
-            endpoint (str): Endpoint to call.
-            url (str): Rekono base URL.
-            headers (List[str]): HTTP headers to send in key=value format.
-            body (str): HTTP body to send in JSON format.
-            no_verify (bool): Disable TLS validation.
-            show_headers (bool): Display HTTP response headers.
-            just_show_status_code (bool): Just display HTTP response status code.
-            quiet (bool): Don't display anything from response.
-            json_output (str): Filepath to the JSON file where content should be saved.
-        '''
-        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)
-        response = client.put(RekonoApiCommand._get_endpoint(endpoint), RekonoApiCommand._get_body(body))
-        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
-        RekonoApiCommand._save_output([response], json_output)
-
-    @staticmethod
-    @click.command(help='DELETE request to Rekono API')
-    @endpoint_argument
-    @url_option
-    @headers_option
-    @no_verify_option
-    @show_headers_option
-    @status_code_option
-    @quiet_option
-    def delete(
-        endpoint: str,
-        url: str,
-        headers: List[str],
-        no_verify: bool,
-        show_headers: bool,
-        just_show_status_code: bool,
-        quiet: bool
-    ):
-        '''DELETE request to Rekono API.
-
-        Args:
-            endpoint (str): Endpoint to call.
-            url (str): Rekono base URL.
-            headers (List[str]): HTTP headers to send in key=value format.
-            no_verify (bool): Disable TLS validation.
-            show_headers (bool): Display HTTP response headers.
-            just_show_status_code (bool): Just display HTTP response status code.
-            quiet (bool): Don't display anything from response.
-        '''
-        client = RekonoApiCommand._rekono_factory(url, no_verify, headers)
-        response = client.delete(RekonoApiCommand._get_endpoint(endpoint))
-        RekonoApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
