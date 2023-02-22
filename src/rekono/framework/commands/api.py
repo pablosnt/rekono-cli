@@ -5,12 +5,12 @@ from typing import List
 import click
 
 from rekono.framework.arguments import endpoint_argument
-from rekono.framework.commands.command import BaseCommand
+from rekono.framework.commands.command import RekonoCliCommand
 from rekono.framework.options import (all_pages_option, body_option,
                                       json_option, parameters_option)
 
 
-class ApiCommand(BaseCommand):
+class ApiCommand(RekonoCliCommand):
 
     @staticmethod
     @click.command

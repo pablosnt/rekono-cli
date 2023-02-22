@@ -14,7 +14,7 @@ from rekono.framework.options import (headers_option, no_verify_option,
                                       show_status_code_option, url_option)
 
 
-class BaseCommand(click.MultiCommand):
+class RekonoCliCommand(click.MultiCommand):
     '''Base Rekono CLI command for API requests.'''
 
     api_token_env = 'REKONO_TOKEN'                                              # Environment variable to set API token
