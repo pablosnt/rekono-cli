@@ -37,6 +37,13 @@ body_option = click.option(                                                     
     help='HTTP body to send in JSON'
 )
 
+file_option = click.option(
+    '-f', '--file', 'filepath',
+    type=click.Path(exists=True),
+    required=False, default=None,
+    help='File to upload'
+)
+
 all_pages_option = click.option(                                                # Option to iterate over all API pages
     '-a', '--all-pages', 'all_pages',
     is_flag=True, default=False,

@@ -23,11 +23,11 @@ class UserRole(Enum):
 class IntensityRank(Enum):
     '''Intensity ranks.'''
 
-    SNEAKY = 1                                                                  # Softest
-    LOW = 2
-    NORMAL = 3
-    HARD = 4
-    INSANE = 5                                                                  # Hardest
+    SNEAKY = 'Sneaky'
+    LOW = 'Low'
+    NORMAL = 'Normal'
+    HARD = 'Hard'
+    INSANE = 'Insane'
 
 
 class TimeUnit(Enum):

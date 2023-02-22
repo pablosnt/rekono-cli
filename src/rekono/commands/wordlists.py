@@ -1,9 +1,11 @@
+import json
 from typing import Any, List
 
 import click
 
 from rekono.client.enums import WordlistType
 from rekono.framework.commands.entity import EntityCommand
+from rekono.framework.options import json_option
 
 
 class WordlistsCommand(EntityCommand):
@@ -12,7 +14,7 @@ class WordlistsCommand(EntityCommand):
         click.option('-n', '--name', 'name', required=True, type=str, help='Wordlist name'),
         click.option(
             '-t', '--type', 'type',
-            required=True, default=WordlistType.ENDPOINT,
+            required=False, default=WordlistType.ENDPOINT.value,
             type=click.Choice([t.value for t in WordlistType]),
             help='Wordlist name'
         )
@@ -21,10 +23,11 @@ class WordlistsCommand(EntityCommand):
     @staticmethod
     @click.command
     @click.pass_context
-    @click.option('-f', '--file', 'file', required=True, type=click.File('rb'), help='Wordlists file')
+    @click.option('-f', '--file', 'filepath', required=True, type=click.Path(exists=True), help='Wordlists file')
     @json_option
     def post_entity(
         ctx: click.Context,
+        filepath: str,
         url: str,
         headers: List[str],
         no_verify: bool,
@@ -34,8 +37,11 @@ class WordlistsCommand(EntityCommand):
         json_output: str,
         **kwargs: Any
     ) -> None:
-        super().post_entity(
-            ctx, url, headers, no_verify, show_headers, just_show_status_code, quiet, json_output, **kwargs
+        ctx.invoke(
+            WordlistsCommand.post, endpoint='/api/wordlists/',
+            url=url, headers=headers, no_verify=no_verify, body=json.dumps(kwargs),
+            show_headers=show_headers, just_show_status_code=just_show_status_code,
+            quiet=quiet, json_output=json_output, filepath=filepath
         )
 
 

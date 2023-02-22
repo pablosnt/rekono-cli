@@ -1,10 +1,10 @@
+import json
 from typing import List
 
 import click
 
 from rekono.framework.commands.entity import EntityCommand
 from rekono.framework.options import json_option
-import json
 
 
 class ProfileCommand(EntityCommand):
@@ -42,7 +42,7 @@ class ProfileCommand(EntityCommand):
     @staticmethod
     @click.command
     @click.pass_context
-    @click.option('-t', '--token', 'token', required=True, type=str, help='Token provided by Telegram bot'),
+    @click.option('-t', '--token', 'token', required=True, type=str, help='Token provided by Telegram bot')
     def link_telegram_bot(
         ctx: click.Context,
         token: str,

@@ -7,7 +7,8 @@ import click
 from rekono.framework.arguments import endpoint_argument
 from rekono.framework.commands.command import RekonoCliCommand
 from rekono.framework.options import (all_pages_option, body_option,
-                                      json_option, parameters_option)
+                                      file_option, json_option,
+                                      parameters_option)
 
 
 class ApiCommand(RekonoCliCommand):
@@ -58,6 +59,7 @@ class ApiCommand(RekonoCliCommand):
     @click.command
     @endpoint_argument
     @body_option
+    @file_option
     @json_option
     def post(
         endpoint: str,
@@ -65,6 +67,7 @@ class ApiCommand(RekonoCliCommand):
         headers: List[str],
         no_verify: bool,
         body: str,
+        filepath: str,
         show_headers: bool,
         just_show_status_code: bool,
         quiet: bool,
@@ -77,6 +80,7 @@ class ApiCommand(RekonoCliCommand):
             url (str): Rekono base URL.
             headers (List[str]): HTTP headers to send in key=value format.
             body (str): HTTP body to send in JSON format.
+            filepath (click.Path): File to upload.
             no_verify (bool): Disable TLS validation.
             show_headers (bool): Display HTTP response headers.
             just_show_status_code (bool): Just display HTTP response status code.
@@ -84,7 +88,7 @@ class ApiCommand(RekonoCliCommand):
             json_output (str): Filepath to the JSON file where content should be saved.
         '''
         client = ApiCommand._rekono_factory(url, no_verify, headers)
-        response = client.post(ApiCommand._get_endpoint(endpoint), ApiCommand._get_body(body))
+        response = client.post(ApiCommand._get_endpoint(endpoint), ApiCommand._get_body(body), filepath)
         ApiCommand._display_responses([response], show_headers, just_show_status_code, quiet)
         ApiCommand._save_output([response], json_output)
 

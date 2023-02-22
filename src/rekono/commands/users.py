@@ -10,7 +10,7 @@ from rekono.framework.options import json_option
 
 user_role_option = click.option(
     '-r', '--role', 'role',
-    required=True, default=UserRole.READER,
+    required=False, default=UserRole.READER.value,
     type=click.Choice([t.value for t in UserRole]),
     help='User role'
 )

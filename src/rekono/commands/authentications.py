@@ -12,7 +12,7 @@ class AuthenticationsCommand(EntityCommand):
         click.option('-c', '--credential', 'credential', required=True, type=str, help='Authentication secret value'),
         click.option(
             '-t', '--type', 'auth_type',
-            required=True, default=AuthenticationType.BASIC,
+            required=False, default=AuthenticationType.BASIC.value,
             type=click.Choice([t.value for t in AuthenticationType]),
             help='Authentication type'
         )

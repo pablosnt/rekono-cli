@@ -1,3 +1,4 @@
+import json
 from typing import Any, List
 
 import click
@@ -16,13 +17,13 @@ class TasksCommand(EntityCommand):
         'cancel': 'delete_entity'
     }
     entity_options = [
-        click.option('-t', '--target', 'target_id', required=False, type=int, help='Process ID'),
-        click.option('-p', '--process', 'process_id', required=False, type=int, help='Process ID'),
-        click.option('--tool', 'tool_id', required=False, type=int, help='Tool ID'),
-        click.option('-c', '--configuration', 'configuration_id', required=False, type=int, help='Configuration ID'),
+        click.option('-t', '--target', 'target_id', required=True, type=int, help='Process ID'),
+        click.option('-p', '--process', 'process_id', required=False, default=None, type=int, help='Process ID'),
+        click.option('--tool', 'tool_id', required=False, default=None, type=int, help='Tool ID'),
+        click.option('-c', '--configuration', 'configuration_id', required=False, default=None, type=int, help='Configuration ID'),
         click.option(
             '-i', '--intensity', 'intensity_rank',
-            required=True, default=IntensityRank.NORMAL,
+            required=False, default=IntensityRank.NORMAL.value,
             type=click.Choice([t.value for t in IntensityRank]),
             help='Intensity rank'
         ),
@@ -67,9 +68,15 @@ class TasksCommand(EntityCommand):
         json_output: str,
         **kwargs: Any
     ) -> None:
+        for no_null_field in ['process_id', 'tool_id', 'configuration_id']:
+            if no_null_field in kwargs and not kwargs.get(no_null_field):
+                kwargs.pop(no_null_field)
         kwargs['scheduled_at'] = kwargs['scheduled_at'].astimezone().isoformat() if kwargs.get('scheduled_at') else None
-        super().post_entity(
-            ctx, url, headers, no_verify, show_headers, just_show_status_code, quiet, json_output, **kwargs
+        ctx.invoke(
+            TasksCommand.post, endpoint='/api/tasks/',
+            url=url, headers=headers, no_verify=no_verify, body=json.dumps(kwargs),
+            show_headers=show_headers, just_show_status_code=just_show_status_code,
+            quiet=quiet, json_output=json_output
         )
 
 

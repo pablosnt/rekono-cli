@@ -1,5 +1,7 @@
 '''Rekono API.'''
 
+import json
+import os
 from typing import Any, Callable, Dict, List, Optional, Union
 
 import requests
@@ -35,10 +37,7 @@ class Rekono:
         self.verify = verify
         self.headers = headers
         self.token = token
-        self.headers.update({                                                   # Configure HTTP request headers
-            'Authorization': f'Token {self.token}',
-            'Content-Type': 'application/json'
-        })
+        self.headers.update({'Authorization': f'Token {self.token}'})           # Configure HTTP request headers
         self.session = requests.Session()
         # Configure retries of HTTP requests
         retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[429, 500, 502, 503, 504])
@@ -66,7 +65,8 @@ class Rekono:
         method: Callable,
         endpoint: str,
         parameters: Optional[Dict[str, Any]] = None,
-        body: Optional[str] = None
+        body: Optional[str] = None,
+        files: Optional[Dict[str, Any]] = None
     ) -> Response:
         '''Perform HTTP request to Rekono API.
 
@@ -75,6 +75,7 @@ class Rekono:
             endpoint (str): Endpoint to call.
             parameters (Optional[Dict[str, Any]], optional): Query parameters to send. Defaults to None.
             body (Optional[str], optional): Body to send. Defaults to None.
+            files (Optional[Dict[str, Any]], optional): Files to send. Defaults to None.
 
         Raises:
             AuthenticationError: Unauthenticated, API token is invalid
@@ -83,11 +84,17 @@ class Rekono:
         Returns:
             Response: HTTP response.
         '''
+        if files:
+            self.headers.pop('Content-Type', None)
+        else:
+            self.headers['Content-Type'] = 'application/json'
         url = self.url + self._get_endpoint(endpoint)                           # Prepare URL to call
         try:
-            response = method(url, params=parameters, data=body, headers=self.headers, verify=self.verify)  # Attempt 1
+            # First attempt
+            response = method(url, params=parameters, data=body, files=files, headers=self.headers, verify=self.verify)
         except (ConnectionError, RetryError, Timeout):                          # Unexpected error during HTTP request
-            response = method(url, params=parameters, data=body, headers=self.headers, verify=self.verify)  # Attempt 2
+            # Second attempt
+            response = method(url, params=parameters, data=body, files=files, headers=self.headers, verify=self.verify)
         if response.status_code == 401:
             raise AuthenticationError(response)
         elif response.status_code == 403:
@@ -132,12 +139,13 @@ class Rekono:
                 break
         return responses
 
-    def post(self, endpoint: str, body: Optional[str] = None) -> Response:
+    def post(self, endpoint: str, body: Optional[str] = None, filepath: Optional[str] = None) -> Response:
         '''POST request to Rekono API.
 
         Args:
             endpoint (str): Endpoint to call.
             body (Optional[str], optional): Body to send. Defaults to None.
+            filepath (Optional[str], optional): File to send. Defaults to None.
 
         Raises:
             AuthenticationError: Unauthenticated, API token is invalid
@@ -146,7 +154,11 @@ class Rekono:
         Returns:
             Response: HTTP response.
         '''
-        return self._request(self.session.post, endpoint, body=body)            # Perform POST request
+        if filepath and os.path.isfile(filepath):
+            with open(filepath, 'rb') as file:
+                # Perform POST request
+                return self._request(self.session.post, endpoint, body=json.loads(body), files={'file': file})
+        return self._request(self.session.post, endpoint, body=body)
 
     def put(self, endpoint: str, body: Optional[str] = None) -> Response:
         '''PUT request to Rekono API.

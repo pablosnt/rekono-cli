@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-from typing import Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Union
 from urllib.parse import urlparse
 
 import click
