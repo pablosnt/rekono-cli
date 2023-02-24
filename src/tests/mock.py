@@ -52,6 +52,8 @@ class RekonoMock:
         Returns:
             Response: HTTP response.
         '''
+        if kwargs.get('all_pages', False):
+            return self.get_paginated_entities(*args, **kwargs)
         return self._response_factory('GET', 200, self.data)
 
     def get_multiple_entities(self, *args: Any, **kwargs: Any) -> Response:
@@ -81,6 +83,14 @@ class RekonoMock:
             Response: HTTP response.
         '''
         return self._response_factory('POST', 201, self.data)
+
+    def post_empty_response(self, *args: Any, **kwargs: Any) -> Response:
+        '''Mock POST request to Rekono API with empty response body.
+
+        Returns:
+            Response: HTTP response.
+        '''
+        return self._response_factory('POST', 201)
 
     def put(self, *args: Any, **kwargs: Any) -> Response:
         '''Mock PUT request to Rekono API.
