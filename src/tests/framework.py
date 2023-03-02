@@ -8,6 +8,7 @@ from unittest import TestCase, mock
 import click
 from click.testing import CliRunner
 
+from rekono.main import rekono
 from tests.mock import RekonoMock
 
 
@@ -15,10 +16,9 @@ class RekonoCommandTest(TestCase):
     '''Framework for unit testing of Rekono CLI.'''
 
     testing_filepath = 'test_json_export.json'
-    command: Optional[click.BaseCommand] = None                                 # CLI command to test
-    subcommands: Dict[str, List[Dict[str, Any]]] = {}
+    unit_tests: List[Dict[str, Any]] = []
 
-    def _cli_test(
+    def _cli(
         self,
         arguments: List[str],
         output: Optional[str] = None,
@@ -35,7 +35,7 @@ class RekonoCommandTest(TestCase):
             json_file (Optional[str], optional): JSON file where the output is saved. Defaults to None.
             invalid_url (bool, optional): Test command with invalid URL option. Defaults to False.
         '''
-        if not self.command or not self.subcommands:                              # Check CLI command
+        if not self.unit_tests:
             return
         runner = CliRunner()                                                    # Create CLI runner for testing
         input_value = None
@@ -47,7 +47,7 @@ class RekonoCommandTest(TestCase):
                 input_value += f'{RekonoMock.url}\n'                            # Add URL as input value
                 # Add invalid URL message to output
                 prefix += f'{click.style("URL is invalid", fg="red")}\nURL: {RekonoMock.url}\n'
-        result = runner.invoke(self.command, arguments, input=input_value)      # Invoke CLI command
+        result = runner.invoke(rekono, arguments, input=input_value)      # Invoke CLI command
         terminal_output = prefix + (f'{output}\n' if output else '')            # Expected CLI command
         self.assertEqual(exit_code, result.exit_code)
         self.assertEqual(terminal_output, result.output)
@@ -58,17 +58,14 @@ class RekonoCommandTest(TestCase):
 
     @mock.patch('rekono.framework.commands.command.Rekono', RekonoMock)
     def test_rekono_cli(self) -> None:
-        if not self.command or not self.subcommands:                              # Check CLI command
-            return
-        for subcommand, tests in self.subcommands.items():
-            for test in tests:
-                self._cli_test(
-                    [subcommand] + test.get('arguments', []),
-                    test.get('output'),
-                    test.get('exit_code', 0),
-                    test.get('invalid_url', False),
-                    test.get('input_values', True)
-                )
+        for test in self.unit_tests or []:
+            self._cli(
+                test.get('arguments', []),
+                test.get('output'),
+                test.get('exit_code', 0),
+                test.get('invalid_url', False),
+                test.get('input_values', True)
+            )
 
     @classmethod
     def _json_body(cls, content: Union[Dict[str, Any], List[Dict[str, Any]]]) -> str:

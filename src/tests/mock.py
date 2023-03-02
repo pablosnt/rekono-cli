@@ -46,7 +46,7 @@ class RekonoMock:
         response._content = json.dumps(content, ensure_ascii=True, indent=4).encode() if content else None  # Set body
         return response
 
-    def get(self, *args: Any, **kwargs: Any) -> Response:
+    def get(self, *args: Any, **kwargs: Any) -> Union[Response, List[Response]]:
         '''Mock GET request to Rekono API.
 
         Returns:

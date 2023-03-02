@@ -2,15 +2,15 @@ from tests.framework import RekonoCommandTest
 from tests.mock import RekonoMock
 
 
-class ExecutionsTest(RekonoCommandTest):
+class ToolsTest(RekonoCommandTest):
 
-    unit_tests = [
+   unit_tests = [
         {
-            'arguments': ['executions', 'get', '1'],
+            'arguments': ['tools', 'get', '1'],
             'output': RekonoCommandTest._json_body(RekonoMock.data)
         },
         {
-            'arguments': ['executions', 'get'],
+            'arguments': ['tools', 'get'],
             'output': RekonoCommandTest._json_body([RekonoMock.data, RekonoMock.data, RekonoMock.data])
         }
     ]

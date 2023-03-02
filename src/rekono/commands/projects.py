@@ -1,5 +1,6 @@
 '''Command to perform Rekono projects operations.'''
 
+import json
 from typing import List
 
 import click
@@ -51,8 +52,8 @@ class ProjectsCommand(EntityCommand):
         quiet: bool
     ) -> None:
         ctx.invoke(
-            ProjectsCommand.post, f'/api/projects/{id}/members/',
-            url=url, headers=headers, no_verify=no_verify, body={'user': user},
+            ProjectsCommand.post, endpoint=f'/api/projects/{id}/members/',
+            url=url, headers=headers, no_verify=no_verify, body=json.dumps({'user': user}),
             show_headers=show_headers, just_show_status_code=just_show_status_code, quiet=quiet
         )
 
@@ -73,7 +74,7 @@ class ProjectsCommand(EntityCommand):
         quiet: bool
     ) -> None:
         ctx.invoke(
-            ProjectsCommand.delete, f'/api/projects/{id}/members/{user}/',
+            ProjectsCommand.delete, endpoint=f'/api/projects/{id}/members/{user}/',
             url=url, headers=headers, no_verify=no_verify,
             show_headers=show_headers, just_show_status_code=just_show_status_code, quiet=quiet
         )

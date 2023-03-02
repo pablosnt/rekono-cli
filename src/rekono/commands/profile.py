@@ -9,7 +9,7 @@ from rekono.framework.options import json_option
 
 class ProfileCommand(EntityCommand):
 
-    commands = ['get']
+    commands = ['get', 'telegram']
     commands_mapping = {
         'get': 'get_profile',
         'telegram': 'link_telegram_bot'
@@ -23,7 +23,7 @@ class ProfileCommand(EntityCommand):
     @click.command
     @click.pass_context
     @json_option
-    def get_settings(
+    def get_profile(
         ctx: click.Context,
         url: str,
         headers: List[str],
