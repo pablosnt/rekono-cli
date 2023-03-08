@@ -1,1 +1,1 @@
-'''Rekono CLI framework that includes base features, code and design.'''
+'''Rekono CLI framework that includes base commands, options and arguments.'''

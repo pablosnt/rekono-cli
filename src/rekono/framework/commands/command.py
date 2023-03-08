@@ -1,3 +1,5 @@
+'''Base features for Rekono CLI command.'''
+
 import json
 import os
 import sys
@@ -9,31 +11,19 @@ import requests
 from requests.models import Response
 
 from rekono.client.api import Rekono
-from rekono.framework.options import (headers_option, no_verify_option,
-                                      quiet_option, show_headers_option,
-                                      show_status_code_option, url_option)
 
 
 class RekonoCliCommand(click.MultiCommand):
-    '''Base Rekono CLI command for API requests.'''
+    '''Base features for Rekono CLI command.'''
 
     api_token_env = 'REKONO_TOKEN'                                              # Environment variable to set API token
-    commands = ['get', 'post', 'put', 'delete']                                 # Supported CLI commands
-    commands_mapping = {                                                        # Mapping between commands and methods
-        'get': 'get',
-        'post': 'post',
-        'put': 'put',
-        'delete': 'delete'
-    }
-    default_mapping = 'extra_post_entity'
-    help_messages = {
-        'get': 'GET request to Rekono API',
-        'post': 'POST request to Rekono API',
-        'put': 'PUT request to Rekono API',
-        'delete': 'DELETE request to Rekono API'
-    }
-    api_options = [url_option, headers_option, no_verify_option]
-    display_options = [show_headers_option, show_status_code_option, quiet_option]
+    commands: List[str] = []                                                    # List of supported commands
+    commands_mapping: Dict[str, str] = {}                                       # Mapping between commands and methods
+    default_mapping: Optional[str] = None                                       # Default method if mapping not found
+    help_messages: Dict[str, str] = {}                                          # Help messages for each command
+    api_options: List[Callable] = []                                            # API options for all commands
+    display_options: List[Callable] = []                                        # Display options for all commands
+    # Entity specific options for post_entity and put_entity methods
     entity_options: List[Callable] = []
 
     def list_commands(self, ctx: click.Context) -> List[str]:
@@ -45,7 +35,7 @@ class RekonoCliCommand(click.MultiCommand):
         Returns:
             List[str]: List of CLI commands.
         '''
-        return [command for command in self.commands if command in self.commands_mapping]
+        return self.commands
 
     def get_command(self, ctx: click.Context, cmd_name: str) -> Optional[click.Command]:
         '''Get CLI command by name.
@@ -57,18 +47,27 @@ class RekonoCliCommand(click.MultiCommand):
         Returns:
             Optional[click.Command]: Click command.
         '''
-        related_command_method = self.commands_mapping.get(cmd_name, self.default_mapping)
+        related_command_method = self.commands_mapping.get(cmd_name, self.default_mapping)      # Get mapped method
         if cmd_name in self.commands and related_command_method and hasattr(self, related_command_method):
-            command: click.Command = getattr(self, related_command_method)
-            command.help = self.help_messages.get(cmd_name)
-            if related_command_method in ['post_entity', 'put_entity']:
-                self._apply_command_options(command, self.entity_options)
-            self._apply_command_options(command, self.api_options)
-            self._apply_command_options(command, self.display_options)
+            command: click.Command = getattr(self, related_command_method)      # Get command method
+            command.help = self.help_messages.get(cmd_name)                     # Set help message
+            if related_command_method in ['post_entity', 'put_entity']:         # POST or PUT entity request
+                self._apply_command_options(command, self.entity_options)       # Set entity options
+            self._apply_command_options(command, self.api_options)              # Set base API options
+            self._apply_command_options(command, self.display_options)          # Set base display options
             return command
         return None
 
     def _apply_command_options(self, command: Callable, options: List[Callable]) -> Callable:
+        '''Apply multiple options to specific command.
+
+        Args:
+            command (Callable): Command to configure
+            options (List[Callable]): List of options to apply
+
+        Returns:
+            Callable: Configured command
+        '''
         for option in options:
             command = option(command)
         return command
@@ -81,7 +80,7 @@ class RekonoCliCommand(click.MultiCommand):
             url (str): User provided URL.
 
         Returns:
-            str: Valid Rekono base URL.
+            str: Valid Rekono URL.
         '''
         parser = urlparse(url)                                                  # Parse provided URL
         if not parser.netloc:                                                   # Invalid URL
@@ -190,7 +189,7 @@ class RekonoCliCommand(click.MultiCommand):
         cls,
         responses: List[Response],
         show_headers: bool,
-        just_show_status_code: bool,
+        only_show_status_code: bool,
         quiet: bool
     ) -> None:
         '''Display Rekono API responses via standard output.
@@ -198,14 +197,14 @@ class RekonoCliCommand(click.MultiCommand):
         Args:
             responses (List[Response]): Rekono API responses.
             show_headers (bool): Display HTTP response headers.
-            just_show_status_code (bool): Just display HTTP response status code.
+            only_show_status_code (bool): Only display status code from HTTP response.
             quiet (bool): Don't display anything from response.
         '''
         if quiet:                                                               # No content should be displayed
             return
-        if just_show_status_code or show_headers:                               # Headers or status should be displayed
+        if only_show_status_code or show_headers:                               # Headers or status should be displayed
             for response in responses:                                          # For each response
-                if just_show_status_code:                                       # Just display status code
+                if only_show_status_code:                                       # Just display status code
                     click.echo(response.status_code)
                 elif show_headers:                                              # Show response headers
                     click.echo()
@@ -228,7 +227,7 @@ class RekonoCliCommand(click.MultiCommand):
             responses (List[Response]): Rekono API responses.
             filepath (Optional[str]): Filepath to the JSON file where content should be saved.
         '''
-        if not filepath:                                                        # JSON filepath is provided
+        if not filepath:                                                        # JSON filepath isn't provided
             return
         data = cls._get_data_from_responses(responses)                          # Get data from responses
         with open(filepath, 'w', encoding='utf-8') as file:                     # Open JSON file

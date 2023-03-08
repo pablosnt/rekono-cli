@@ -1,3 +1,5 @@
+'''Rekono enums.'''
+
 from enum import Enum
 
 

@@ -1,4 +1,4 @@
-'''Definition of CLI arguments.'''
+'''Definition of base CLI arguments used by multiple commands.'''
 
 import click
 
