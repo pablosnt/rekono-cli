@@ -1,16 +1,24 @@
+'''CLI command to manage findings entities.'''
+
 import click
 
 from rekono.framework.commands.entity import EntityCommand
 
 
 class FindingsCommand(EntityCommand):
-    '''Base Rekono CLI command for finding entities.'''
+    '''CLI command to manage findings entities.'''
 
-    commands = ['get', 'enable', 'disable']                                     # Supported CLI commands
+    commands = ['get', 'enable', 'disable']                                     # CLI commands
     commands_mapping = {                                                        # Mapping between commands and methods
         'get': 'get_entity',
         'disable': 'delete_entity',
     }
+    help_messages = {                                                           # Help messages for each command
+        'get': 'Get all findings or one if ID is provided',
+        'enable': 'Enable finding',
+        'disable': 'Disable finding',
+    }
+
 
 @click.group('credentials', cls=FindingsCommand, help='Manage credentials')
 def credentials():
@@ -48,9 +56,15 @@ def vulnerabilities():
 
 
 class OSINTCommand(FindingsCommand):
-    '''Base Rekono CLI command for OSINT entities.'''
+    '''CLI command to manage OSINT entities.'''
 
     commands = ['get', 'enable', 'disable', 'target']                           # Supported CLI commands
+    help_messages = {                                                           # Help messages for each command
+        'get': 'Get all findings or one if ID is provided',
+        'enable': 'Enable finding',
+        'disable': 'Disable finding',
+        'target': 'Create target from OSINT data',
+    }
 
 
 @click.group('osint', cls=OSINTCommand, help='Manage OSINT findings')

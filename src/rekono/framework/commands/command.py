@@ -23,8 +23,7 @@ class RekonoCliCommand(click.MultiCommand):
     help_messages: Dict[str, str] = {}                                          # Help messages for each command
     api_options: List[Callable] = []                                            # API options for all commands
     display_options: List[Callable] = []                                        # Display options for all commands
-    # Entity specific options for post_entity and put_entity methods
-    entity_options: List[Callable] = []
+    entity_options: List[Callable] = []                                         # Specific options for post and put
 
     def list_commands(self, ctx: click.Context) -> List[str]:
         '''Return list of CLI commands.

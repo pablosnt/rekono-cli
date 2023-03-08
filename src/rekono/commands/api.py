@@ -1,10 +1,10 @@
-'''Command to perform standard Rekono API requests.'''
+'''Command to make custom Rekono API requests.'''
 
 import click
 
 from rekono.framework.commands.api import ApiCommand
 
 
-@click.group('api', cls=ApiCommand, help='Perform Rekono API requests')
+@click.group('api', cls=ApiCommand, help='Make custom Rekono API requests')
 def api():
-    '''Perform Rekono API requests.'''
+    '''Make custom Rekono API requests.'''

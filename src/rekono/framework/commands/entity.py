@@ -14,19 +14,12 @@ from rekono.framework.options import json_option
 class EntityCommand(ApiCommand):
     '''Base Rekono CLI command to make specific entity operations using API.'''
 
-    commands = ['get', 'create', 'update', 'delete']                            # Supported CLI commands
+    commands = ['get', 'create', 'update', 'delete']                            # CLI commands
     commands_mapping = {                                                        # Mapping between commands and methods
         'get': 'get_entity',
         'create': 'post_entity',
         'update': 'put_entity',
         'delete': 'delete_entity',
-    }
-    # TODO: REMOVE
-    help_messages = {
-        'get': 'Retrieve entities or entity if ID is provided',
-        'create': 'Create entity',
-        'update': 'Update entity',
-        'delete': 'Delete entity'
     }
     default_mapping = 'extra_post_entity'                                       # Default method if mapping not found
 
