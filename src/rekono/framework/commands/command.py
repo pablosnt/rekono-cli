@@ -3,7 +3,7 @@
 import json
 import os
 import sys
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Union, cast
 from urllib.parse import urlparse
 
 import click
@@ -152,7 +152,7 @@ class RekonoCliCommand(click.MultiCommand):
             token = click.prompt('API token', type=str, hide_input=True)        # Ask for API token
         return Rekono(                                                          # Create Rekono API client
             cls._get_url(url),                                                  # Get valid Rekono URL
-            token=token,
+            token=cast(str, token),
             headers=cls._parse_key_value_params(headers),                       # Get HTTP headers
             verify=not no_verify
         )

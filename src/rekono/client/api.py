@@ -18,17 +18,17 @@ class Rekono:
     def __init__(
         self,
         url: str,
-        token: Optional[str] = None,
+        token: str,
         headers: Optional[Dict[str, str]] = None,
-        verify: bool = False
+        verify: bool = True
     ) -> None:
         '''Rekono API client constructor.
 
         Args:
             url (str): Base Rekono URL.
-            token (Optional[str], optional): API token for Rekono authentication. Defaults to None.
+            token (str): API token for Rekono authentication. Defaults to None.
             headers (Optional[Dict[str, str]], optional): Extra HTTP request headers. Defaults to None.
-            verify (bool, optional): Indicates if TLS verification should be performed or not. Defaults to False.
+            verify (bool, optional): Indicates if TLS verification should be performed or not. Defaults to True.
 
         Raises:
             AuthenticationError: Authentication error during basic authentication attempt.

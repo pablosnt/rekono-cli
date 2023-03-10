@@ -13,7 +13,7 @@ class AuthenticationsCommand(EntityCommand):
         'get': 'Get all wordlists or one if ID is provided',
         'create': 'Create wordlist',
         'update': 'Update wordlist',
-        'delete': 'Delete wordlist'
+        'delete': 'Delete wordlist',
     }
     entity_options = [                                                          # Specific options for post and put
         click.option('-p', '--target-port', 'target_port', required=True, type=int, help='Related target port ID'),

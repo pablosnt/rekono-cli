@@ -1,3 +1,5 @@
+'''CLI command to manage User entities.'''
+
 import json
 from typing import List
 
@@ -8,7 +10,7 @@ from rekono.framework.arguments import id_mandatory_argument
 from rekono.framework.commands.entity import EntityCommand
 from rekono.framework.options import json_option
 
-user_role_option = click.option(
+user_role_option = click.option(                                                # Role CLI option
     '-r', '--role', 'role',
     required=False, default=UserRole.READER.value,
     type=click.Choice([t.value for t in UserRole]),
@@ -17,14 +19,20 @@ user_role_option = click.option(
 
 
 class UsersCommand(EntityCommand):
-    '''Base Rekono CLI command for finding entities.'''
+    '''CLI command to manage User entities.'''
 
-    commands = ['get', 'delete', 'enable', 'role', 'invite']                    # Supported CLI commands
+    commands = ['get', 'delete', 'enable', 'role', 'invite']                    # CLI commands
     commands_mapping = {                                                        # Mapping between commands and methods
         'get': 'get_entity',
         'delete': 'delete_entity',
         'role': 'update_role',
         'invite': 'invite'
+    }
+    help_messages = {                                                           # Help messages for each command
+        'get': 'Get all users or one if ID is provided',
+        'delete': 'Delete user',
+        'role': 'Update user role',
+        'invite': 'Invite new user'
     }
 
     @staticmethod
@@ -41,14 +49,28 @@ class UsersCommand(EntityCommand):
         headers: List[str],
         no_verify: bool,
         show_headers: bool,
-        just_show_status_code: bool,
+        only_show_status_code: bool,
         quiet: bool,
         json_output: str
     ) -> None:
+        '''Update user role.
+
+        Args:
+            ctx (click.Context): Click context.
+            id (int): User ID to update.
+            role (str): Role to asssin to the user.
+            url (str): Rekono base URL.
+            headers (List[str]): HTTP headers to send in key=value format.
+            no_verify (bool): Disable TLS validation.
+            show_headers (bool): Display HTTP response headers.
+            only_show_status_code (bool): Just display HTTP response status code.
+            quiet (bool): Don't display anything from response.
+            json_output (str): Filepath to the JSON file where content should be saved.
+        '''
         ctx.invoke(
             UsersCommand.put, endpoint=f'/api/users/{id}/role/',
             url=url, headers=headers, no_verify=no_verify, body=json.dumps({'role': role}),
-            show_headers=show_headers, just_show_status_code=just_show_status_code, quiet=quiet, json_output=json_output
+            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=json_output
         )
 
     @staticmethod
@@ -65,14 +87,28 @@ class UsersCommand(EntityCommand):
         headers: List[str],
         no_verify: bool,
         show_headers: bool,
-        just_show_status_code: bool,
+        only_show_status_code: bool,
         quiet: bool,
         json_output: str
     ) -> None:
+        '''Invite new user.
+
+        Args:
+            ctx (click.Context): Click context.
+            email (str): User email to send invitation to.
+            role (str): Role to asssin to the user.
+            url (str): Rekono base URL.
+            headers (List[str]): HTTP headers to send in key=value format.
+            no_verify (bool): Disable TLS validation.
+            show_headers (bool): Display HTTP response headers.
+            only_show_status_code (bool): Just display HTTP response status code.
+            quiet (bool): Don't display anything from response.
+            json_output (str): Filepath to the JSON file where content should be saved.
+        '''
         ctx.invoke(
             UsersCommand.post, endpoint='/api/users/invite/',
             url=url, headers=headers, no_verify=no_verify, body=json.dumps({'email': email, 'role': role}),
-            show_headers=show_headers, just_show_status_code=just_show_status_code, quiet=quiet, json_output=json_output
+            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=json_output
         )
 
 

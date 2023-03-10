@@ -15,8 +15,8 @@ from tests.mock import RekonoMock
 class RekonoCommandTest(TestCase):
     '''Framework for unit testing of Rekono CLI.'''
 
-    testing_filepath = 'test_json_export.json'
-    unit_tests: List[Dict[str, Any]] = []
+    testing_filepath = 'test_json_export.json'                                  # Temporal file used for testing
+    unit_tests: List[Dict[str, Any]] = []                                       # List of unit tests to execute
 
     def _cli(
         self,
@@ -47,17 +47,18 @@ class RekonoCommandTest(TestCase):
                 input_value += f'{RekonoMock.url}\n'                            # Add URL as input value
                 # Add invalid URL message to output
                 prefix += f'{click.style("URL is invalid", fg="red")}\nURL: {RekonoMock.url}\n'
-        result = runner.invoke(rekono, arguments, input=input_value)      # Invoke CLI command
-        terminal_output = prefix + (f'{output}\n' if output else '')            # Expected CLI command
-        self.assertEqual(exit_code, result.exit_code)
-        self.assertEqual(terminal_output, result.output)
-        if os.path.isfile(self.testing_filepath):                               # If JSOn file provided
+        result = runner.invoke(rekono, arguments, input=input_value)            # Invoke CLI command
+        terminal_output = prefix + (f'{output}\n' if output else '')            # Expected output
+        self.assertEqual(exit_code, result.exit_code)                           # Check exit code
+        self.assertEqual(terminal_output, result.output)                        # Check terminal output
+        if os.path.isfile(self.testing_filepath):                               # If JSON file exists
             with open(self.testing_filepath, 'r', encoding='utf-8') as file:    # Open file to check its content
-                self.assertEqual(output, file.read())
-            os.remove(self.testing_filepath)                                    # Remove testing file
+                self.assertEqual(output, file.read())                           # Check file content
+            os.remove(self.testing_filepath)                                    # Remove temporal testing file
 
     @mock.patch('rekono.framework.commands.command.Rekono', RekonoMock)
     def test_rekono_cli(self) -> None:
+        '''Execute configured unit tests.'''
         for test in self.unit_tests or []:
             self._cli(
                 test.get('arguments', []),

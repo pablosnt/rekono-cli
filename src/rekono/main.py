@@ -5,6 +5,7 @@ import click
 from rekono import VERSION
 from rekono.commands.api import api
 from rekono.commands.authentications import authentications
+from rekono.commands.configurations import configurations
 from rekono.commands.executions import executions
 from rekono.commands.findings import (credentials, exploits, hosts, osint,
                                       paths, ports, technologies,
@@ -17,7 +18,7 @@ from rekono.commands.steps import steps
 from rekono.commands.target_ports import target_ports
 from rekono.commands.targets import targets
 from rekono.commands.tasks import tasks
-from rekono.commands.tools import configurations, tools
+from rekono.commands.tools import tools
 from rekono.commands.users import users
 from rekono.commands.wordlists import wordlists
 

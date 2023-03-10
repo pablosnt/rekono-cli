@@ -12,9 +12,9 @@ from tests.mock import RekonoMock
 class ApiTest(RekonoCommandTest):
     '''Test "api" CLI command.'''
 
-    unit_tests = [
+    unit_tests = [                                                              # List of unit tests to execute
         {
-            'arguments': ['api', 'get', '-u', RekonoMock.url, '-p', 'key1=value1', '-p', 'key2=value2', '--no-verify', 'entities/1'],
+            'arguments': ['api', 'get', '-u', RekonoMock.url, '-p', 'key1=value1', '--no-verify', 'entities/1'],
             'output': RekonoCommandTest._json_body(RekonoMock.data)
         },
         {
@@ -40,10 +40,11 @@ class ApiTest(RekonoCommandTest):
         {
             'arguments': ['api', 'get', '--json', RekonoCommandTest.testing_filepath, 'entities/1'],
             'output': RekonoCommandTest._json_body(RekonoMock.data)
-            
         },
         {
-            'arguments': ['api', 'post', '-b', json.dumps(RekonoMock.data), '-h', 'key1=value1', '-h', 'key2=value2', '--no-verify', 'entities'],
+            'arguments': [
+                'api', 'post', '-b', json.dumps(RekonoMock.data), '-h', 'key1=value1', '--no-verify', 'entities'
+            ],
             'output': RekonoCommandTest._json_body(RekonoMock.data)
         },
         {
@@ -52,7 +53,9 @@ class ApiTest(RekonoCommandTest):
             'exit_code': 1
         },
         {
-            'arguments': ['api', 'put', '-b', json.dumps(RekonoMock.data), '-h', 'key1=value1', '-h', 'key2=value2', '--no-verify', 'entities/1'],
+            'arguments': [
+                'api', 'put', '-b', json.dumps(RekonoMock.data), '-h', 'key1=value1', '--no-verify', 'entities/1'
+            ],
             'output': RekonoCommandTest._json_body(RekonoMock.data)
         },
         {
@@ -61,7 +64,11 @@ class ApiTest(RekonoCommandTest):
         },
         {
             'arguments': ['api', 'notfound'],
-            'output': 'Usage: rekono api [OPTIONS] COMMAND [ARGS]...\nTry \'rekono api --help\' for help.\n\nError: No such command \'notfound\'.',
+            'output': (
+                'Usage: rekono api [OPTIONS] COMMAND [ARGS]...\n'
+                'Try \'rekono api --help\' for help.\n\n'
+                'Error: No such command \'notfound\'.',
+            ),
             'exit_code': 2,
             'input_values': False
         }
@@ -70,6 +77,7 @@ class ApiTest(RekonoCommandTest):
     @mock.patch('rekono.framework.commands.command.Rekono.get', RekonoMock.get_multiple_entities)
     @mock.patch('rekono.framework.commands.command.Rekono', RekonoMock)
     def test_get_multiple_entities(self) -> None:
+        '''Test "api get" command with multiple entities as response.'''
         self._cli(
             ['api', 'get', '-h', 'key1=value1', '-h', 'key2=value2', '--no-verify', 'entities'],
             self._json_body([RekonoMock.data, RekonoMock.data, RekonoMock.data])

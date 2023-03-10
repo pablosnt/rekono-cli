@@ -1,3 +1,5 @@
+'''Test "wordlists" CLI command.'''
+
 import os
 
 from tests.framework import RekonoCommandTest
@@ -5,8 +7,9 @@ from tests.mock import RekonoMock
 
 
 class WordlistsTest(RekonoCommandTest):
+    '''Test "wordlists" CLI command.'''
 
-    unit_tests = [
+    unit_tests = [                                                              # List of unit tests to execute
         {
             'arguments': ['wordlists', 'get', '1'],
             'output': RekonoCommandTest._json_body(RekonoMock.data)

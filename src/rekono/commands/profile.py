@@ -1,3 +1,5 @@
+'''CLI command to manage user profile.'''
+
 import json
 from typing import List
 
@@ -8,13 +10,14 @@ from rekono.framework.options import json_option
 
 
 class ProfileCommand(EntityCommand):
+    '''CLI command to manage user profile.'''
 
-    commands = ['get', 'telegram']
-    commands_mapping = {
+    commands = ['get', 'telegram']                                              # CLI commands
+    commands_mapping = {                                                        # Mapping between commands and methods
         'get': 'get_profile',
         'telegram': 'link_telegram_bot'
     }
-    help_messages = {
+    help_messages = {                                                           # Help messages for each command
         'get': 'Get current user profile',
         'telegram': 'Link Telegram bot to current user'
     }
@@ -29,14 +32,26 @@ class ProfileCommand(EntityCommand):
         headers: List[str],
         no_verify: bool,
         show_headers: bool,
-        just_show_status_code: bool,
+        only_show_status_code: bool,
         quiet: bool,
         json_output: str
     ) -> None:
+        '''Get current user profile.
+
+        Args:
+            ctx (click.Context): Click context.
+            url (str): Rekono base URL.
+            headers (List[str]): HTTP headers to send in key=value format.
+            no_verify (bool): Disable TLS validation.
+            show_headers (bool): Display HTTP response headers.
+            only_show_status_code (bool): Just display HTTP response status code.
+            quiet (bool): Don't display anything from response.
+            json_output (str): Filepath to the JSON file where content should be saved.
+        '''
         ctx.invoke(
             ProfileCommand.get, endpoint='/api/profile/',
-            url=url, headers=headers, no_verify=no_verify, parameters=[], all_pages=False,
-            show_headers=show_headers, just_show_status_code=just_show_status_code, quiet=quiet, json_output=json_output
+            url=url, headers=headers, no_verify=no_verify, parameters=[], pagination=False,
+            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=json_output
         )
 
     @staticmethod
@@ -50,16 +65,28 @@ class ProfileCommand(EntityCommand):
         headers: List[str],
         no_verify: bool,
         show_headers: bool,
-        just_show_status_code: bool,
+        only_show_status_code: bool,
         quiet: bool
     ) -> None:
+        '''Link user account to Telegram chat.
+
+        Args:
+            ctx (click.Context): Click context.
+            token (str): Temporal token provided by Rekono bot.
+            url (str): Rekono base URL.
+            headers (List[str]): HTTP headers to send in key=value format.
+            no_verify (bool): Disable TLS validation.
+            show_headers (bool): Display HTTP response headers.
+            only_show_status_code (bool): Just display HTTP response status code.
+            quiet (bool): Don't display anything from response.
+        '''
         ctx.invoke(
             ProfileCommand.post, endpoint='/api/profile/telegram-token/',
             url=url, headers=headers, no_verify=no_verify, body=json.dumps({'otp': token}),
-            show_headers=show_headers, just_show_status_code=just_show_status_code, quiet=quiet, json_output=None
+            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=None
         )
 
 
-@click.group('profile', cls=ProfileCommand, help='Get user profile')
+@click.group('profile', cls=ProfileCommand, help='Manage user profile')
 def profile():
-    '''Get user profile.'''
+    '''Manage user profile.'''
