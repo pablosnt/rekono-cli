@@ -20,7 +20,7 @@ Command Line Interface to make requests to the [Rekono](https://github.com/pablo
 
 ## Usage
 
-# TODO: IMAGE
+<img width="507" alt="usage" src="https://user-images.githubusercontent.com/69458381/224380037-19638197-75dc-457c-b5aa-7dcc1f9d1a4d.png">
 
 > Rekono API documentation is available in `/api/schema/swagger-ui.html` and `/api/schema/redoc/` of Rekono instances
 
