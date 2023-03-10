@@ -20,19 +20,26 @@ Command Line Interface to make requests to the [Rekono](https://github.com/pablo
 
 ## Usage
 
-|Command|Description|
-|-------|-----------|
-|`api delete <endpoint>`|HTTP DELETE request to Rekono API|
-|`api get <endpoint> --parameter <key>=<value>`|HTTP GET request to Rekono API|
-|`api post <endpoint> --data <data>`|HTTP POST request to Rekono API|
-|`api put <endpoint> --data <data>`|HTTP PUT request to Rekono API|
+# TODO: IMAGE
+
+> Rekono API documentation is available in `/api/schema/swagger-ui.html` and `/api/schema/redoc/` of Rekono instances
+
+## Library usage
+
+Rekono CLI can be also used as Python 3 library, so that it's possible to create custom Rekono scripts. For example, with the following code it's possible to create a Rekono client to make custom API requests:
+
+```python
+from rekono.client.api import Rekono
+client = Rekono(url='https://127.0.0.1', token='my secret api token')           # Create Rekono client
+response = client.get('/api/tools/1/')                                          # GET request to get tool with ID 1
+```
 
 
 ## Installation
 
 ### PIP
 
-```
+```bash
 pip3 install rekono-cli
 ```
 
@@ -43,13 +50,13 @@ pip3 install rekono-cli
 
 2. Install the dependencies:
 
-    ```
+    ```bash
     pip3 install -r src/requirements.txt
     ```
 
 3. Execute the CLI:
 
-    ```
+    ```bash
     python3 src/rekono/main.py --help
     ```
 
@@ -61,18 +68,17 @@ You can use the `REKONO_TOKEN` environment variable to configure the API token f
 
 ## Support
 
-You can reach us on:
-
 <p>
-  <a href="https://github.com/pablosnt/rekono-cli/issues/new?labels=help+wanted%2C+question&template=support.md" alt="GitHub Issue">
-    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="64"/>
+  <a href="https://github.com/pablosnt/rekono/issues/new?labels=help+wanted%2C+question&template=support.md" alt="GitHub Issue">
+    <img src="https://github.com/fluidicon.png" width="64"/>
   </a>
   <a href="https://discord.gg/Zyduu5C7M3" alt="Discord">
     <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" width="64"/>
   </a>
+  <a href="mailto:rekono.project@gmail.com" alt="Mail">
+    <img src="https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_512dp.png" width="64"/>
+  </a>
 </p>
-
-If you need more specific help, you can also mail rekono.project@gmail.com.
 
 
 ## License
