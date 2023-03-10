@@ -67,7 +67,7 @@ class ApiTest(RekonoCommandTest):
             'output': (
                 'Usage: rekono api [OPTIONS] COMMAND [ARGS]...\n'
                 'Try \'rekono api --help\' for help.\n\n'
-                'Error: No such command \'notfound\'.',
+                'Error: No such command \'notfound\'.'
             ),
             'exit_code': 2,
             'input_values': False
