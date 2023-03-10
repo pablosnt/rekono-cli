@@ -39,20 +39,22 @@ class RekonoMock:
         Returns:
             Response: HTTP response.
         '''
-        response = Response()
+        response = Response()                                                   # Build HTTP response
         response.request = Request(method=method, url=self.url + '/api/entities/').prepare()    # Set related request
-        response.status_code = status_code
-        response.headers = CaseInsensitiveDict(self.headers)
+        response.status_code = status_code                                      # Set response status code
+        response.headers = CaseInsensitiveDict(self.headers)                    # Set response headers
         response._content = json.dumps(content, ensure_ascii=True, indent=4).encode() if content else None  # Set body
         return response
 
-    def get(self, *args: Any, **kwargs: Any) -> Response:
+    def get(self, *args: Any, **kwargs: Any) -> Union[Response, List[Response]]:
         '''Mock GET request to Rekono API.
 
         Returns:
             Response: HTTP response.
         '''
-        return self._response_factory('GET', 200, self.data)
+        if kwargs.get('pagination', False):
+            return self.get_paginated_entities(*args, **kwargs)                 # Return paginated mock value
+        return self._response_factory('GET', 200, self.data)                    # Return standard response
 
     def get_multiple_entities(self, *args: Any, **kwargs: Any) -> Response:
         '''Mock GET request to Rekono API with multiple items.
@@ -81,6 +83,14 @@ class RekonoMock:
             Response: HTTP response.
         '''
         return self._response_factory('POST', 201, self.data)
+
+    def post_empty_response(self, *args: Any, **kwargs: Any) -> Response:
+        '''Mock POST request to Rekono API with empty response body.
+
+        Returns:
+            Response: HTTP response.
+        '''
+        return self._response_factory('POST', 201)
 
     def put(self, *args: Any, **kwargs: Any) -> Response:
         '''Mock PUT request to Rekono API.

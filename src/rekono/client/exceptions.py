@@ -39,8 +39,7 @@ class AuthenticationError(RekonoException):
         Args:
             response (Response): Http response that causes the error.
         '''
-        self.message = 'Unauthorized: Invalid Rekono API token'
-        super().__init__(self.message, response)
+        super().__init__('Unauthorized: Invalid Rekono API token', response)
 
 
 class AuthorizationError(RekonoException):
@@ -52,5 +51,4 @@ class AuthorizationError(RekonoException):
         Args:
             response (Response): Http response that causes the error.
         '''
-        self.message = 'Unauthorized: User doesn\'t have required permissions to perform this action'
-        super().__init__(self.message, response)
+        super().__init__('Unauthorized: User hasn\'t required permissions to perform this action', response)
