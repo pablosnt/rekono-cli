@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - [**BREAKING**] Remove `install`, `update`, `uninstall` and `services` commands (https://github.com/pablosnt/rekono-cli/issues/34)
 - [**BREAKING**] Remove support for Rekono basic authentication (https://github.com/pablosnt/rekono-cli/issues/38)
+- [**BREAKING**] Change `rekono` command by `rekono-cli` command (https://github.com/pablosnt/rekono-cli/issues/46)
 - Optimize, improve, clean and test source code (https://github.com/pablosnt/rekono-cli/issues/36)
 - Specific commands to manage specific Rekono entities (https://github.com/pablosnt/rekono-cli/issues/40)
 
