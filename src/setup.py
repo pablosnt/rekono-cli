@@ -27,7 +27,7 @@ setup(
     python_requires='>=3.7',
     entry_points='''
         [console_scripts]
-        rekono=rekono.main:rekono
+        rekono-cli=rekono.main:rekono
     ''',
     project_urls={
         'Rekono': 'https://github.com/pablosnt/rekono',
