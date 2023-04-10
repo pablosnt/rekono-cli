@@ -2,9 +2,12 @@
 
 import click
 
+from rekono.framework.commands.command import RekonoCliCommand
+
 url_option = click.option(                                                      # URL option
     '-u', '--url', 'url',
     type=str, required=False,
+    envvar=RekonoCliCommand.backend_url_env,
     default='http://127.0.0.1:8000',
     help='Base URL to the Rekono backend'
 )

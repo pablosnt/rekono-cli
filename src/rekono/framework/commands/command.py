@@ -16,7 +16,10 @@ from rekono.client.api import Rekono
 class RekonoCliCommand(click.MultiCommand):
     '''Base features for Rekono CLI command.'''
 
+    # Environment variables
     api_token_env = 'REKONO_TOKEN'                                              # Environment variable to set API token
+    backend_url_env = 'REKONO_URL'                                              # Environment variable to set backend
+    # Initialization of variables
     commands: List[str] = []                                                    # List of supported commands
     commands_mapping: Dict[str, str] = {}                                       # Mapping between commands and methods
     default_mapping: Optional[str] = None                                       # Default method if mapping not found
