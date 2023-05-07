@@ -51,8 +51,7 @@ pip3 install rekono-cli
 
 ### From Source
 
-1. Install the required technologies:
-    - Python 3 & PIP
+1. Install the required technologies: Python 3 & PIP
 
 2. Install the dependencies:
 
