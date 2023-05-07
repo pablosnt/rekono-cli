@@ -1,52 +1,51 @@
 <p align="center">
-  <a href="https://snyk.io/test/github/pablosnt/rekono-cli" alt="SCA">
+  <a href="https://snyk.io/test/github/pablosnt/rekono-cli" alt="SCA" target="_blank">
     <img src="https://badgen.net/snyk/pablosnt/rekono-cli?label=Vulnerabilities&labelColor=black&icon=https://snyk.io/wp-content/uploads/patch-white.svg">
   </a>
-  <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/security-secrets.yml" alt="Secrets scanning">
+  <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/security-secrets.yml" alt="Secrets scanning" target="_blank">
     <img src="https://github.com/pablosnt/rekono-cli/actions/workflows/security-secrets.yml/badge.svg"/>
   </a>
-  <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/code-style.yml" alt="Code style">
+  <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/code-style.yml" alt="Code style" target="_blank">
     <img src="https://github.com/pablosnt/rekono-cli/actions/workflows/code-style.yml/badge.svg"/>
   </a>
-  <a href="https://discord.gg/Zyduu5C7M3">
+  <a href="https://discord.gg/Zyduu5C7M3" target="_blank">
     <img src="https://img.shields.io/badge/Discord-Join-black?style=social&logo=discord"/>
+  </a>
+  <a href="https://ko-fi.com/pablosnt" target="_blank">
+    <img src="https://ko-fi.com/img/githubbutton_sm.svg" width="160"/>
+  </a>
+  <a href="https://www.buymeacoffee.com/pablosnt" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="75"/>
   </a>
 </p>
 
-# <p align="center"><img src="assets/logo-black.png" width="500"/></p>
+# <p align="center"><img src="https://raw.githubusercontent.com/pablosnt/rekono/main/rekono/frontend/public/static/logo-black.png" width="500"/></p>
 
-This is a Command Line Interface to manage the [Rekono](https://github.com/pablosnt/rekono) platform:
-
-- Make HTTP requests to the Rekono API REST
-- Installation of Rekono in personal Linux environments
-- Management of the Rekono services in personal Linux environments
+Command Line Interface to make requests to the [Rekono](https://github.com/pablosnt/rekono) API REST.
 
 
 ## Usage
 
-|Command|Description|
-|-------|-----------|
-|`api delete <endpoint>`|HTTP DELETE request to Rekono API|
-|`api get <endpoint> --parameter <key>=<value>`|HTTP GET request to Rekono API|
-|`api post <endpoint> --data <data>`|HTTP POST request to Rekono API|
-|`api put <endpoint> --data <data>`|HTTP PUT request to Rekono API|
-|`install`|Install Rekono in the system|
-|`install --all-tools`|Install Rekono and all supported tools|
-|`update`|Update Rekono to the last version|
-|`uninstall`|Uninstall Rekono from your system|
-|`services start --execution-workers <N>`|Start all Rekono services with N executions workers (3 by default)|
-|`services stop`|Stop all Rekono services|
-|`services restart`|Restart all Rekono services|
+<img width="507" alt="usage" src="https://user-images.githubusercontent.com/69458381/224380037-19638197-75dc-457c-b5aa-7dcc1f9d1a4d.png">
 
-> :warning: Commands to manage Rekono installation are only advised for local and personal usage in Linux environements. Otherwise [Docker](https://github.com/pablosnt/rekono#docker) is advised.
+> Rekono API documentation is available in `/api/schema/swagger-ui.html` and `/api/schema/redoc/` of Rekono instances
 
-You can reach Rekono in http://127.0.0.1:3000/
+## Library usage
+
+Rekono CLI can be also used as Python 3 library, so that it's possible to create custom Rekono scripts. For example, with the following code it's possible to create a Rekono client to make custom API requests:
+
+```python
+from rekono.client.api import Rekono
+client = Rekono(url='https://127.0.0.1', token='my secret api token')           # Create Rekono client
+response = client.get('/api/tools/1/')                                          # GET request to get tool with ID 1
+```
+
 
 ## Installation
 
 ### PIP
 
-```
+```bash
 pip3 install rekono-cli
 ```
 
@@ -57,44 +56,52 @@ pip3 install rekono-cli
 
 2. Install the dependencies:
 
-    ```
-    pip3 install -r requirements.txt
+    ```bash
+    pip3 install -r src/requirements.txt
     ```
 
 3. Execute the CLI:
 
-    ```
-    python3 rekono/main.py --help
+    ```bash
+    python3 src/rekono/main.py --help
     ```
 
 
 ## Configuration
 
-You can use the following environment variables to configure the Rekono CLI:
-
-- `REKONO_HOME`: Directory for Rekono installation. By default, Rekono will be installed in `/opt/rekono`
-- `REKONO_URL`: Rekono URL in format `<schema>://<host>` to be used in API requests
-- `REKONO_TOKEN`: API token for Rekono API authentication
-
-Check the [Rekono configuration](https://github.com/pablosnt/rekono/wiki/Configuration) for more information.
+You can use the `REKONO_TOKEN` environment variable to configure the API token for Rekono authentication.
 
 
-## Support
+## Reach Us
 
-You can reach us on:
+You can get support, ask questions, solve doubts or solve problems using:
 
 <p>
-  <a href="https://github.com/pablosnt/rekono-cli/issues/new?labels=help+wanted%2C+question&template=support.md" alt="GitHub Issue">
-    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="64"/>
+  <a href="https://github.com/pablosnt/rekono/issues/new?labels=help+wanted%2C+question&template=support.md" alt="GitHub Issue">
+    <img src="https://github.com/fluidicon.png" width="64"/>
   </a>
   <a href="https://discord.gg/Zyduu5C7M3" alt="Discord">
     <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a69f118df70ad7828d4_icon_clyde_blurple_RGB.svg" width="64"/>
   </a>
+  <a href="mailto:rekono.project@gmail.com" alt="Mail">
+    <img src="https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_512dp.png" width="64"/>
+  </a>
 </p>
 
-If you need more specific help, you can also mail rekono.project@gmail.com.
+Rekono is an open source project that we really love to maintain and it's absolutely our pleasure, but we would like to offer the possibility of supporting Rekono's development via donations. At the moment, the project only needs its maintainer's time to stay up to date with new features and fix bugs. However, in the future, it could need more expensive resources like hosting, new web pages for documentation, the inclusion of premium hacking tools, etc. With the help received from our supporters, Rekono will be able to grow fastly and have the resources that it deserves. Of course, you can use the donations just to appreciate our work. Thank you for your help!
+
+<p>
+  <a href="https://ko-fi.com/pablosnt" target="_blank">
+    <img src="https://storage.ko-fi.com/cdn/brandasset/kofi_s_tag_white.png" width="130"/>
+  </a>
+  <a href="https://www.buymeacoffee.com/pablosnt" target="_blank">
+    <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=pablosnt&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"/>
+  </a>
+</p>
+
+> The main differences between them are that BuyMeACoffe charges fees over each donation while Ko-fi doesn't and Ko-fi supports PayPal payments while BuyMeACoffe doesn't
 
 
 ## License
 
-Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](./LICENSE.md)
+Rekono is licensed under the [GNU GENERAL PUBLIC LICENSE Version 3](../LICENSE.md)

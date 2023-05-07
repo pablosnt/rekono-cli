@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2023-05-07
+
+### Added
+
+- [**BREAKING**] Remove `install`, `update`, `uninstall` and `services` commands (https://github.com/pablosnt/rekono-cli/issues/34)
+- [**BREAKING**] Remove support for Rekono basic authentication (https://github.com/pablosnt/rekono-cli/issues/38)
+- [**BREAKING**] Change `rekono` command by `rekono-cli` command (https://github.com/pablosnt/rekono-cli/issues/46)
+- Optimize, improve, clean and test source code (https://github.com/pablosnt/rekono-cli/issues/36)
+- Specific commands to manage specific Rekono entities (https://github.com/pablosnt/rekono-cli/issues/40)
+
+
 ## [1.1.0] - 2023-01-11
 
 ### Added

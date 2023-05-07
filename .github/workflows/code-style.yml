@@ -8,38 +8,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        if: github.event_name == 'pull_request'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: refs/pull/${{ github.event.pull_request.number }}/merge
-      
-      - name: Checkout
-        if: github.event_name != 'pull_request'
-        uses: actions/checkout@v2
       
       - name: Flake8 check
-        uses: valentijnscholten/flake8-your-pr@master
+        uses: julianwachholz/flake8-action@v2
+        with:
+          checkName: "flake8"
+          path: ./src
+          config: ./src/.flake8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   mypy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.7'
       
       - name: Install Python dependencies
         run: |
           python -m pip install -U pip
+          python -m pip install mypy==0.931
           python -m pip install -r requirements.txt
-
-      - name: Install MyPy
-        run: python3 -m pip install mypy==0.931
       
       - name: MyPy check
-        run: mypy --namespace-packages --package rekono --install-types --non-interactive
+        run: |
+          mypy --namespace-packages --package rekono --install-types --non-interactive
+          mypy --namespace-packages --package tests --install-types --non-interactive

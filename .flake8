@@ -1,6 +1,0 @@
-[flake8]
-exclude = .git,__pycache__,venv/*
-ignore=W504
-; W504: Disallow line break after binary operator (and, or, etc.). Inconsistency with W503
-max-line-length = 120
-max-complexity = 10
