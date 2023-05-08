@@ -29,7 +29,7 @@ If applicable, add screenshots to help explain your problem.
  - Version [e.g. 22]
 
 **Installation method**
-- [ ] CLI
+- [ ] PIP
 - [ ] From Source
 
 **Additional context**

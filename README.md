@@ -1,6 +1,12 @@
 <p align="center">
+  <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/unit-testing.yml" alt="Unit testing"  target="_blank">
+    <img src="https://github.com/pablosnt/rekono-cli/actions/workflows/unit-testing.yml/badge.svg"/>
+  </a>
+  <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/security-sast.yml" alt="SAST"  target="_blank">
+    <img src="https://github.com/pablosnt/rekono-cli/actions/workflows/security-sast.yml/badge.svg"/>
+  </a>
   <a href="https://snyk.io/test/github/pablosnt/rekono-cli" alt="SCA" target="_blank">
-    <img src="https://badgen.net/snyk/pablosnt/rekono-cli?label=Vulnerabilities&labelColor=black&icon=https://snyk.io/wp-content/uploads/patch-white.svg">
+    <img src="https://badgen.net/snyk/pablosnt/rekono-cli?label=SCA&labelColor=black&icon=https://snyk.io/wp-content/uploads/patch-white.svg"/>
   </a>
   <a href="https://github.com/pablosnt/rekono-cli/actions/workflows/security-secrets.yml" alt="Secrets scanning" target="_blank">
     <img src="https://github.com/pablosnt/rekono-cli/actions/workflows/security-secrets.yml/badge.svg"/>
