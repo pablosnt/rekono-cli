@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import pkg_resources
@@ -26,7 +25,7 @@ setup(
     name="rekono-cli",
     packages=find_packages(exclude=["tests"]),
     version=VERSION,
-    description="CLI to make requests to Rekono API",
+    description="Rekono API client",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Pablo Santiago López",
@@ -34,7 +33,7 @@ setup(
     keywords=["automation", "pentesting", "security", "cli", "rekono"],
     include_package_data=True,
     install_requires=install_requires,
-    python_requires=">=3.7",
+    python_requires=">=3.10",
     entry_points="""
         [console_scripts]
         rekono-cli=rekono.main:rekono

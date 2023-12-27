@@ -6,6 +6,7 @@ on:
       - 'src/rekono/**'
       - 'src/tests/**'
       - 'src/requirements.txt'
+      - 'src/requirements-dev.txt'
 
 env:
   REQUIRED_COVERAGE: 95
@@ -26,7 +27,7 @@ jobs:
           python-version: '3.9'
 
       - name: Install Python dependencies
-        run: python3 -m pip install -r requirements.txt
+        run: python3 -m pip install -r requirements-dev.txt
 
       - name: Run unit tests
         run: coverage run -m pytest

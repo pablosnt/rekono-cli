@@ -1,7 +1,6 @@
 """Framework for unit testing of Rekono CLI."""
 
 import json
-import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 from unittest import TestCase, mock

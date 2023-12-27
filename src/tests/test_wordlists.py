@@ -1,6 +1,5 @@
 """Test "wordlists" CLI command."""
 
-import os
 from pathlib import Path
 
 from tests.framework import RekonoCommandTest
