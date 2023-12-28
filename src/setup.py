@@ -5,7 +5,7 @@ from setuptools import find_packages, setup
 
 from rekono import VERSION
 
-current_directory = Path(__file__).resolve()
+current_directory = Path(__file__).resolve().parent
 
 long_description = ""
 for readme in [

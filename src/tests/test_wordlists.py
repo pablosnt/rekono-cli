@@ -9,7 +9,8 @@ from tests.mock import RekonoMock
 class WordlistsTest(RekonoCommandTest):
     """Test "wordlists" CLI command."""
 
-    unit_tests = [  # List of unit tests to execute
+    # List of unit tests to execute
+    unit_tests = [
         {
             "arguments": ["wordlists", "get", "1"],
             "output": RekonoCommandTest._json_body(RekonoMock.data),

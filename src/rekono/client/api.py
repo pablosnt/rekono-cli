@@ -19,7 +19,7 @@ class Rekono:
         self,
         url: str,
         token: str,
-        headers: Optional[Dict[str, str]] = {},
+        headers: Dict[str, str] = {},
         verify: bool = True,
     ) -> None:
         """Rekono API client constructor.
@@ -127,7 +127,7 @@ class Rekono:
     def get(
         self,
         endpoint: str,
-        parameters: Optional[Dict[str, Any]] = {},
+        parameters: Dict[str, Any] = {},
         pagination: bool = False,
     ) -> Union[List[Response], Response]:
         """GET request to Rekono API.

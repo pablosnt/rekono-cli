@@ -1,4 +1,4 @@
-'''CLI command to manage Target entities.'''
+"""CLI command to manage Target entities."""
 
 import click
 
@@ -6,25 +6,35 @@ from rekono.framework.commands.entity import EntityCommand
 
 
 class TargetsCommand(EntityCommand):
-    '''CLI command to manage Target entities.'''
+    """CLI command to manage Target entities."""
 
-    commands = ['get', 'create', 'delete']                                      # CLI commands
-    help_messages = {                                                           # Help messages for each command
-        'get': 'Get all targets or one if ID is provided',
-        'create': 'Create target',
-        'delete': 'Delete target',
+    commands = ["get", "create", "delete"]  # CLI commands
+    # Help messages for each command
+    help_messages = {
+        "get": "Get all targets or one if ID is provided",
+        "create": "Create target",
+        "delete": "Delete target",
     }
-    entity_options = [                                                          # Specific options for post and put
-        click.option('-p', '--project', 'project', required=True, type=int, help='Project ID'),
-        click.option('-t', '--target', 'target', required=True, type=str, help='Target address'),
+    # Specific options for post and put
+    entity_options = [
         click.option(
-            '-d', '--dd-engagement', 'defectdojo_engagement_id',
-            required=False, default=None, type=int,
-            help='Engagement ID in Defect-Dojo'
-        )
+            "-p", "--project", "project", required=True, type=int, help="Project ID"
+        ),
+        click.option(
+            "-t", "--target", "target", required=True, type=str, help="Target address"
+        ),
+        click.option(
+            "-d",
+            "--dd-engagement",
+            "defectdojo_engagement_id",
+            required=False,
+            default=None,
+            type=int,
+            help="Engagement ID in Defect-Dojo",
+        ),
     ]
 
 
-@click.group('targets', cls=TargetsCommand, help='Manage targets')
+@click.group("targets", cls=TargetsCommand)
 def targets():
-    '''Manage targets.'''
+    """Manage targets."""

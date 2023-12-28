@@ -1,7 +1,7 @@
-'''CLI command to manage User entities.'''
+"""CLI command to manage User entities."""
 
 import json
-from typing import List
+from typing import Callable, List
 
 import click
 
@@ -10,29 +10,35 @@ from rekono.framework.arguments import id_mandatory_argument
 from rekono.framework.commands.entity import EntityCommand
 from rekono.framework.options import json_option
 
-user_role_option = click.option(                                                # Role CLI option
-    '-r', '--role', 'role',
-    required=False, default=UserRole.READER.value,
+# Role CLI option
+user_role_option: Callable = click.option(
+    "-r",
+    "--role",
+    "role",
+    required=False,
+    default=UserRole.READER.value,
     type=click.Choice([t.value for t in UserRole]),
-    help='User role'
+    help="User role",
 )
 
 
 class UsersCommand(EntityCommand):
-    '''CLI command to manage User entities.'''
+    """CLI command to manage User entities."""
 
-    commands = ['get', 'delete', 'enable', 'role', 'invite']                    # CLI commands
-    commands_mapping = {                                                        # Mapping between commands and methods
-        'get': 'get_entity',
-        'delete': 'delete_entity',
-        'role': 'update_role',
-        'invite': 'invite'
+    commands = ["get", "delete", "enable", "role", "invite"]  # CLI commands
+    # Mapping between commands and methods
+    commands_mapping = {
+        "get": "get_entity",
+        "delete": "delete_entity",
+        "role": "update_role",
+        "invite": "invite",
     }
-    help_messages = {                                                           # Help messages for each command
-        'get': 'Get all users or one if ID is provided',
-        'delete': 'Delete user',
-        'role': 'Update user role',
-        'invite': 'Invite new user'
+    # Help messages for each command
+    help_messages = {
+        "get": "Get all users or one if ID is provided",
+        "delete": "Delete user",
+        "role": "Update user role",
+        "invite": "Invite new user",
     }
 
     @staticmethod
@@ -51,9 +57,9 @@ class UsersCommand(EntityCommand):
         show_headers: bool,
         only_show_status_code: bool,
         quiet: bool,
-        json_output: str
+        json_output: str,
     ) -> None:
-        '''Update user role.
+        """Update user role.
 
         Args:
             ctx (click.Context): Click context.
@@ -66,17 +72,31 @@ class UsersCommand(EntityCommand):
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
-        '''
+        """
         ctx.invoke(
-            UsersCommand.put, endpoint=f'/api/users/{id}/role/',
-            url=url, headers=headers, no_verify=no_verify, body=json.dumps({'role': role}),
-            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=json_output
+            UsersCommand.put,
+            endpoint=f"/api/users/{id}/role/",
+            url=url,
+            headers=headers,
+            no_verify=no_verify,
+            body=json.dumps({"role": role}),
+            show_headers=show_headers,
+            only_show_status_code=only_show_status_code,
+            quiet=quiet,
+            json_output=json_output,
         )
 
     @staticmethod
     @click.command
     @click.pass_context
-    @click.option('-e', '--email', 'email', required=True, type=str, help='User email to send invitation')
+    @click.option(
+        "-e",
+        "--email",
+        "email",
+        required=True,
+        type=str,
+        help="User email to send invitation",
+    )
     @user_role_option
     @json_option
     def invite(
@@ -89,9 +109,9 @@ class UsersCommand(EntityCommand):
         show_headers: bool,
         only_show_status_code: bool,
         quiet: bool,
-        json_output: str
+        json_output: str,
     ) -> None:
-        '''Invite new user.
+        """Invite new user.
 
         Args:
             ctx (click.Context): Click context.
@@ -104,14 +124,21 @@ class UsersCommand(EntityCommand):
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
-        '''
+        """
         ctx.invoke(
-            UsersCommand.post, endpoint='/api/users/invite/',
-            url=url, headers=headers, no_verify=no_verify, body=json.dumps({'email': email, 'role': role}),
-            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=json_output
+            UsersCommand.post,
+            endpoint="/api/users/invite/",
+            url=url,
+            headers=headers,
+            no_verify=no_verify,
+            body=json.dumps({"email": email, "role": role}),
+            show_headers=show_headers,
+            only_show_status_code=only_show_status_code,
+            quiet=quiet,
+            json_output=json_output,
         )
 
 
-@click.group('users', cls=UsersCommand, help='Manage users')
+@click.group("users", cls=UsersCommand)
 def users():
-    '''Manage users.'''
+    """Manage users."""

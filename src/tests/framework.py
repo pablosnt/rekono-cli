@@ -47,9 +47,8 @@ class RekonoCommandTest(TestCase):
                 input_value += f"{RekonoMock.url}\n"  # Add URL as input value
                 # Add invalid URL message to output
                 prefix += f'{click.style("URL is invalid", fg="red")}\nURL: {RekonoMock.url}\n'
-        result = runner.invoke(
-            rekono, arguments, input=input_value
-        )  # Invoke CLI command
+        # Invoke CLI command
+        result = runner.invoke(rekono, arguments, input=input_value)
         terminal_output = prefix + (f"{output}\n" if output else "")  # Expected output
         self.assertEqual(exit_code, result.exit_code)  # Check exit code
         self.assertEqual(terminal_output, result.output)  # Check terminal output
@@ -108,7 +107,6 @@ class RekonoCommandTest(TestCase):
         for key, value in response_headers.items():
             expected_output_with_headers += f"{key}: {value}\n"  # Add header values
         expected_output_with_headers += "\n"
-        expected_output_with_headers += cls._json_body(
-            expected_output
-        )  # Add expected body
+        # Add expected body
+        expected_output_with_headers += cls._json_body(expected_output)
         return expected_output_with_headers

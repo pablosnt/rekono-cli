@@ -1,4 +1,4 @@
-'''CLI command to manage findings entities.'''
+"""CLI command to manage findings entities."""
 
 import click
 
@@ -6,67 +6,70 @@ from rekono.framework.commands.entity import EntityCommand
 
 
 class FindingsCommand(EntityCommand):
-    '''CLI command to manage findings entities.'''
+    """CLI command to manage findings entities."""
 
-    commands = ['get', 'enable', 'disable']                                     # CLI commands
-    commands_mapping = {                                                        # Mapping between commands and methods
-        'get': 'get_entity',
-        'disable': 'delete_entity',
+    commands = ["get", "enable", "disable"]  # CLI commands
+    # Mapping between commands and methods
+    commands_mapping = {
+        "get": "get_entity",
+        "disable": "delete_entity",
     }
-    help_messages = {                                                           # Help messages for each command
-        'get': 'Get all findings or one if ID is provided',
-        'enable': 'Enable finding',
-        'disable': 'Disable finding',
+    # Help messages for each command
+    help_messages = {
+        "get": "Get all findings or one if ID is provided",
+        "enable": "Enable finding",
+        "disable": "Disable finding",
     }
 
 
-@click.group('credentials', cls=FindingsCommand, help='Manage credentials')
+@click.group("credentials", cls=FindingsCommand)
 def credentials():
-    '''Manage credentials.'''
+    """Manage credentials."""
 
 
-@click.group('exploits', cls=FindingsCommand, help='Manage exploits')
+@click.group("exploits", cls=FindingsCommand)
 def exploits():
-    '''Manage exploits.'''
+    """Manage exploits."""
 
 
-@click.group('hosts', cls=FindingsCommand, help='Manage hosts')
+@click.group("hosts", cls=FindingsCommand)
 def hosts():
-    '''Manage hosts.'''
+    """Manage hosts."""
 
 
-@click.group('paths', cls=FindingsCommand, help='Manage paths')
+@click.group("paths", cls=FindingsCommand)
 def paths():
-    '''Manage paths.'''
+    """Manage paths."""
 
 
-@click.group('ports', cls=FindingsCommand, help='Manage ports')
+@click.group("ports", cls=FindingsCommand)
 def ports():
-    '''Manage ports.'''
+    """Manage ports."""
 
 
-@click.group('technologies', cls=FindingsCommand, help='Manage technologies')
+@click.group("technologies", cls=FindingsCommand)
 def technologies():
-    '''Manage technologies.'''
+    """Manage technologies."""
 
 
-@click.group('vulnerabilities', cls=FindingsCommand, help='Manage vulnerabilities')
+@click.group("vulnerabilities", cls=FindingsCommand)
 def vulnerabilities():
-    '''Manage vulnerabilities.'''
+    """Manage vulnerabilities."""
 
 
 class OSINTCommand(FindingsCommand):
-    '''CLI command to manage OSINT entities.'''
+    """CLI command to manage OSINT entities."""
 
-    commands = ['get', 'enable', 'disable', 'target']                           # Supported CLI commands
-    help_messages = {                                                           # Help messages for each command
-        'get': 'Get all findings or one if ID is provided',
-        'enable': 'Enable finding',
-        'disable': 'Disable finding',
-        'target': 'Create target from OSINT data',
+    commands = ["get", "enable", "disable", "target"]  # Supported CLI commands
+    # Help messages for each command
+    help_messages = {
+        "get": "Get all findings or one if ID is provided",
+        "enable": "Enable finding",
+        "disable": "Disable finding",
+        "target": "Create target from OSINT data",
     }
 
 
-@click.group('osint', cls=OSINTCommand, help='Manage OSINT findings')
+@click.group("osint", cls=OSINTCommand)
 def osint():
-    '''Manage OSINT findings.'''
+    """Manage OSINT findings."""

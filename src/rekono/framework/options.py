@@ -1,12 +1,14 @@
 """Definition of base CLI options used by multiple commands."""
 
 from pathlib import Path
+from typing import Callable
 
 import click
 
 from rekono.framework.commands.command import RekonoCliCommand
 
-url_option = click.option(  # URL option
+# URL option
+url_option: Callable = click.option(
     "-u",
     "--url",
     "url",
@@ -17,7 +19,8 @@ url_option = click.option(  # URL option
     help="Base URL to the Rekono backend",
 )
 
-headers_option = click.option(  # Extra request headers option
+# Extra request headers option
+headers_option: Callable = click.option(
     "-h",
     "--header",
     "headers",
@@ -28,7 +31,8 @@ headers_option = click.option(  # Extra request headers option
     help='HTTP header to send in format "<key>=value"',
 )
 
-no_verify_option = click.option(  # Option to disable TLS verification
+# Option to disable TLS verification
+no_verify_option: Callable = click.option(
     "--no-verify",
     "no_verify",
     is_flag=True,
@@ -36,7 +40,8 @@ no_verify_option = click.option(  # Option to disable TLS verification
     help="Disable TLS verification",
 )
 
-parameters_option = click.option(  # Request parameters option
+# Request parameters option
+parameters_option: Callable = click.option(
     "-p",
     "--parameter",
     "parameters",
@@ -47,11 +52,13 @@ parameters_option = click.option(  # Request parameters option
     help='HTTP parameter to send in format "<key>=value"',
 )
 
-body_option = click.option(  # Request body option
+# Request body option
+body_option: Callable = click.option(
     "-b", "--body", "body", type=str, required=False, help="HTTP body to send in JSON"
 )
 
-file_option = click.option(  # Filepath to upload option
+# Filepath to upload option
+file_option: Callable = click.option(
     "-f",
     "--file",
     "filepath",
@@ -61,7 +68,8 @@ file_option = click.option(  # Filepath to upload option
     help="File to upload",
 )
 
-all_pages_option = click.option(  # Option to iterate over all API pages
+# Option to iterate over all API pages
+all_pages_option: Callable = click.option(
     "-a",
     "--all-pages",
     "pagination",
@@ -70,7 +78,8 @@ all_pages_option = click.option(  # Option to iterate over all API pages
     help="Perform pagination over all pages",
 )
 
-show_headers_option = click.option(  # Option to show response headers
+# Option to show response headers
+show_headers_option: Callable = click.option(
     "-s",
     "--show-headers",
     "show_headers",
@@ -79,7 +88,8 @@ show_headers_option = click.option(  # Option to show response headers
     help="Show response headers",
 )
 
-show_status_code_option = click.option(  # Option to only show response status
+# Option to only show response status
+show_status_code_option: Callable = click.option(
     "--status-code",
     "only_show_status_code",
     is_flag=True,
@@ -87,7 +97,8 @@ show_status_code_option = click.option(  # Option to only show response status
     help="Only show response status code",
 )
 
-quiet_option = click.option(  # Option to don't show anything
+# Option to don't show anything
+quiet_option: Callable = click.option(
     "--quiet",
     "quiet",
     is_flag=True,
@@ -95,7 +106,8 @@ quiet_option = click.option(  # Option to don't show anything
     help="Don't show anything from response",
 )
 
-json_option = click.option(  # JSON output option
+# JSON output option
+json_option: Callable = click.option(
     "-j",
     "--json",
     "json_output",
@@ -104,7 +116,8 @@ json_option = click.option(  # JSON output option
     help="Save response data in JSON file",
 )
 
-tags_option = click.option(  # Tags option used by multiple commands
+# Tags option used by multiple commands
+tags_option: Callable = click.option(
     "-t",
     "--tag",
     "tags",

@@ -1,1 +1,1 @@
-'''Rekono CLI commands.'''
+"""Rekono CLI commands."""

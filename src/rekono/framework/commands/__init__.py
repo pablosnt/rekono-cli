@@ -1,1 +1,1 @@
-'''Definition of base CLI commands extended by multiple commands.'''
+"""Definition of base CLI commands extended by multiple commands."""

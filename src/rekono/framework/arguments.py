@@ -1,9 +1,14 @@
-'''Definition of base CLI arguments used by multiple commands.'''
+"""Definition of base CLI arguments used by multiple commands."""
+
+from typing import Callable
 
 import click
 
-endpoint_argument = click.argument('endpoint', type=str, nargs=1)               # Endpoint argument
+# Endpoint argument
+endpoint_argument: Callable = click.argument("endpoint", type=str, nargs=1)
 
-id_optional_argument = click.argument('id', type=int, nargs=1, required=False)  # Id optional argument
+# Id optional argument
+id_optional_argument: Callable = click.argument("id", type=int, nargs=1, required=False)
 
-id_mandatory_argument = click.argument('id', type=int, nargs=1)                 # Id mandatory argument
+# Id mandatory argument
+id_mandatory_argument: Callable = click.argument("id", type=int, nargs=1)
