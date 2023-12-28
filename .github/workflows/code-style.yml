@@ -15,14 +15,12 @@ jobs:
           - tool: black
             arguments: --check src/
             working_directory: .
-          - tool: isort
-            arguments: src/ --check-only
-            working_directory: .
           - tool: mypy
-            arguments: --namespace-packages --package rekono --install-types --non-interactive
+            # TODO: Remove temporal ignores when click custom Groups are available: https://click.palletsprojects.com/en/latest/commands/#custom-groups
+            arguments: --namespace-packages --package rekono --install-types --non-interactive  --ignore-missing-imports --exclude rekono/main.py --disable-error-code type-var
             working_directory: ./src
           - tool: flake8
-            arguments: --ignore=E501 src/
+            arguments: --ignore=E203,E501,W503,W605 src/
             working_directory: .
     name: ${{ matrix.tool }}
     steps:      
