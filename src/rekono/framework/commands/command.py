@@ -17,7 +17,8 @@ class RekonoCliCommand(click.MultiCommand):
     """Base features for Rekono CLI command."""
 
     # Environment variables
-    api_token_env = "REKONO_TOKEN"  # Environment variable to set API token
+    # Environment variable to set API token
+    api_token_env = "REKONO_TOKEN"  # nosec
     backend_url_env = "REKONO_URL"  # Environment variable to set backend
     # Initialization of variables
     commands: List[str] = []  # List of supported commands

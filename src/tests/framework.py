@@ -50,6 +50,9 @@ class RekonoCommandTest(TestCase):
         # Invoke CLI command
         result = runner.invoke(rekono, arguments, input=input_value)
         terminal_output = prefix + (f"{output}\n" if output else "")  # Expected output
+        print(arguments)
+        print(result.output)
+        print(result.stdout)
         self.assertEqual(exit_code, result.exit_code)  # Check exit code
         self.assertEqual(terminal_output, result.output)  # Check terminal output
         if self.testing_filepath.is_file():  # If JSON file exists

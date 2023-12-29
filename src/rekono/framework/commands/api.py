@@ -137,7 +137,7 @@ class ApiCommand(RekonoCliCommand):
         response = client.post(
             ApiCommand._get_endpoint(endpoint),
             ApiCommand._get_body(body),
-            Path(filepath),
+            Path(filepath) if filepath else None,
         )
         ApiCommand._display_responses(
             [response], show_headers, only_show_status_code, quiet
