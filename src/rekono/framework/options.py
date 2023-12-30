@@ -1,83 +1,129 @@
-'''Definition of base CLI options used by multiple commands.'''
+"""Definition of base CLI options used by multiple commands."""
+
+from pathlib import Path
+from typing import Callable
 
 import click
 
 from rekono.framework.commands.command import RekonoCliCommand
 
-url_option = click.option(                                                      # URL option
-    '-u', '--url', 'url',
-    type=str, required=False,
+# URL option
+url_option: Callable = click.option(
+    "-u",
+    "--url",
+    "url",
+    type=str,
+    required=False,
     envvar=RekonoCliCommand.backend_url_env,
-    default='http://127.0.0.1:8000',
-    help='Base URL to the Rekono backend'
+    default="http://127.0.0.1:8000",
+    help="Base URL to the Rekono backend",
 )
 
-headers_option = click.option(                                                  # Extra request headers option
-    '-h', '--header', 'headers',
-    multiple=True, type=str,
-    required=False, default=[],
-    help='HTTP header to send in format "<key>=value"'
+# Extra request headers option
+headers_option: Callable = click.option(
+    "-h",
+    "--header",
+    "headers",
+    multiple=True,
+    type=str,
+    required=False,
+    default=[],
+    help='HTTP header to send in format "<key>=value"',
 )
 
-no_verify_option = click.option(                                                # Option to disable TLS verification
-    '--no-verify', 'no_verify',
-    is_flag=True, default=False,
-    help='Disable TLS verification'
+# Option to disable TLS verification
+no_verify_option: Callable = click.option(
+    "--no-verify",
+    "no_verify",
+    is_flag=True,
+    default=False,
+    help="Disable TLS verification",
 )
 
-parameters_option = click.option(                                               # Request parameters option
-    '-p', '--parameter', 'parameters',
-    multiple=True, type=str,
-    required=False, default=[],
-    help='HTTP parameter to send in format "<key>=value"'
+# Request parameters option
+parameters_option: Callable = click.option(
+    "-p",
+    "--parameter",
+    "parameters",
+    multiple=True,
+    type=str,
+    required=False,
+    default=[],
+    help='HTTP parameter to send in format "<key>=value"',
 )
 
-body_option = click.option(                                                     # Request body option
-    '-b', '--body', 'body',
-    type=str, required=False,
-    help='HTTP body to send in JSON'
+# Request body option
+body_option: Callable = click.option(
+    "-b", "--body", "body", type=str, required=False, help="HTTP body to send in JSON"
 )
 
-file_option = click.option(                                                     # Filepath to upload option
-    '-f', '--file', 'filepath',
-    type=click.Path(exists=True),
-    required=False, default=None,
-    help='File to upload'
+# Filepath to upload option
+file_option: Callable = click.option(
+    "-f",
+    "--file",
+    "filepath",
+    type=click.Path(exists=True, path_type=Path),
+    required=False,
+    default=None,
+    help="File to upload",
 )
 
-all_pages_option = click.option(                                                # Option to iterate over all API pages
-    '-a', '--all-pages', 'pagination',
-    is_flag=True, default=False,
-    help='Perform pagination over all pages'
+# Option to iterate over all API pages
+all_pages_option: Callable = click.option(
+    "-a",
+    "--all-pages",
+    "pagination",
+    is_flag=True,
+    default=False,
+    help="Perform pagination over all pages",
 )
 
-show_headers_option = click.option(                                             # Option to show response headers
-    '-s', '--show-headers', 'show_headers',
-    is_flag=True, default=False,
-    help='Show response headers'
+# Option to show response headers
+show_headers_option: Callable = click.option(
+    "-s",
+    "--show-headers",
+    "show_headers",
+    is_flag=True,
+    default=False,
+    help="Show response headers",
 )
 
-show_status_code_option = click.option(                                         # Option to only show response status
-    '--status-code', 'only_show_status_code',
-    is_flag=True, default=False,
-    help='Only show response status code'
+# Option to only show response status
+show_status_code_option: Callable = click.option(
+    "--status-code",
+    "only_show_status_code",
+    is_flag=True,
+    default=False,
+    help="Only show response status code",
 )
 
-quiet_option = click.option(                                                    # Option to don't show anything
-    '--quiet', 'quiet',
-    is_flag=True, default=False,
-    help='Don\'t show anything from response'
+# Option to don't show anything
+quiet_option: Callable = click.option(
+    "--quiet",
+    "quiet",
+    is_flag=True,
+    default=False,
+    help="Don't show anything from response",
 )
 
-json_option = click.option(                                                     # JSON output option
-    '-j', '--json', 'json_output',
-    type=str, required=False,
-    help='Save response data in JSON file'
+# JSON output option
+json_option: Callable = click.option(
+    "-j",
+    "--json",
+    "json_output",
+    type=str,
+    required=False,
+    help="Save response data in JSON file",
 )
 
-tags_option = click.option(                                                     # Tags option used by multiple commands
-    '-t', '--tag', 'tags',
-    multiple=True, type=str,
-    required=False, default=[],
-    help='Related tags'
+# Tags option used by multiple commands
+tags_option: Callable = click.option(
+    "-t",
+    "--tag",
+    "tags",
+    multiple=True,
+    type=str,
+    required=False,
+    default=[],
+    help="Related tags",
 )

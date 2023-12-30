@@ -1,1 +1,1 @@
-'''Rekono API client.'''
+"""Rekono API client."""

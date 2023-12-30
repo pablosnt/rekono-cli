@@ -1,1 +1,1 @@
-'''Unit tests for Rekono CLI.'''
+"""Unit tests for Rekono CLI."""

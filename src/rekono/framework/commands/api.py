@@ -1,36 +1,57 @@
-'''Base Rekono CLI command to make API requests.'''
+"""Base Rekono CLI command to make API requests."""
 
+from pathlib import Path
 from typing import List
 
 import click
 
 from rekono.framework.arguments import endpoint_argument
 from rekono.framework.commands.command import RekonoCliCommand
-from rekono.framework.options import (all_pages_option, body_option,
-                                      file_option, headers_option, json_option,
-                                      no_verify_option, parameters_option,
-                                      quiet_option, show_headers_option,
-                                      show_status_code_option, url_option)
+from rekono.framework.options import (
+    all_pages_option,
+    body_option,
+    file_option,
+    headers_option,
+    json_option,
+    no_verify_option,
+    parameters_option,
+    quiet_option,
+    show_headers_option,
+    show_status_code_option,
+    url_option,
+)
 
 
 class ApiCommand(RekonoCliCommand):
-    '''Base Rekono CLI command to make API requests.'''
+    """Base Rekono CLI command to make API requests."""
 
-    commands = ['get', 'post', 'put', 'delete']                                 # List of supported commands
-    commands_mapping = {                                                        # Mapping between commands and methods
-        'get': 'get',
-        'post': 'post',
-        'put': 'put',
-        'delete': 'delete'
+    commands = ["get", "post", "put", "delete"]  # List of supported commands
+    # Mapping between commands and methods
+    commands_mapping = {
+        "get": "get",
+        "post": "post",
+        "put": "put",
+        "delete": "delete",
     }
-    help_messages = {                                                           # Help messages for each command
-        'get': 'GET request to Rekono API',
-        'post': 'POST request to Rekono API',
-        'put': 'PUT request to Rekono API',
-        'delete': 'DELETE request to Rekono API'
+    # Help messages for each command
+    help_messages = {
+        "get": "GET request to Rekono API",
+        "post": "POST request to Rekono API",
+        "put": "PUT request to Rekono API",
+        "delete": "DELETE request to Rekono API",
     }
-    api_options = [url_option, headers_option, no_verify_option]                # API options for all commands
-    display_options = [show_headers_option, show_status_code_option, quiet_option]  # Display options for all commands
+    # API options for all commands
+    api_options = [
+        url_option,
+        headers_option,
+        no_verify_option,
+    ]
+    # Display options for all commands
+    display_options = [
+        show_headers_option,
+        show_status_code_option,
+        quiet_option,
+    ]
 
     @staticmethod
     @click.command
@@ -48,9 +69,9 @@ class ApiCommand(RekonoCliCommand):
         show_headers: bool,
         only_show_status_code: bool,
         quiet: bool,
-        json_output: str
+        json_output: str,
     ):
-        '''GET request to Rekono API.
+        """GET request to Rekono API.
 
         Args:
             endpoint (str): Endpoint to call.
@@ -63,15 +84,21 @@ class ApiCommand(RekonoCliCommand):
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
-        '''
+        """
         client = ApiCommand._rekono_factory(url, no_verify, headers)
         response_or_responses = client.get(
             ApiCommand._get_endpoint(endpoint),
             parameters=ApiCommand._parse_key_value_params(parameters),
-            pagination=pagination
+            pagination=pagination,
         )
-        responses = response_or_responses if isinstance(response_or_responses, list) else [response_or_responses]
-        ApiCommand._display_responses(responses, show_headers, only_show_status_code, quiet)
+        responses = (
+            response_or_responses
+            if isinstance(response_or_responses, list)
+            else [response_or_responses]
+        )
+        ApiCommand._display_responses(
+            responses, show_headers, only_show_status_code, quiet
+        )
         ApiCommand._save_output(responses, json_output)
 
     @staticmethod
@@ -90,9 +117,9 @@ class ApiCommand(RekonoCliCommand):
         show_headers: bool,
         only_show_status_code: bool,
         quiet: bool,
-        json_output: str
+        json_output: str,
     ):
-        '''POST request to Rekono API.
+        """POST request to Rekono API.
 
         Args:
             endpoint (str): Endpoint to call.
@@ -105,10 +132,16 @@ class ApiCommand(RekonoCliCommand):
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
-        '''
+        """
         client = ApiCommand._rekono_factory(url, no_verify, headers)
-        response = client.post(ApiCommand._get_endpoint(endpoint), ApiCommand._get_body(body), filepath)
-        ApiCommand._display_responses([response], show_headers, only_show_status_code, quiet)
+        response = client.post(
+            ApiCommand._get_endpoint(endpoint),
+            ApiCommand._get_body(body),
+            Path(filepath) if filepath else None,
+        )
+        ApiCommand._display_responses(
+            [response], show_headers, only_show_status_code, quiet
+        )
         ApiCommand._save_output([response], json_output)
 
     @staticmethod
@@ -125,9 +158,9 @@ class ApiCommand(RekonoCliCommand):
         show_headers: bool,
         only_show_status_code: bool,
         quiet: bool,
-        json_output: str
+        json_output: str,
     ):
-        '''PUT request to Rekono API.
+        """PUT request to Rekono API.
 
         Args:
             endpoint (str): Endpoint to call.
@@ -139,10 +172,14 @@ class ApiCommand(RekonoCliCommand):
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
-        '''
+        """
         client = ApiCommand._rekono_factory(url, no_verify, headers)
-        response = client.put(ApiCommand._get_endpoint(endpoint), ApiCommand._get_body(body))
-        ApiCommand._display_responses([response], show_headers, only_show_status_code, quiet)
+        response = client.put(
+            ApiCommand._get_endpoint(endpoint), ApiCommand._get_body(body)
+        )
+        ApiCommand._display_responses(
+            [response], show_headers, only_show_status_code, quiet
+        )
         ApiCommand._save_output([response], json_output)
 
     @staticmethod
@@ -155,9 +192,9 @@ class ApiCommand(RekonoCliCommand):
         no_verify: bool,
         show_headers: bool,
         only_show_status_code: bool,
-        quiet: bool
+        quiet: bool,
     ):
-        '''DELETE request to Rekono API.
+        """DELETE request to Rekono API.
 
         Args:
             endpoint (str): Endpoint to call.
@@ -167,7 +204,9 @@ class ApiCommand(RekonoCliCommand):
             show_headers (bool): Display HTTP response headers.
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
-        '''
+        """
         client = ApiCommand._rekono_factory(url, no_verify, headers)
         response = client.delete(ApiCommand._get_endpoint(endpoint))
-        ApiCommand._display_responses([response], show_headers, only_show_status_code, quiet)
+        ApiCommand._display_responses(
+            [response], show_headers, only_show_status_code, quiet
+        )

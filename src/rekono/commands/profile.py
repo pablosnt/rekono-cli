@@ -1,4 +1,4 @@
-'''CLI command to manage user profile.'''
+"""CLI command to manage user profile."""
 
 import json
 from typing import List
@@ -10,16 +10,18 @@ from rekono.framework.options import json_option
 
 
 class ProfileCommand(EntityCommand):
-    '''CLI command to manage user profile.'''
+    """CLI command to manage user profile."""
 
-    commands = ['get', 'telegram']                                              # CLI commands
-    commands_mapping = {                                                        # Mapping between commands and methods
-        'get': 'get_profile',
-        'telegram': 'link_telegram_bot'
+    commands = ["get", "telegram"]  # CLI commands
+    # Mapping between commands and methods
+    commands_mapping = {
+        "get": "get_profile",
+        "telegram": "link_telegram_bot",
     }
-    help_messages = {                                                           # Help messages for each command
-        'get': 'Get current user profile',
-        'telegram': 'Link Telegram bot to current user'
+    # Help messages for each command
+    help_messages = {
+        "get": "Get current user profile",
+        "telegram": "Link Telegram bot to current user",
     }
 
     @staticmethod
@@ -34,9 +36,9 @@ class ProfileCommand(EntityCommand):
         show_headers: bool,
         only_show_status_code: bool,
         quiet: bool,
-        json_output: str
+        json_output: str,
     ) -> None:
-        '''Get current user profile.
+        """Get current user profile.
 
         Args:
             ctx (click.Context): Click context.
@@ -47,17 +49,32 @@ class ProfileCommand(EntityCommand):
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
-        '''
+        """
         ctx.invoke(
-            ProfileCommand.get, endpoint='/api/profile/',
-            url=url, headers=headers, no_verify=no_verify, parameters=[], pagination=False,
-            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=json_output
+            ProfileCommand.get,
+            endpoint="/api/profile/",
+            url=url,
+            headers=headers,
+            no_verify=no_verify,
+            parameters=[],
+            pagination=False,
+            show_headers=show_headers,
+            only_show_status_code=only_show_status_code,
+            quiet=quiet,
+            json_output=json_output,
         )
 
-    @staticmethod
+    @staticmethod  # type: ignore
     @click.command
     @click.pass_context
-    @click.option('-t', '--token', 'token', required=True, type=str, help='Token provided by Telegram bot')
+    @click.option(
+        "-t",
+        "--token",
+        "token",
+        required=True,
+        type=str,
+        help="Token provided by Telegram bot",
+    )
     def link_telegram_bot(
         ctx: click.Context,
         token: str,
@@ -66,9 +83,9 @@ class ProfileCommand(EntityCommand):
         no_verify: bool,
         show_headers: bool,
         only_show_status_code: bool,
-        quiet: bool
+        quiet: bool,
     ) -> None:
-        '''Link user account to Telegram chat.
+        """Link user account to Telegram chat.
 
         Args:
             ctx (click.Context): Click context.
@@ -79,14 +96,21 @@ class ProfileCommand(EntityCommand):
             show_headers (bool): Display HTTP response headers.
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
-        '''
+        """
         ctx.invoke(
-            ProfileCommand.post, endpoint='/api/profile/telegram-token/',
-            url=url, headers=headers, no_verify=no_verify, body=json.dumps({'otp': token}),
-            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=None
+            ProfileCommand.post,
+            endpoint="/api/profile/telegram-token/",
+            url=url,
+            headers=headers,
+            no_verify=no_verify,
+            body=json.dumps({"otp": token}),
+            show_headers=show_headers,
+            only_show_status_code=only_show_status_code,
+            quiet=quiet,
+            json_output=None,
         )
 
 
-@click.group('profile', cls=ProfileCommand, help='Manage user profile')
+@click.group("profile", cls=ProfileCommand)
 def profile():
-    '''Manage user profile.'''
+    """Manage user profile."""

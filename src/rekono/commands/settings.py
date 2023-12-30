@@ -1,4 +1,4 @@
-'''CLI command to manage system settings.'''
+"""CLI command to manage system settings."""
 
 from typing import List
 
@@ -9,15 +9,11 @@ from rekono.framework.options import json_option
 
 
 class SettingsCommand(EntityCommand):
-    '''CLI command to manage system settings.'''
+    """CLI command to manage system settings."""
 
-    commands = ['get']                                                          # CLI commands
-    commands_mapping = {                                                        # Mapping between commands and methods
-        'get': 'get_settings'
-    }
-    help_messages = {                                                           # Help messages for each command
-        'get': 'Get system settings'
-    }
+    commands = ["get"]  # CLI commands
+    commands_mapping = {"get": "get_settings"}  # Mapping between commands and methods
+    help_messages = {"get": "Get system settings"}  # Help messages for each command
 
     @staticmethod
     @click.command
@@ -31,9 +27,9 @@ class SettingsCommand(EntityCommand):
         show_headers: bool,
         only_show_status_code: bool,
         quiet: bool,
-        json_output: str
+        json_output: str,
     ) -> None:
-        '''Get current system settings.
+        """Get current system settings.
 
         Args:
             ctx (click.Context): Click context.
@@ -44,14 +40,22 @@ class SettingsCommand(EntityCommand):
             only_show_status_code (bool): Just display HTTP response status code.
             quiet (bool): Don't display anything from response.
             json_output (str): Filepath to the JSON file where content should be saved.
-        '''
+        """
         ctx.invoke(
-            SettingsCommand.get, endpoint='/api/system/1/',
-            url=url, headers=headers, no_verify=no_verify, parameters=[], pagination=False,
-            show_headers=show_headers, only_show_status_code=only_show_status_code, quiet=quiet, json_output=json_output
+            SettingsCommand.get,
+            endpoint="/api/system/1/",
+            url=url,
+            headers=headers,
+            no_verify=no_verify,
+            parameters=[],
+            pagination=False,
+            show_headers=show_headers,
+            only_show_status_code=only_show_status_code,
+            quiet=quiet,
+            json_output=json_output,
         )
 
 
-@click.group('settings', cls=SettingsCommand, help='Get system settings')
+@click.group("settings", cls=SettingsCommand)
 def settings():
-    '''Get system settings.'''
+    """Get system settings."""
